@@ -10,6 +10,7 @@ const ShowEmpty = document.querySelector(".ShowEmpty");
 
 // Initialize StoreLists from localStorage
 let StoreLists = JSON.parse(localStorage.getItem("Lists")) || [];
+let StoreHistory = JSON.parse(localStorage.getItem("Lists")) || []
 
 // DOM elements for income/expense
 const AddData = document.getElementById("AddData");
@@ -75,16 +76,19 @@ sidebarController.addEventListener("click", () => {
 
 const sidebarControll = () => {
     sidebar.classList.toggle("open");
-    document.body.classList.toggle("sidebarHide");
+    document.body.classList.add("sidebarHide");
     
     if (sidebar.classList.contains("open")) {
         sidebarControllerIcon.classList.remove("fa-bars-staggered");
         sidebarControllerIcon.classList.add("fa-xmark");
+        document.body.classList.add("sidebarHide");
         overly1Add();
     } else {
         sidebarControllerIcon.classList.remove("fa-xmark");
         sidebarControllerIcon.classList.add("fa-bars-staggered");
+        document.body.classList.remove("sidebarHide");
         overly1Remove();
+
     }
 };
 
@@ -265,8 +269,9 @@ function renderLists(StoreListsData) {
     if (StoreListsData.length === 0) {
         ShowEmpty.style.display = "block";
         return;
+        
     }
-    
+
     StoreListsData.forEach((item, index) => {
         let createData = document.createElement("div");
         createData.innerHTML = `
@@ -335,6 +340,7 @@ document.addEventListener('click', (e) => {
         activeMenu = null;
     }
 });
+
 
 // Delete list item
 function DelateList(id) {
@@ -500,11 +506,11 @@ resetAllData.addEventListener("click", () => {
     if (confirmDelate) {
     StoreLists = []
     localStorage.setItem("Lists", JSON.stringify(StoreLists))
-    renderLists(StoreLists)
-    ShowListLength();
-    applyCurrentFilter();
-    FilterAll();
-    ShowEmptyPage();
+        renderLists(StoreLists)
+        ShowListLength();
+        applyCurrentFilter();
+        FilterAll();
+        ShowEmptyPage();
     }
-    }, 800)
+    }, 500)
 })

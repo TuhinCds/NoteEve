@@ -555,7 +555,7 @@ body.sidebarHide {
     border-radius: 100px;
     border: none;
     font-size: 1.1rem;
-    background: rgb(161, 38, 8);
+    background: rgba(255, 255, 255, 0.131);
     color: var(--text-color-80);
     transition: .3s;
 }
