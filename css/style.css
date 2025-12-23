@@ -43,6 +43,7 @@ body.sidebarHide {
     background: var(--bg-color);
     display: flex;
     align-items: center;
+    z-index: 9999999;
 }
 .sidebar {
     grid-area: sidebar;
@@ -210,13 +211,13 @@ body.sidebarHide {
 }
 #overlyMobile {
     position: fixed;
-    top: 0;
+    top: var(--header-height);
     left: 0;
     right: 0;
     background: transparent;
     z-index: 99999;
     transition: bottom .2s;
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(5px);
 }
 .adddata {
     display: flex;

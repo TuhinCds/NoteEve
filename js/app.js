@@ -488,3 +488,23 @@ DescriptionIncome.addEventListener("keypress", (e) => {
 ExpenseDescription.addEventListener("keypress", (e) => {
     if (e.key === "Enter") AddExpense();
 });
+
+const resetAllData = document.getElementById("resetAllData")
+
+resetAllData.addEventListener("click", () => {
+    
+    sidebarControll()
+
+    setTimeout(() => {
+        const confirmDelate = confirm("Are you sure you want delate all list ?")
+    if (confirmDelate) {
+    StoreLists = []
+    localStorage.setItem("Lists", JSON.stringify(StoreLists))
+    renderLists(StoreLists)
+    ShowListLength();
+    applyCurrentFilter();
+    FilterAll();
+    ShowEmptyPage();
+    }
+    }, 1000)
+})
