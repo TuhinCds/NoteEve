@@ -292,6 +292,7 @@ function renderLists(StoreListsData) {
                             <button class="listSetting"><i class="fa-solid fa-list-ul"></i></button>
                             <div class="showMenu">
                                 <button onclick="DelateList(${item.id})" class="delateList"><i class="fa-solid fa-trash"></i> Delete</button>
+                                <button class="detailsBtn"><i class="fa-solid fa-window-restore"></i>Details</button>
                             </div>
                         </div>
                     </div>
@@ -373,8 +374,19 @@ function formatTime(timeData) {
 
     // Get Time
     let diffMiliSeconds = now - past
-}
+    let minutes = Math.floor(diffMiliSeconds / (1000 * 60))
+    let hours = Math.floor(diffMiliSeconds / (1000 * 60 * 60))
+    let day = Math.floor(diffMiliSeconds / ( 1000 * 60 * 60 * 24))
 
+    if (minutes < 1) return "Just now"
+    if (minutes < 60) return `${minutes}m ago`
+    if (hours < 24) return `${hours}h ago` 
+    if (day < 7 ) return `${day}day${day > 1 ? "'s" : ''} ago`
+    return date.toLocaleDateString()
+}
+setInterval(() => {
+    renderLists(StoreLists)
+}, 60000)
 // Apply current filter
 function applyCurrentFilter() {
     switch (currentFilter) {
