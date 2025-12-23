@@ -506,5 +506,5 @@ resetAllData.addEventListener("click", () => {
     FilterAll();
     ShowEmptyPage();
     }
-    }, 1000)
+    }, 800)
 })
