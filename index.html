@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div id="overlyMobile"></div>
+    <div id="overlyDesk"></div>
+    <header class="header" id="header">
+        <div class="header-wraper">
+            <div class="leftSideHeader">
+                <button id="sidebarController">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+                <div class="logo">
+                    <div class="logoF">NoteEve</div>
+                </div>
+                <div class="other"></div>
+            </div>
+            <div class="HeaderMain">
+                <div class="HeaderRightPart">
+                    <div class="history-growth"><i class="fa-solid fa-chart-simple"></i></div>
+                    <div class="list-lengths">
+                        <div id="showListLength"><i class="fa-solid fa-bangladeshi-taka-sign"></i>100</div>
+                        <div class="list-activity"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-wrapar">
+            <nav>
+                <ul id="SidebarBtns">
+                    <li><button class="Home active"><i class="fa-solid fa-house-fire"></i>Home</button></li>
+                    <li><button class="createNewBtn"><i class="fa-solid fa-plus"></i>Create new</button></li>
+                    <li><button class="NoteBtn"><i class="fa-solid fa-notes-medical"></i>Note</button></li>
+                    <li><button><i class="fa-solid fa-clock-rotate-left"></i>History</button></li>
+                    <li><button><i class="fa-solid fa-graduation-cap"></i>Learning</button></li>
+                    <li><button><i class="fa-solid fa-shield-halved"></i>privacy policy</button></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button>Reset All<i class="fa-solid fa-angle-right"></i></button>
+            </div>
+        </div>
+    </aside>
+    <main class="main" id="main">
+        <div class="main-wraper">
+            <section class="adddata">
+                <div class="adddatainner">
+                    <div class="LoadDataPage hide">
+                         <div class="LoadDataPageWraper">
+                            <div class="topShowLoadType">
+                                <i class="fa-solid fa-circle-plus"></i>
+                            </div>
+                            <div class="LoadDataPageHeader">
+                               <div class="LoadDataPageHeaderWraper" id="AddData">
+                                    <button class="active">Income</button>
+                                    <button>Expense</button>
+                                    <button>Wallet</button>
+                               </div>
+                            </div>
+                            <div class="LoadDataPageMain">
+                                <div class="LoadDataInputIncome show">
+                                    <input type="text" placeholder="ammount" id="InputAmmoutIncome">
+                                    <div class="selectTypeofDescrip">
+                                        <select name="" id="LoadDataInputIncomeSelectType">
+                                            <option value="" disabled selected>Reason</option>
+                                            <option value="Salary">Salary</option>
+                                            <option value="Buisness">Buisness</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        <input type="text" placeholder="description (optional)" id="DescriptionIncome">
+                                    </div>
+                                    <button class="AddIncome" id="AddIncomeBtn"><i class="fa-solid fa-plus"></i>Add Income</button>
+                                </div>
+                                <div class="LoadDataInputExpense">
+                                    <input type="text" placeholder="ammount" id="ExpenseAmmount"> 
+                                    <div class="selectTypeofDescrip">
+                                        <select name="" id="LoadDataInputExpenseSelect">
+                                            <option value="" disabled selected>Reason</option>
+                                            <option value="electricityBill">Electricity Bill</option>
+                                            <option value="mesRent">Mess rent</option>
+                                            <option value="eatBill">Eat bill</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                        <input type="text" placeholder="description (optional)" id="ExpenseDescription">
+                                    </div>
+                                    <button class="AddExpense" id="AddExpenseBtn"><i class="fa-solid fa-plus"></i>Add Expense</button>
+                                </div>
+                                <div class="LoadDataInputWallet">
+                                    <!-- wallet -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="adddatainnerWraper">
+                        <div class="adddatainnerHeader">
+                            <div class="list-controlls-btns">
+                                <div class="list-control-btns-wraper">
+                                    <button class="active">All</button>
+                                    <button>Income</button>
+                                    <button>Expense</button>
+                                    
+                                </div>
+                                <button id="searchBtnToggler"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </div>
+                            <div class="search-container">
+                                <div class="search-container-wraper">
+                                    <input type="text" placeholder="Search.." id="SearchInput">
+                                    <button id="SearchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bodydata">
+                                <div class="list-header">
+                                    <div class="createat"><span id="ListLength">0</span> list</div>
+                                    <div class="CostOAdd"> total <i class="fa-solid fa-bangladeshi-taka-sign"></i> <span id="TotalIncome">0</span> <span class="border-manualy">|</span> <span id="Totalexpense">0</span></div>
+                                </div>
+                            <div class="ShowListData">
+                                <div id="ShowData">
+                                    <!-- Show List -->
+                                </div>
+                            <p class="ShowEmpty"><i class="fa-regular fa-folder-open"></i>&nbsp;Empty Data !</p>
+                            <button id="addDataBtn"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer class="footer" id="footer"></footer>
+    <script src="js/app.js"></script>
+</body>
+</html>
