@@ -628,7 +628,6 @@ body.sidebarHide {
 .list-cuz button:hover {
     color: var(--text-color-80)
 }
-
 .showMenu {
     position: absolute;
     background: rgb(22, 22, 22);
@@ -679,6 +678,12 @@ body.sidebarHide {
 .list {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
+#resetAllData:hover {
+    background: rgba(255, 0, 0, 0.226);
+}
+
+
+
 /* Make responsive */
 
 @media (max-width: 1024px) {
