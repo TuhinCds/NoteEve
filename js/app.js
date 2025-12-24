@@ -97,7 +97,7 @@ const InnerContent = messages.querySelector(".InnerContent")
 let activeMenu = null;
 let SearchVals = [...StoreLists]; // Copy of StoreLists for search filtering
 let currentFilter = "all"; // Track current filter
-
+let activeDetailsMenu = null
 
 
 // Initialize
@@ -365,9 +365,7 @@ function renderLists(StoreListsData) {
                                 <p><p class="ShowTime"><i class="fa-solid fa-circle"></i><span class="getShowTime">${formatTime(item.createAt)}</span></p></p>
                             </div>
                         </div>
-                        <div class="reasonShow">
-                            ${item.Type ? item.Type : ""}
-                        </div>
+                        
                     </div>
                     <div class="RightSideList">
                         <div class="showTaka"><span class="expense${item.AddType === "expense" ? "M" : "P"}"><i class="fa-solid fa-${item.AddType === "expense" ? "minus" : "plus"}"></i></span><i class="fa-solid fa-bangladeshi-taka-sign"></i>${item.ammount}</div>
@@ -376,6 +374,20 @@ function renderLists(StoreListsData) {
                             <div class="showMenu">
                                 <button onclick="DelateList(${item.id})" class="delateList"><i class="fa-solid fa-trash"></i> Delete</button>
                                 <button class="detailsBtn"><i class="fa-solid fa-window-restore"></i>Details</button>
+                            </div>
+                            <div class="detailsMenu">
+                                <header class="detailsMenuHeader">
+                                    <div>Details</div>
+                                    <button class="removeDetailsMenu">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+                                </header>
+                                <div class="detailsMain">
+                                    <p class="details1">1. ${item.AddType.charAt(0).toUpperCase() + item.AddType.slice(1)} ${item.ammount} taka</p>
+                                    <p class="details2">2. balance ${UserWallet} taka couse ${item.AddType === "expense" ? `( ${(UserWallet + item.ammount)} - ${item.ammount} )`: ``}</p>
+                                    ${item.Type ? `<p class="details3">3. reason ${item.Type}</p>` : ""}
+                                    <p class="details3">${item.Type ? "4" : "3"}. <span>description -</span> <span>lorem isum is a bad boy !</span></p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -391,9 +403,25 @@ function renderLists(StoreListsData) {
             e.stopPropagation();
             ListSettingToggle(showMenu);
         });
+
+
+        let detailsBtn = createData.querySelector(".detailsBtn")
+    let detailsMenu = createData.querySelector(".detailsMenu")
+    detailsBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        getDetailsMenu(detailsMenu)
+        
+    })
+    const removeDetailsMenu = createData.querySelector(".removeDetailsMenu")
+    removeDetailsMenu.addEventListener("click", () => {
+       detailsMenu.classList.remove("show") 
+    })
+
     });
     
     ShowEmpty.style.display = "none";
+
+    
 }
 
 // Toggle list settings menu
@@ -411,6 +439,18 @@ function ListSettingToggle(menu) {
     }
 }
 
+function getDetailsMenu(menu) {
+if (activeDetailsMenu && activeDetailsMenu !== menu) {
+            activeDetailsMenu.classList.remove("show")
+        }
+        if (menu.classList.contains("show")) {
+            menu.classList.remove("show")
+            activeDetailsMenu = null
+        } else {
+            menu.classList.add("show")
+            activeDetailsMenu = menu  
+        }
+}
 // Close menu when clicking elsewhere
 document.addEventListener('click', (e) => {
     if (activeMenu && !e.target.closest('.list-cuz')) {
@@ -419,6 +459,12 @@ document.addEventListener('click', (e) => {
     }
 });
 
+document.addEventListener("click", (e) => {
+    if (activeDetailsMenu && !e.target.closest('.detailsMenu')) {
+        activeDetailsMenu.classList.remove("show")
+        activeDetailsMenu = null
+    }
+})
 
 // Delete list item
 function DelateList(id) {

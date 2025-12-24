@@ -873,7 +873,45 @@ body.sidebarHide {
     color: var(--text-color-50);
     margin-bottom: 10px;
 }
-
+.LeftSideList {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.createAtData {
+    display: flex;
+    align-items: center;
+}
+.detailsMenu {
+    background: rgb(28, 28, 28);
+    padding: 15px;
+    border-radius: 3px;
+    position: absolute;
+    right: 20px;
+    scale: 0;
+    width: 300px;
+    box-shadow: 2px 2px 40px rgb(0, 0, 0);
+    transition: scale .2s;
+    
+}
+.detailsMain p {
+    font-size: .9rem;
+    margin: 3px 0;
+    color: var(--text-color-70)
+}
+.detailsMenu.show {
+    scale: 1;
+}
+.detailsMenuHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.detailsMenuHeader > div{
+    font-size: .9rem;
+    color: var(--text-color-50)
+}
 
 
 /* Make responsive */
