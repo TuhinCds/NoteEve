@@ -53,6 +53,13 @@ const overlyMobile = document.getElementById("overlyMobile");
 const ListControllBtnsWraper = document.querySelector(".list-control-btns-wraper");
 const ListControllBtns = ListControllBtnsWraper.querySelectorAll("button");
 
+
+
+
+// show message 
+const messages = document.getElementById("messages")
+const timeParcent = messages.querySelector(".timeParcent")
+const InnerContent = messages.querySelector(".InnerContent")
 // Variables for active menu and search filtering
 let activeMenu = null;
 let SearchVals = [...StoreLists]; // Copy of StoreLists for search filtering
@@ -76,19 +83,14 @@ sidebarController.addEventListener("click", () => {
 
 const sidebarControll = () => {
     sidebar.classList.toggle("open");
-    document.body.classList.add("sidebarHide");
+    document.body.classList.toggle("sidebarHide");
     
     if (sidebar.classList.contains("open")) {
-        sidebarControllerIcon.classList.remove("fa-bars-staggered");
-        sidebarControllerIcon.classList.add("fa-xmark");
         document.body.classList.add("sidebarHide");
         overly1Add();
     } else {
-        sidebarControllerIcon.classList.remove("fa-xmark");
-        sidebarControllerIcon.classList.add("fa-bars-staggered");
         document.body.classList.remove("sidebarHide");
         overly1Remove();
-
     }
 };
 
@@ -197,12 +199,13 @@ function AddIncomeInList() {
     let InputAmmoutIncomeValue = Number(InputAmmoutIncome.value.trim());
     let DescriptionIncomeValue = DescriptionIncome.value.trim();
     let LoadDataInputIncomeSelectTypeVal = LoadDataInputIncomeSelectType.value;
-    
+    let AddTypeData = 'Income'
     if (!InputAmmoutIncomeValue || InputAmmoutIncomeValue <= 0) {
         alert("Please enter a valid amount");
         return;
     }
-    
+        GetMessage(`Successfully added ${AddTypeData}`, `added ${InputAmmoutIncomeValue}tk in ${AddTypeData.toLocaleLowerCase()} list checkout in list total ${AddTypeData.toLocaleLowerCase()} is <span class="red-mark">0tk</span>`, `<i class="fa-solid fa-circle-check"></i>`, "green")
+        messageOn(20)
     let pushList = {
         id: Date.now(), // Add unique ID for better management
         ammount: InputAmmoutIncomeValue,
@@ -233,12 +236,16 @@ function AddExpense() {
     let ExpenseAmmountValue = Number(ExpenseAmmount.value.trim());
     let ExpenseDescriptionValue = ExpenseDescription.value.trim();
     let LoadDataInputExpenseSelectVal = LoadDataInputExpenseSelect.value;
-    
+    let AddTypeData = "Expense"
     if (!ExpenseAmmountValue || ExpenseAmmountValue <= 0) {
         alert("Please enter a valid amount");
         return;
     }
-    
+    let gatTypeData = ''
+    console.log(gatTypeData)
+        GetMessage(`Successfully added ${AddTypeData}`, `added ${ExpenseAmmountValue}tk in ${AddTypeData.toLocaleLowerCase()} list checkout in list total ${AddTypeData.toLocaleLowerCase()} is <span class="red-mark">tk</span>`, `<i class="fa-solid fa-circle-check"></i>`, "green")
+        messageOn(20)
+
     let pushList = {
         id: Date.now(), // Add unique ID
         ammount: ExpenseAmmountValue,
@@ -262,7 +269,21 @@ function AddExpense() {
     ShowEmptyPage();
 }
 
+
+function GetMessage (messageTitle, messageDescription, MessageIcon, Wcolor) {
+     InnerContent.innerHTML = `
+    <div class="Messageleft">
+                <p class="IconLeft color-${Wcolor}-80">${MessageIcon}</p>
+                <div class="messageLeftContent">
+                    <h4 class="messageTitle">${messageTitle}</h4>
+                    <p class="messageDiscription">${messageDescription}</p>
+                </div>
+            </div>`
+}
+
+
 // Render lists
+
 function renderLists(StoreListsData) {
     ShowData.innerHTML = "";
     
@@ -271,8 +292,8 @@ function renderLists(StoreListsData) {
         return;
         
     }
-
     StoreListsData.forEach((item, index) => {
+
         let createData = document.createElement("div");
         createData.innerHTML = `
             <div class="list ${item.AddType}">
@@ -462,14 +483,12 @@ function Search(StoreListsVals) {
         applyCurrentFilter();
         return;
     }
-    
     let filterSearch = StoreListsVals.filter(searchItem => 
         String(searchItem.ammount).includes(SearchInputValue) ||
         searchItem.AddType.toLowerCase().includes(SearchInputValue) ||
         (searchItem.Type && searchItem.Type.toLowerCase().includes(SearchInputValue)) ||
         (searchItem.description && searchItem.description.toLowerCase().includes(SearchInputValue))
     );
-    
     renderLists(filterSearch);
     ListLength.innerHTML = filterSearch.length;
 }
@@ -514,3 +533,22 @@ resetAllData.addEventListener("click", () => {
     }
     }, 500)
 })
+
+
+function messageOn (time) {
+    messages.classList.add("open")
+    let count = 100
+    let y = setInterval(() => {
+        count = count - 1
+        timeParcent.style.width = `${count}%`
+            if (count < 1) {
+                messages.classList.remove("open")
+                count = 0
+                clearInterval(y)
+                return
+            } else {
+                 messages.classList.add("open")
+            }
+    }, time)
+
+}

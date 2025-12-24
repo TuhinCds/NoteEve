@@ -5,9 +5,13 @@
     --footer-height: 70px;
     --text-color: white;
     --text-color-80: rgba(255, 255, 255, 0.858);
+    --text-dark-80: rgba(0, 0, 0, 0.858);
+    --text-dark-70: rgba(0, 0, 0, 0.81);
     --text-color-70: rgba(255, 255, 255, 0.81);
+    --text-dark-60: rgba(0, 0, 0, 0.723);
     --text-color-60: rgba(255, 255, 255, 0.723);
     --text-color-50: rgba(255, 255, 255, 0.613);
+    --text-dark-50: rgba(0, 0, 0, 0.623);
     --light-transparent-20: rgba(255, 255, 255, 0.216);
     --light-transparent-10: rgba(255, 255, 255, 0.118);
     --light-transparent-80: rgba(255, 255, 255, 0.771);
@@ -555,12 +559,12 @@ body.sidebarHide {
     border-radius: 100px;
     border: none;
     font-size: 1.1rem;
-    background: rgba(255, 255, 255, 0.131);
+    background: rgb(208, 69, 10);
     color: var(--text-color-80);
     transition: .3s;
 }
 #addDataBtn:hover {
-    background: var(--light-transparent-20);
+    background: rgb(47, 46, 46);
 }
 .reasonShow {
     display: inline-flex;
@@ -681,8 +685,61 @@ body.sidebarHide {
 #resetAllData:hover {
     background: rgba(255, 0, 0, 0.226);
 }
-
-
+#messages {
+    position: absolute;
+    top: 20px;
+    width: 90%;
+    max-width: 400px;
+    right: 0;
+    z-index: 999999999;
+    background: var(--text-color);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    top: -100%;
+    transition: top .7s;;
+}
+#messages.open {
+    top: 20px;
+}
+.Messageleft {
+    display: flex;
+    align-items: center;
+}
+.IconLeft {
+    font-size: 3rem;
+    color: rgb(68, 194, 0);
+}
+.messageLeftContent {
+    margin-left: 5px;
+}
+.messageTitle {
+    font-size: .9rem;
+}
+.messageDiscription {
+    font-size: .78rem;
+    font-weight: 550;
+    color: var(--text-dark-50);
+}
+.red-mark {
+    color: rgb(26, 158, 0);
+    
+}
+.timeParcent {
+    height: 4px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.277);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    border-radius: 1000px;
+    transition: width .3s;
+}
+.color-green-80 {
+    color: rgb(30, 182, 0) !important;
+}
 
 /* Make responsive */
 
