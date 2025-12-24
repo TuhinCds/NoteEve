@@ -10,7 +10,10 @@ const ShowEmpty = document.querySelector(".ShowEmpty");
 
 // Initialize StoreLists from localStorage
 let StoreLists = JSON.parse(localStorage.getItem("Lists")) || [];
-let StoreHistory = JSON.parse(localStorage.getItem("Lists")) || []
+let StoreHistory = JSON.parse(localStorage.getItem("ListsHistory")) || []
+// All Wallet add money btns 
+let AddMoneyStore = JSON.parse(localStorage.getItem("AddMoneyBtns")) || []
+let UserWallet = parseFloat(localStorage.getItem("UserWallet")) || 0
 
 // DOM elements for income/expense
 const AddData = document.getElementById("AddData");
@@ -54,6 +57,36 @@ const ListControllBtnsWraper = document.querySelector(".list-control-btns-wraper
 const ListControllBtns = ListControllBtnsWraper.querySelectorAll("button");
 
 
+const topShowLoadType = document.querySelector(".topShowLoadType")
+const LoadDataInputWallet = document.querySelector(".LoadDataInputWallet")
+
+
+// Add wallet 
+const SelectWalletMoney = document.getElementById("SelectWalletMoney")
+const InputMoney = document.getElementById("InputMoney")
+const AddMoney = document.getElementById("AddMoney")
+const ShowWallet = document.getElementById("ShowWallet")
+
+const showListLength = document.getElementById("showListLength")
+
+function AddWallet() {
+    let InputMoneyValue = Number(InputMoney.value)
+    if (!InputMoneyValue) return 
+   let userWv1 = UserWallet += InputMoneyValue
+    localStorage.setItem("UserWallet", userWv1.toString())
+    ShowWallet.innerText = userWv1
+    InputMoney.value = "" 
+
+}
+AddMoney.addEventListener("click", () => {
+    AddWallet()
+})
+InputMoney.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+        AddWallet()
+    }   
+})
+    ShowWallet.innerText = UserWallet
 
 
 // show message 
@@ -64,6 +97,8 @@ const InnerContent = messages.querySelector(".InnerContent")
 let activeMenu = null;
 let SearchVals = [...StoreLists]; // Copy of StoreLists for search filtering
 let currentFilter = "all"; // Track current filter
+
+
 
 // Initialize
 ShowListLength();
@@ -143,16 +178,22 @@ btns.forEach((btn) => {
                 LoadDataInputExpense.classList.remove("show");
                 TopIcon.classList.remove("fa-circle-minus");
                 TopIcon.classList.add("fa-circle-plus");
+                topShowLoadType.classList.remove("close")
+                LoadDataInputWallet.classList.add("hide")
                 break;
             case "Expense":
                 LoadDataInputExpense.classList.add("show");
                 LoadDataInputIncome.classList.remove("show");
                 TopIcon.classList.remove("fa-circle-plus");
                 TopIcon.classList.add("fa-circle-minus");
+                topShowLoadType.classList.remove("close")
+                LoadDataInputWallet.classList.add("hide")
                 break;
             case "Wallet":
                 LoadDataInputExpense.classList.remove("show");
                 LoadDataInputIncome.classList.remove("show");
+                topShowLoadType.classList.add("close")
+                LoadDataInputWallet.classList.remove("hide")
                 break;
         }
     });
@@ -204,6 +245,13 @@ function AddIncomeInList() {
         alert("Please enter a valid amount");
         return;
     }
+        MaxCountWalletBtns()
+        // In Wallet algaridom
+        AddMoneyStore.push({
+            WalletBtn: InputAmmoutIncomeValue
+        })
+        localStorage.setItem("AddMoneyBtns", JSON.stringify(AddMoneyStore))
+        
         GetMessage(`Successfully added ${AddTypeData}`, `added ${InputAmmoutIncomeValue}tk in ${AddTypeData.toLocaleLowerCase()} list checkout in list total ${AddTypeData.toLocaleLowerCase()} is <span class="red-mark">0tk</span>`, `<i class="fa-solid fa-circle-check"></i>`, "green")
         messageOn(20)
     let pushList = {
@@ -241,9 +289,18 @@ function AddExpense() {
         alert("Please enter a valid amount");
         return;
     }
-    let gatTypeData = ''
-    console.log(gatTypeData)
-        GetMessage(`Successfully added ${AddTypeData}`, `added ${ExpenseAmmountValue}tk in ${AddTypeData.toLocaleLowerCase()} list checkout in list total ${AddTypeData.toLocaleLowerCase()} is <span class="red-mark">tk</span>`, `<i class="fa-solid fa-circle-check"></i>`, "green")
+        // In Wallet algaridom
+
+
+        let b = UserWallet - ExpenseAmmountValue
+        localStorage.setItem("UserWallet", b.toString())
+        ShowWallet.innerText = b
+        MaxCountWalletBtns()
+        AddMoneyStore.push({
+            WalletBtn: ExpenseAmmountValue
+        })
+        localStorage.setItem("AddMoneyBtns", JSON.stringify(AddMoneyStore))
+        GetMessage(`Successfully added ${AddTypeData}`, `added ${ExpenseAmmountValue}tk in ${AddTypeData.toLocaleLowerCase()} list checkout in list total ${AddTypeData.toLocaleLowerCase()} is <span class="red-mark">tk</span>`, `<i class="fa-solid fa-circle-check"></i>`, "red")
         messageOn(20)
 
     let pushList = {
@@ -392,7 +449,10 @@ function FilterAll() {
     
     TotalIncome.innerHTML = TotalIncomeSum;
     Totalexpense.innerHTML = TotalExpenseSum;
+    
 }
+
+
 
 // Format time display
 function formatTime(timeData) {
@@ -541,7 +601,7 @@ function messageOn (time) {
     let y = setInterval(() => {
         count = count - 1
         timeParcent.style.width = `${count}%`
-            if (count < 1) {
+            if (count < -50) {
                 messages.classList.remove("open")
                 count = 0
                 clearInterval(y)
@@ -552,3 +612,132 @@ function messageOn (time) {
     }, time)
 
 }
+
+
+/// SelectWalletMoney
+
+
+let frequancy = {}
+
+for (let x of AddMoneyStore) {
+    frequancy[x.WalletBtn] = frequancy[x.WalletBtn] ? frequancy[x.WalletBtn] + 1 : 1
+}
+
+let maxCount = []
+
+for (let obj of Object.values(frequancy)) {
+    maxCount.push(obj)
+}
+
+
+let maxUseBtns = Object.keys(frequancy).find(btn => frequancy[btn] === (Math.max(...maxCount)))
+// console.log(maxUseBtns)
+
+
+
+
+console.log(maxUseBtns)
+
+let WaletbtnsData = []
+
+for (let l of AddMoneyStore){
+    WaletbtnsData.push(l.WalletBtn)
+}
+WaletbtnsData.push(Number(maxUseBtns))
+WaletbtnsData = [...new Set(WaletbtnsData)].filter(item => item > 10)
+
+
+function MaxCountWalletBtns() {
+    if (WaletbtnsData.length > 30) {
+        localStorage.removeItem("AddMoneyBtns")
+    } 
+}
+MaxCountWalletBtns() 
+
+let suggestWalletBtns = `
+ <div class="topHeaderLoadWallletTitle">
+        Select wallet
+ </div>
+<div class="MainSuggestContainer">
+    <div class="SuggestBtnsCon1Show"></div>
+    <div class="btnSugestMoreBtns hide"></div>
+    <button class="SeeMoreBtn">see more</button>
+</div>
+`
+
+
+
+
+let suggestBtnsCon1 = {
+   btnCon1: [
+        {btn: 102},
+        {btn: 17},
+        {btn: 198},
+        {btn: 312},
+        {btn: 1927},
+        {btn: 91},
+        {btn: 66},
+        {btn: 189}
+   ],
+   btnCon2: [
+        {btn: 181},
+        {btn: 171},
+        {btn: 221},
+        {btn: 111},
+        {btn: 752},
+        {btn: 108},
+        {btn: 892},
+        {btn: 179}
+   ],
+   btnCon3: [
+        {btn: 1811},
+        {btn: 172},
+        {btn: 226},
+        {btn: 1101},
+        {btn: 1220},
+        {btn: 67},
+        {btn: 12},
+        {btn: 1229}
+   ]
+}
+SelectWalletMoney.innerHTML = suggestWalletBtns
+let RandomWalletBtnsCon1 = suggestBtnsCon1.btnCon1[Math.floor(Math.random() * (suggestBtnsCon1.btnCon1.length - 1))]
+let RandomWalletBtnsCon2 = suggestBtnsCon1.btnCon2[Math.floor(Math.random() * (suggestBtnsCon1.btnCon2.length - 1))]
+let RandomWalletBtnsCon3 = suggestBtnsCon1.btnCon3[Math.floor(Math.random() * (suggestBtnsCon1.btnCon3.length - 1))]
+
+let allWalletBtns = [RandomWalletBtnsCon1,RandomWalletBtnsCon2,RandomWalletBtnsCon3]
+
+
+let btnsConTop = SelectWalletMoney.querySelector(".SuggestBtnsCon1Show")
+let btnSugestMoreBtns = SelectWalletMoney.querySelector(".btnSugestMoreBtns")
+
+allWalletBtns.forEach(btn => {
+    let createWalletBtn = document.createElement("button")
+    createWalletBtn.innerHTML = `${btn.btn}`
+    btnsConTop.appendChild(createWalletBtn)
+})
+for(let b of WaletbtnsData) {
+    let createBtn = document.createElement("button")
+    createBtn.innerHTML = `${b}`
+    btnSugestMoreBtns.appendChild(createBtn)
+}
+btnSugestMoreBtns.classList.add("hide")
+
+let SeeMoreBtn = SelectWalletMoney.querySelector(".SeeMoreBtn")
+
+SeeMoreBtn.addEventListener("click", () => {
+    btnSugestMoreBtns.classList.toggle("hide")
+    if ( btnSugestMoreBtns.classList.contains("hide")) {
+        SeeMoreBtn.innerText = "see more"
+    } else {
+        SeeMoreBtn.innerText = "see less"
+    }
+})
+
+showListLength.addEventListener("click", () => {
+    let y = confirm("You are sure You delete your wallet balance ?")
+    if (y) {
+        localStorage.removeItem("UserWallet")
+        ShowWallet.innerHTML = 0
+    }
+})

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>NoteEve</title>
 
     <link rel="manifest" href="mainfest.json">
     <link rel="stylesheet" href="css/style.css">
@@ -37,7 +37,7 @@
                 <div class="HeaderRightPart">
                     <div class="history-growth"><i class="fa-solid fa-chart-simple"></i></div>
                     <div class="list-lengths">
-                        <div id="showListLength"><i class="fa-solid fa-bangladeshi-taka-sign"></i>100</div>
+                        <div id="showListLength"><i class="fa-solid fa-bangladeshi-taka-sign"></i><span id="ShowWallet">0</span></div>
                         <div class="list-activity"></div>
                     </div>
                 </div>
@@ -106,21 +106,18 @@
                                     </div>
                                     <button class="AddExpense" id="AddExpenseBtn"><i class="fa-solid fa-plus"></i>Add Expense</button>
                                 </div>
-                                <div class="LoadDataInputWallet">
+                                <div class="LoadDataInputWallet hide">
                                     <!-- wallet -->
+                                    
                                      <div class="LoadDataInputWalletWraper">
                                         <div class="LoadDataInputWalletHeader">
-
+                                            <div class="SetBalance">
+                                                <input type="number" placeholder="set balance.." id="InputMoney">
+                                                <button id="AddMoney">Add</button>
+                                            </div>
                                         </div>
-                                        <div class="SelectWalletMoney">
-                                            <button>120</button>
-                                            <button>12</button>
-                                            <button>23</button>
-                                            <button>13</button>
-                                            <button>42</button>
-                                            <button>90</button>
-                                            <button>43</button>
-                                            <button></button>
+                                        
+                                        <div id="SelectWalletMoney">
                                         </div>
                                      </div>
                                 </div>
