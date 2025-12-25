@@ -883,9 +883,9 @@ body.sidebarHide {
     align-items: center;
 }
 .detailsMenu {
-    background: rgb(28, 28, 28);
-    padding: 15px;
-    border-radius: 3px;
+    background: rgb(20, 20, 20);
+    padding: 0px;
+    border-radius: 10px;
     position: absolute;
     right: 20px;
     scale: 0;
@@ -906,13 +906,40 @@ body.sidebarHide {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.049);
+    position: relative;
+    padding-bottom: 11px;
+    padding: 15px;
+    width: 100%;
 }
 .detailsMenuHeader > div{
     font-size: .9rem;
     color: var(--text-color-50)
 }
-
+.detailsMain {
+    padding: 15px;
+    padding-top: 10px;
+}
+.detailsMenuHeader button {
+    background: rgba(255, 255, 255, 0.009);
+    padding: 9px;
+    position: absolute;
+    right: 7.5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 34px;
+}
+.detailsMenuHeader button:hover {
+    background: rgba(255, 255, 255, 0.055);
+}
+.list {
+    margin: 10px 0;
+}
 
 /* Make responsive */
 

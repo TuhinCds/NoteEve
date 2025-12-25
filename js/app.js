@@ -386,7 +386,7 @@ function renderLists(StoreListsData) {
                                     <p class="details1">1. ${item.AddType.charAt(0).toUpperCase() + item.AddType.slice(1)} ${item.ammount} taka</p>
                                     <p class="details2">2. balance ${UserWallet} taka couse ${item.AddType === "expense" ? `( ${(UserWallet + item.ammount)} - ${item.ammount} )`: ``}</p>
                                     ${item.Type ? `<p class="details3">3. reason ${item.Type}</p>` : ""}
-                                    <p class="details3">${item.Type ? "4" : "3"}. <span>description -</span> <span>lorem isum is a bad boy !</span></p>
+                                    ${item.description ? `<p class="details3">${item.Type ? "4" : "3"}. <span>description -</span> <span>${item.description}</span></p>` : ""}
                                 </div>
                             </div>
                         </div>
@@ -644,18 +644,21 @@ resetAllData.addEventListener("click", () => {
 function messageOn (time) {
     messages.classList.add("open")
     let count = 100
-    let y = setInterval(() => {
+    timeParcent.style.width = "100%"
+    setTimeout(() => {
+        let y = setInterval(() => {
         count = count - 1
-        timeParcent.style.width = `${count}%`
             if (count < -50) {
                 messages.classList.remove("open")
-                count = 0
                 clearInterval(y)
+                count = 100
                 return
             } else {
                  messages.classList.add("open")
             }
+             timeParcent.style.width = `${count}%`
     }, time)
+    }, 400)
 
 }
 
@@ -682,7 +685,6 @@ let maxUseBtns = Object.keys(frequancy).find(btn => frequancy[btn] === (Math.max
 
 
 
-console.log(maxUseBtns)
 
 let WaletbtnsData = []
 
@@ -693,12 +695,6 @@ WaletbtnsData.push(Number(maxUseBtns))
 WaletbtnsData = [...new Set(WaletbtnsData)].filter(item => item > 10)
 
 
-function MaxCountWalletBtns() {
-    if (WaletbtnsData.length > 30) {
-        localStorage.removeItem("AddMoneyBtns")
-    } 
-}
-MaxCountWalletBtns() 
 
 let suggestWalletBtns = `
  <div class="topHeaderLoadWallletTitle">
@@ -753,19 +749,39 @@ let RandomWalletBtnsCon3 = suggestBtnsCon1.btnCon3[Math.floor(Math.random() * (s
 
 let allWalletBtns = [RandomWalletBtnsCon1,RandomWalletBtnsCon2,RandomWalletBtnsCon3]
 
-
 let btnsConTop = SelectWalletMoney.querySelector(".SuggestBtnsCon1Show")
 let btnSugestMoreBtns = SelectWalletMoney.querySelector(".btnSugestMoreBtns")
 
+let arrNum1 = []
+
 allWalletBtns.forEach(btn => {
     let createWalletBtn = document.createElement("button")
-    createWalletBtn.innerHTML = `${btn.btn}`
+    createWalletBtn.innerHTML = `${btn.btn}tk`
     btnsConTop.appendChild(createWalletBtn)
+
+    createWalletBtn.addEventListener("click", () => {
+        arrNum1.push(btn.btn)
+        TakaAdd()
+    })
 })
+
 for(let b of WaletbtnsData) {
     let createBtn = document.createElement("button")
-    createBtn.innerHTML = `${b}`
+    createBtn.innerHTML = `${b}tk`
     btnSugestMoreBtns.appendChild(createBtn)
+    
+
+    createBtn.addEventListener("click", () => {
+        arrNum1.push(b)
+        TakaAdd()
+    })
+}
+function TakaAdd() {
+        let sumNum = arrNum1.reduce((sum, i) => sum + i, 0)
+        let sumxNum = UserWallet + sumNum
+        localStorage.setItem("UserWallet", sumxNum)
+        ShowWallet.innerHTML = sumxNum
+        console.log(sumxNum)
 }
 btnSugestMoreBtns.classList.add("hide")
 
@@ -786,4 +802,25 @@ showListLength.addEventListener("click", () => {
         localStorage.removeItem("UserWallet")
         ShowWallet.innerHTML = 0
     }
+})
+
+console.log(WaletbtnsData.length)
+function MaxCountWalletBtns() {
+    if (WaletbtnsData.length > 30) {
+        localStorage.removeItem("AddMoneyBtns")
+        SeeMoreBtn.style.display = "none"
+    } 
+}
+MaxCountWalletBtns() 
+
+if (WaletbtnsData.length < 1) {
+    SeeMoreBtn.style.display = "none"
+} else {
+    SeeMoreBtn.style.display = "flex"
+}
+
+const NoteBtn = document.querySelector(".NoteBtn")
+NoteBtn.addEventListener("click", (e) => {
+    e.preventDefault()
+    window.open("https://www.google.com", "_blank")
 })
