@@ -8,11 +8,16 @@
     <link rel="manifest" href="mainfest.json">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
     <meta name="theme-color" content="#000000">
     <link rel="icon" href="img/icon-512.png">
 </head>
 <body>
     <div id="overlyMobile"></div>
+    <div id="BlackOverly"></div>
     <div id="overlyDesk"></div>
     <div id="messages">
         <div class="message-wraper">
@@ -48,12 +53,12 @@
         <div class="sidebar-wrapar">
             <nav>
                 <ul id="SidebarBtns">
-                    <li><button class="Home active"><i class="fa-solid fa-house-fire"></i>Home</button></li>
+                    <li><button class="HomeBtn active"><i class="fa-solid fa-house-fire"></i>Home</button></li>
                     <li><button class="createNewBtn"><i class="fa-solid fa-plus"></i>Create new</button></li>
                     <li><button class="NoteBtn"><i class="fa-solid fa-notes-medical"></i>Note</button></li>
-                    <li><button><i class="fa-solid fa-clock-rotate-left"></i>History</button></li>
-                    <li><button><i class="fa-solid fa-graduation-cap"></i>Learning</button></li>
-                    <li><button><i class="fa-solid fa-shield-halved"></i>privacy policy</button></li>
+                    <li><button class="historyBtn"><i class="fa-solid fa-clock-rotate-left"></i>History</button></li>
+                    <li><button class="learningBtn"><i class="fa-solid fa-graduation-cap"></i>Learning</button></li>
+                    <li><button class="PrivacyPolicyBtn"><i class="fa-solid fa-shield-halved"></i>privacy policy</button></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -62,7 +67,7 @@
         </div>
     </aside>
     <main class="main" id="main">
-        <div class="main-wraper hide">
+        <div class="main-wraper">
             <section class="adddata">
                 <div class="adddatainner">
                     <div class="LoadDataPage hide">
@@ -158,10 +163,149 @@
                     </div>
                 </div>
             </section>
+            <section class="main_wraper_two hide">
+            <div class="mainWraperTwoChild">
+                <header class="mainWraperChildHeader">
+                    <div class="mainWraperchildRow1">
+                        <div class="shortItems">
+                            <div class="shortFilterContainer">
+                                <button id="filterNoteBtn"><i class="fa-solid fa-filter"></i></button>
+                                <button id="countListLength">10 list</button>
+                            <div class="FilterListMenu scale0">
+                                <div class="filterListMenuHeader">
+                                    <p><i class="fa-solid fa-arrow-down-short-wide"></i> <span class="text-short">Short</span></p>
+                                    <button class="CloseMenu"><i class="fa-solid fa-xmark"></i></button>
+                                </div>
+                                <div class="filterListMenuBtns">
+                                    <button>10 day</button>
+                                    <button>1 hours</button>
+                                    <button>1 month</button>
+                                    <button class="addnewFilter"><i class="fa-solid fa-plus"></i>Add filter</button>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="searchContainer">
+                                <input type="text" placeholder="Search list...">
+                                <button><i class="ri-search-line"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mainWraperchildRow2">
+                        <div class="createNoteElement">
+                            <div class="LeftElement">
+                                <button>All notes</button>
+                                <button>to do</button>
+                                <button>Day steps</button>
+                                <button><i class="fa-solid fa-link"></i></button>
+                                <button><i class="fa-solid fa-plus"></i>Create link list</button>
+                                <button><i class="fa-solid fa-plus"></i></button>
+                                <button id="NoteViewModes"><i class="fa-solid fa-table-cells-large"></i>Grid view</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="mainWraperchildRow3"></div> -->
+                     <div class="hr-1px-wbg10"></div>
+                </header>
+                <div class="NoteMainContainer">
+                    <div class="showNotes">
+                        <div id="ShowNotesDisplay">
+                            <div class="note normal">
+                                <header class="noteHeader">
+                                    <div class="noteTitle">
+                                        Lorem id
+                                    </div>
+                                    <div class="noteDescription">
+                                        Lorem ipsum amet....
+                                    </div>
+                                    <div class="showTime"><i class="fa-regular fa-clock"></i> 12day ago</div>
+                                </header>
+                                <div class="noteBody">
+                                    <div class="leftSidenoteBody">
+                                        <div class="LinksDataInfo">
+                                            <div class="showLink"><i class="fa-solid fa-paperclip"></i>12+ links</div>
+                                            <button><i class="fa-regular fa-copy"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="rightNoteBody">
+                                        <button><i class="fa-solid fa-bars-staggered"></i></button>
+                                    </div>
+                                </div>
+                            </div>           
+                            <div class="note normal">
+                                <header class="noteHeader">
+                                    <div class="noteTitle">
+                                        Lorem id
+                                    </div>
+                                    <div class="noteDescription">
+                                        Lorem ipsum amet....
+                                    </div>
+                                    <div class="showTime"><i class="fa-regular fa-clock"></i> 12day ago</div>
+                                </header>
+                                <div class="noteBody">
+                                    <div class="leftSidenoteBody">
+                                        <div class="LinksDataInfo">
+                                            <div class="showLink"><i class="fa-solid fa-paperclip"></i>12+ links</div>
+                                            <button><i class="fa-regular fa-copy"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="rightNoteBody">
+                                        <button><i class="fa-solid fa-bars-staggered"></i></button>
+                                    </div>
+                                </div>
+                            </div>           
+                            <div class="note normal">
+                                <header class="noteHeader">
+                                    <div class="noteTitle">
+                                        Lorem id
+                                    </div>
+                                    <div class="noteDescription">
+                                        Lorem ipsum amet....
+                                    </div>
+                                    <div class="showTime"><i class="fa-regular fa-clock"></i> 12day ago</div>
+                                </header>
+                                <div class="noteBody">
+                                    <div class="leftSidenoteBody">
+                                        <div class="LinksDataInfo">
+                                            <div class="showLink"><i class="fa-solid fa-paperclip"></i>12+ links</div>
+                                            <button><i class="fa-regular fa-copy"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="rightNoteBody">
+                                        <button><i class="fa-solid fa-bars-staggered"></i></button>
+                                    </div>
+                                </div>
+                            </div>           
+                            <div class="note normal">
+                                <header class="noteHeader">
+                                    <div class="noteTitle">
+                                        Lorem id
+                                    </div>
+                                    <div class="noteDescription">
+                                        Lorem ipsum amet....
+                                    </div>
+                                    <div class="showTime"><i class="fa-regular fa-clock"></i> 12day ago</div>
+                                </header>
+                                <div class="noteBody">
+                                    <div class="leftSidenoteBody">
+                                        <div class="LinksDataInfo">
+                                            <div class="showLink"><i class="fa-solid fa-paperclip"></i>12+ links</div>
+                                            <button><i class="fa-regular fa-copy"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="rightNoteBody">
+                                        <button><i class="fa-solid fa-bars-staggered"></i></button>
+                                    </div>
+                                </div>
+                            </div>           
+                    </div>
+                </div>
+                <div class="todoContainer">
+                    <!-- ! -->
+                </div>
+            </div>
+        </section>
         </div>
-        <div class="main_wraper_two">
-            
-        </div>
+        
     </main>
     <footer class="footer" id="footer"></footer>
     <script src="js/app.js"></script>

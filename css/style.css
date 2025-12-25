@@ -45,6 +45,7 @@ body.sidebarHide {
 .header {
     grid-area: header;
     background: var(--bg-color);
+    border-bottom: 1px solid rgba(255, 255, 255, 0);
     display: flex;
     align-items: center;
     z-index: 9999999;
@@ -55,6 +56,7 @@ body.sidebarHide {
     border-right: 1px solid rgba(255, 255, 255, 0.069);
     overflow-y: auto;
     overflow-x: hidden;
+    box-shadow: 3px 40px 60px rgba(0, 0, 0, 0.234);
 }
 .main {
     grid-area: main;
@@ -222,6 +224,7 @@ body.sidebarHide {
     z-index: 99999;
     transition: bottom .2s;
     backdrop-filter: blur(5px);
+    border: ;
 }
 .adddata {
     display: flex;
@@ -237,7 +240,7 @@ body.sidebarHide {
     border-radius: 6px;
 }
 .adddatainnerHeader {
-    border-bottom: 1px solid var(--light-transparent-20);
+    border-bottom: 1px solid var(--light-transparent-10);
 }
 .adddatainnerHeader.noBorder {
     border: none;
@@ -681,6 +684,9 @@ body.sidebarHide {
 }
 .list {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0 !important;
+    padding: 10px !important;
+    padding-bottom: 15px;
 }
 #resetAllData:hover {
     background: rgba(255, 0, 0, 0.226);
@@ -940,6 +946,393 @@ body.sidebarHide {
 .list {
     margin: 10px 0;
 }
+/* main_wraper_two */
+
+.main_wraper_two {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    height: calc( 100vh - (var(--footer-height) + var(--header-height)));
+    width: 100%;
+
+}
+.mainWraperTwoChild {
+    width: 100%;
+    max-width: 600px;
+}
+.mainWraperChildHeader {
+    background: var(--bg-color);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+    padding: 10px;
+}
+.mainWraperchildRow1 {
+    width: 100%;
+}
+.mainWraperchildRow2 {
+    width: 100%;
+    padding: 3px;
+}
+.mainWraperchildRow2 .createNoteElement .LeftElement button{
+    padding: 8px 8px;
+    border: none;
+    border-radius: 8px; 
+    gap: 4px;
+    background: rgba(250, 248, 248, 0.116);
+    color: var(--text-color-80);
+    white-space: nowrap;
+}
+.mainWraperchildRow2 .createNoteElement .LeftElement button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+}
+.mainWraperchildRow2 .createNoteElement .LeftElement {
+    display: flex;
+    gap: 7px;
+}
+.mainWraperchildRow2 .createNoteElement {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.shortItems {
+    display: flex;
+    align-items: center;
+}
+.shortFilterContainer {
+    position: relative;
+}
+.FilterListMenu {
+    position: absolute;
+    background: rgb(34, 34, 34);
+    width: 190px;
+    top: 40px;
+    left: 0px;
+    border-radius: 6px;
+    box-shadow: 2px 5px 30px var(--bg-color);
+    transition: scale .3s;
+}
+.filterListMenuHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.FilterListMenu .filterListMenuBtns button {
+    display: block;
+    width: 100%;
+    text-align: start;
+}
+.shortFilterContainer > button{
+    padding: 8px 10px;
+    border: none;
+    border-radius: 4px;
+    background: rgba(254, 254, 254, 0.14);
+    color: var(--text-color-80);
+}   
+.shortItems {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: space-between;
+}
+.searchContainer input {
+    background: rgba(255, 255, 255, 0) !important;
+    color: var(--text-color-80)
+}
+.searchContainer input::placeholder {
+    color: var(--text-color-50)
+}
+.searchContainer input , .searchContainer button {
+    outline: none;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 4px;
+    background: rgba(255, 254, 254, 0.157);
+    color: var(--text-color);
+}
+.searchContainer button {
+    background: rgba(255, 255, 255, 0.066);
+    color: var(--light-transparent-80);
+    border-radius: 0px 4px 4px 0px !important;
+}
+.searchContainer {
+    border-radius: 4px 4px 4px 4px !important;
+    background: rgba(255, 255, 255, 0.106);
+    margin-right: 5px;
+}
+.filterListMenuBtns button {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(244, 244, 244, 0.029);
+    padding: 6px 5px;
+    color: var(--text-color-80);
+}
+.filterListMenuBtns button:last-child {
+    border: none;
+}
+.filterListMenuBtns {
+    padding: 2px;
+}
+.filterListMenuHeader button {
+    padding: 6px;
+    border: none;
+    background: none;
+    color: var(--text-color-80);
+    transition: background .3s;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-right: 1px;
+}
+.filterListMenuHeader button:hover {
+    background: rgba(255, 255, 255, 0.107);
+}
+.filterListMenuHeader p {
+    padding: 6px;
+    border: none;
+    background: none;
+    color: var(--text-color-50);
+    font-size: .9rem;
+
+}
+.addnewFilter i{
+    background: rgba(255, 255, 255, 0.078);
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1000px;
+    font-size: .7rem;
+}
+.addnewFilter {
+    display: flex !important;
+    align-items: center !important;
+    width: 100%;
+    gap: 4px;
+}
+.text-short {
+    font-size: .8rem;
+    font-weight: 500;
+}
+
+#ShowNotesDisplay {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    padding-top: 5px;
+    gap: 13px;
+    transition: all .4s;
+    width: 100%;
+}
+.note {
+    background: rgb(15, 15, 15);
+    border-radius: 10px;
+    transition: .3s;
+    height: max-content;
+    overflow: hidden;
+    
+}
+#ShowNotesDisplay.grid-display {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 10px;
+      
+}
+.noteHeader {
+    padding: 10px;
+    margin: 5px;
+}
+.noteTitle {
+    font-weight: 500;
+    font-size: .9rem;
+    color: var(--text-color-80);
+}
+.noteDescription {
+    color: var(--text-color-60);
+    font-size: .7rem;
+}
+.noteBody {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+.leftSidenoteBody {
+    display: flex;
+    align-items : center;
+    background: rgba(255, 255, 255, 0.047);
+    padding: 2px;
+    border-radius: 500px;
+    
+}
+.LinksDataInfo {
+    display: flex;
+    align-items: center;
+
+}
+.LinksDataInfo button {
+    width: 23px;
+    height: 23px;
+    border-radius: 400px;
+    border: none;
+    font-size: .7rem;
+    background: rgba(255, 255, 255, 0);
+    color: var(--text-color-80) !important;
+    
+}
+.showTime {
+    font-size: .7rem;
+    color: var(--text-color-50);
+    padding: 0 0px;
+    padding-left: 5px;
+    position: relative;
+    margin-top: 4px;
+}
+.showLink {
+    color: var(--text-color-70);
+    font-size: .6rem;
+    padding: 0 6px;
+}
+.showLink i {
+    margin-right: 4px;
+}
+.showTime::after {
+    position: absolute;
+    content: "";
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.611);
+    border-radius: 100px;
+    left: -3px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.rightNoteBody button {
+    width: 26px;
+    height: 26px;
+    border: none;
+    border-radius: 100px;
+    font-size: .7rem;
+    color: var(--text-color-80);
+    background: rgba(253, 253, 253, 0.077);
+}
+.rightNoteBody button:last-child {
+    background: rgba(255, 255, 255, 0.058);
+    color: var(--text-color-60);
+    cursor: pointer;
+    transition: color .3s, background .4s;
+}
+.rightNoteBody button:last-child:hover {
+    background: rgba(255, 255, 255, 0.121);
+    color: var(--text-color-70);
+}
+.showNotes {
+    overflow-y: auto;
+    height: calc(100vh - (var(--header-height) + 15vh));
+}
+
+.FilterListMenu {
+    z-index: 999999;
+    transition: scale .3s !important;
+    box-shadow: 2px 3px 60px rgba(0, 0, 0, 0.346);
+}
+#filterNoteBtn {
+    cursor: pointer;
+    background: transparent;
+    transition: background .3s;
+}
+.list {
+
+}
+#filterNoteBtn:hover {
+    background: rgba(255, 255, 255, 0.09);
+}
+#NoteViewModes {
+    cursor: pointer;
+}
+#countListLength {
+    background: transparent;
+    font-size: .7rem;
+    padding: 8px 0 !important;
+}
+.HeaderRightPart {
+    gap: 10px !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  controller css classes  */
+.show {
+    display: block;
+}
+.show-flex {
+    display: flex;
+}
+.hide {
+    display: none;
+}
+.scale0 {
+    scale: 0;
+}
+.scale1 {
+    scale: 1;
+}
+.hr-1px-wbg10 {
+    height: 1px;
+    width: 90%;
+    background: rgba(255, 255, 255, 0.06)
+}
+
 
 /* Make responsive */
 
@@ -990,15 +1383,31 @@ body.sidebarHide {
     .LoadDataPage {
     margin-top: calc(50% - 220px);
     transition: .4s;
+
+}
+
+}
+@media (min-width: 490px) {
+    .hr-1px-wbg10 {
+    background: rgba(255, 255, 255, 0.119)
+}
+.note {
+    background: rgb(30, 30, 30);
+    border-radius: 10px;
 }
 }
 
-.show {
-    display: block;
+/* BlackOverly */
+
+#BlackOverly {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.57);
+    z-index: 9999;
+    transition: top .2s;
 }
-.show-flex {
-    display: flex;
-}
-.hide {
-    display: none;
+#BlackOverly.active {
+    top: 0;
 }

@@ -7,6 +7,8 @@ const LoadDataPage = document.querySelector(".LoadDataPage");
 const SidebarBtns = document.getElementById("SidebarBtns");
 const SidebarBtn = SidebarBtns.querySelectorAll("li button");
 const ShowEmpty = document.querySelector(".ShowEmpty");
+const adddata = document.querySelector(".adddata")
+const main_wraper_two = document.querySelector(".main_wraper_two")
 
 // Initialize StoreLists from localStorage
 let StoreLists = JSON.parse(localStorage.getItem("Lists")) || [];
@@ -14,6 +16,18 @@ let StoreHistory = JSON.parse(localStorage.getItem("ListsHistory")) || []
 // All Wallet add money btns 
 let AddMoneyStore = JSON.parse(localStorage.getItem("AddMoneyBtns")) || []
 let UserWallet = parseFloat(localStorage.getItem("UserWallet")) || 0
+// for note page 
+let isNotePage = localStorage.getItem("isNotePage")
+
+// SidebarBtns
+
+const HomeBtn = SidebarBtns.querySelector(".HomeBtn")
+const createNewBtn = SidebarBtns.querySelector(".createNewBtn")
+const NoteBtn = SidebarBtns.querySelector(".NoteBtn")
+const historyBtn = SidebarBtns.querySelector(".historyBtn")
+const learningBtn = SidebarBtns.querySelector(".learningBtn")
+const PrivacyPolicyBtn = SidebarBtns.querySelector(".PrivacyPolicyBtn")
+
 
 // DOM elements for income/expense
 const AddData = document.getElementById("AddData");
@@ -48,7 +62,6 @@ const SearchInput = document.getElementById("SearchInput");
 
 // List display
 const ShowData = document.getElementById("ShowData");
-const createNewBtn = document.querySelector(".createNewBtn");
 const Home = document.querySelector(".Home");
 const overlyMobile = document.getElementById("overlyMobile");
 
@@ -66,6 +79,12 @@ const SelectWalletMoney = document.getElementById("SelectWalletMoney")
 const InputMoney = document.getElementById("InputMoney")
 const AddMoney = document.getElementById("AddMoney")
 const ShowWallet = document.getElementById("ShowWallet")
+
+
+// BlackOverly
+const BlackOverly = document.getElementById("BlackOverly")
+
+
 
 const showListLength = document.getElementById("showListLength")
 
@@ -224,11 +243,18 @@ SidebarBtn.forEach(btn => {
             case "Home":
                 LoadDataPage.classList.add("hide");
                 adddatainnerWraper.classList.remove("hide");
+                adddata.classList.remove("hide")
+                localStorage.setItem("isNotePage", "false")
+                 main_wraper_two.classList.add("hide")
                 break;
             case "Create new":
                 LoadDataPage.classList.remove("hide");
+                adddata.classList.remove("hide")
                 adddatainnerWraper.classList.add("hide");
+                localStorage.setItem("isNotePage", "false")
+                 main_wraper_two.classList.add("hide")
                 break;
+            
         }
     });
 });
@@ -819,8 +845,130 @@ if (WaletbtnsData.length < 1) {
     SeeMoreBtn.style.display = "flex"
 }
 
-const NoteBtn = document.querySelector(".NoteBtn")
-NoteBtn.addEventListener("click", (e) => {
-    e.preventDefault()
-    window.open("https://www.google.com", "_blank")
+NoteBtn.addEventListener("click", () => {
+    adddata.classList.add("hide")
+     main_wraper_two.classList.remove("hide")
+    localStorage.setItem("isNotePage", "true")
+    NoteBtn.classList.add("active")
+    // deactive remove home and other btns 
+    HomeBtn.classList.remove("active")
+    createNewBtn.classList.remove("active")
+    historyBtn.classList.remove("active")
+    learningBtn.classList.remove("active")
+    PrivacyPolicyBtn.classList.remove("active")
+    // active btn
+    NoteBtn.classList.add("active")
 })
+
+// Notes 
+
+function isNotePageAdd() {
+    if (isNotePage === "true") {
+        adddata.classList.add("hide")
+        NoteBtn.classList.add("active")
+        NoteBtn.classList.add("active")
+        HomeBtn.classList.remove("active")
+        createNewBtn.classList.remove("active")
+        historyBtn.classList.remove("active")
+        learningBtn.classList.remove("active")
+        PrivacyPolicyBtn.classList.remove("active")
+        main_wraper_two.classList.remove("hide")
+    } else {
+        adddata.classList.remove("hide")
+        main_wraper_two.classList.add("hide")
+        NoteBtn.classList.remove("active")
+        
+    }
+}
+
+isNotePageAdd()
+
+const filterNoteBtn = document.getElementById("filterNoteBtn")
+const FilterListMenu = document.querySelector(".FilterListMenu")
+const CloseMenu = FilterListMenu.querySelector(".CloseMenu")
+const ShowNotesDisplay = document.getElementById("ShowNotesDisplay")
+
+const shortFilterContainer = document.querySelector(".shortFilterContainer")
+filterNoteBtn.addEventListener("click", () => {
+    FilterNotesMenu()
+})
+CloseMenu.addEventListener("click", () => {
+    FilterNotesMenu()
+})
+
+function FilterNotesMenu() {
+    FilterListMenu.classList.toggle("scale0")
+    if (FilterListMenu.classList.contains("scale0")) {
+        BlackOverlyRemove()
+    } else {
+      BlackOverlyAdd() 
+    }
+}
+
+document.addEventListener("click", (e) => {
+    if (!e.target.closest('.shortFilterContainer')) {
+        FilterListMenu.classList.add("scale0")
+        BlackOverlyRemove()
+    }
+    
+})
+
+const createNoteElementL = document.querySelector(".createNoteElement .LeftElement")
+const createNoteElementBtns = createNoteElementL.querySelectorAll("button")
+
+// All btns 
+const NoteViewModes = document.getElementById("NoteViewModes")
+
+let currentNotesElementFilter = "All notes"
+let noteisGrid = localStorage.getItem("isGrid")
+
+createNoteElementBtns.forEach((btn, index) => {
+    btn.addEventListener("click", () => {
+        switch (btn.innerHTML.trim()) {
+            case "All notes":
+                currentNotesElementFilter = "All notes"
+                break
+            
+               
+        }
+    })
+})
+NoteViewModes.addEventListener("click", () => {
+    ShowNotesDisplay.classList.toggle("grid-display")
+
+    if (ShowNotesDisplay.classList.contains("grid-display")) {
+        NoteViewModes.innerHTML = `<i class="fa-solid fa-list"></i>List view`
+        ShowNotesDisplay.classList.add("grid-display")
+        localStorage.setItem("isGrid", "true")
+    } else {
+        NoteViewModes.innerHTML = `<i class="fa-solid fa-table-cells-large"></i>Grid view`
+        ShowNotesDisplay.classList.remove("grid-display")
+        localStorage.setItem("isGrid", "false")
+    }
+})
+function isGridFound() {
+    if (noteisGrid == "true") {
+        NoteViewModes.innerHTML = `<i class="fa-solid fa-list"></i>List view`
+        ShowNotesDisplay.classList.add("grid-display")
+    } else {
+        ShowNotesDisplay.classList.remove("grid-display")
+         NoteViewModes.innerHTML = `<i class="fa-solid fa-table-cells-large"></i>Grid view`
+    }
+}
+isGridFound()
+
+
+function BlackOverlyAdd () {
+    BlackOverly.classList.add("active")
+}
+function BlackOverlyRemove () {
+    BlackOverly.classList.remove("active")
+}
+
+BlackOverly.addEventListener("click", () => {
+    BlackOverlyClick()
+})
+
+function BlackOverlyClick () {
+    BlackOverlyRemove()
+}
