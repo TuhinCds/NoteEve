@@ -1,52 +1,43 @@
-const CACHE_NAME = "noteeve-v5";
-
-const APP_ROOT = "/NoteEve/";
+const CACHE = "noteeve-shell-v1";
+const APP_SHELL = "/NoteEve/index.html";
 
 const ASSETS = [
-  APP_ROOT,
-  APP_ROOT + "index.html",
-  APP_ROOT + "manifest.json",
-
-  // CSS & JS
-  APP_ROOT + "css/style.css",
-  APP_ROOT + "js/app.js",
-
-  // Font Awesome
-  APP_ROOT + "fontawesome-free-7.0.0-web/css/all.min.css",
-  APP_ROOT + "fontawesome-free-7.0.0-web/webfonts/fa-solid-900.woff2",
-  APP_ROOT + "fontawesome-free-7.0.0-web/webfonts/fa-regular-400.woff2",
-  APP_ROOT + "fontawesome-free-7.0.0-web/webfonts/fa-brands-400.woff2",
-
-  // Icons
-  APP_ROOT + "img/icon-192.png",
-  APP_ROOT + "img/icon-512.png"
+  "/NoteEve/",
+  "/NoteEve/index.html",
+  "/NoteEve/manifest.json",
+  "/NoteEve/css/style.css",
+  "/NoteEve/js/app.js",
+  "/NoteEve/fontawesome-free-7.0.0-web/css/all.min.css",
+  "/NoteEve/fontawesome-free-7.0.0-web/webfonts/fa-solid-900.woff2",
+  "/NoteEve/fontawesome-free-7.0.0-web/webfonts/fa-regular-400.woff2",
+  "/NoteEve/fontawesome-free-7.0.0-web/webfonts/fa-brands-400.woff2",
+  "/NoteEve/img/icon-192.png",
+  "/NoteEve/img/icon-512.png"
 ];
 
-// INSTALL
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
+self.addEventListener("install", e => {
+  e.waitUntil(
+    caches.open(CACHE).then(c => c.addAll(ASSETS))
   );
   self.skipWaiting();
 });
 
-// ACTIVATE
-self.addEventListener("activate", event => {
-  event.waitUntil(self.clients.claim());
+self.addEventListener("activate", e => {
+  e.waitUntil(self.clients.claim());
 });
 
-// FETCH (🔥 refresh + offline safe)
-self.addEventListener("fetch", event => {
-  if (event.request.mode === "navigate") {
-    event.respondWith(
-      caches.match(APP_ROOT + "index.html")
+self.addEventListener("fetch", e => {
+  // 🔥 THIS is the magic
+  if (e.request.mode === "navigate") {
+    e.respondWith(
+      caches.match(APP_SHELL)
     );
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request).then(res => {
-      return res || fetch(event.request);
+  e.respondWith(
+    caches.match(e.request).then(res => {
+      return res || fetch(e.request);
     })
   );
 });
