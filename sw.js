@@ -1,13 +1,13 @@
-const CACHE_NAME = "noteeve-v1";
+const CACHE_NAME = "noteeve-v2";
 
 const urlsToCache = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./css/style.css",
-  "./js/app.js",
-  "./img/icon-192.png",
-  "./img/icon-512.png"
+  "/NoteEve/",
+  "/NoteEve/index.html",
+  "/NoteEve/manifest.json",
+  "/NoteEve/css/style.css",
+  "/NoteEve/js/app.js",
+  "/NoteEve/img/icon-192.png",
+  "/NoteEve/img/icon-512.png"
 ];
 
 self.addEventListener("install", event => {
@@ -22,15 +22,16 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      caches.match("/NoteEve/index.html")
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then(response => {
-      if (response) {
-        return response; // cache থেকে দিবে
-      }
-      return fetch(event.request).catch(() => {
-        // 🔥 fallback
-        return caches.match("./index.html");
-      });
+      return response || fetch(event.request);
     })
   );
 });
