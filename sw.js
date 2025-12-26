@@ -12,16 +12,25 @@ const urlsToCache = [
 
 self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(urlsToCache);
-    })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
+  self.skipWaiting();
+});
+
+self.addEventListener("activate", event => {
+  event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener("fetch", event => {
   event.respondWith(
     caches.match(event.request).then(response => {
-      return response || fetch(event.request);
+      if (response) {
+        return response; // cache থেকে দিবে
+      }
+      return fetch(event.request).catch(() => {
+        // 🔥 fallback
+        return caches.match("./index.html");
+      });
     })
   );
 });
