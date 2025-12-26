@@ -195,16 +195,16 @@ btns.forEach((btn) => {
             case "Income":
                 LoadDataInputIncome.classList.add("show");
                 LoadDataInputExpense.classList.remove("show");
-                TopIcon.classList.remove("fa-circle-minus");
-                TopIcon.classList.add("fa-circle-plus");
+                TopIcon.classList.remove("fa-eraser");
+                TopIcon.classList.add("fa-notes-medical");
                 topShowLoadType.classList.remove("close")
                 LoadDataInputWallet.classList.add("hide")
                 break;
             case "Expense":
                 LoadDataInputExpense.classList.add("show");
                 LoadDataInputIncome.classList.remove("show");
-                TopIcon.classList.remove("fa-circle-plus");
-                TopIcon.classList.add("fa-circle-minus");
+                TopIcon.classList.remove("fa-notes-medical");
+                TopIcon.classList.add("fa-eraser");
                 topShowLoadType.classList.remove("close")
                 LoadDataInputWallet.classList.add("hide")
                 break;
@@ -282,6 +282,12 @@ function AddIncomeInList() {
         return;
     }
         MaxCountWalletBtns()
+        let inputWal = 0
+        inputWal += InputAmmoutIncomeValue 
+        let incomeTk = UserWallet + inputWal
+
+        localStorage.setItem("UserWallet", incomeTk)
+        ShowWallet.innerHTML = incomeTk
         // In Wallet algaridom
         AddMoneyStore.push({
             WalletBtn: InputAmmoutIncomeValue
@@ -981,7 +987,9 @@ function BlackOverlyClick () {
     BlackOverlyRemove()
 }
 addMoneyBtnWallet.addEventListener("click", () => {
- alert()
+    adddata.classList.remove("hide")
+        main_wraper_two.classList.add("hide")
+        NoteBtn.classList.remove("active")
   LoadDataInputExpense.classList.remove("show");
   LoadDataInputIncome.classList.remove("show");
   topShowLoadType.classList.add("close")
@@ -994,7 +1002,7 @@ addMoneyBtnWallet.addEventListener("click", () => {
   localStorage.setItem("isNotePage", "false")
   NoteBtn.classList.remove("active")
   main_wraper_two.classList.add("hide")
-  isNotePageAdd()
+ 
   addDataBtnClick()
  
 
@@ -1003,5 +1011,11 @@ addMoneyBtnWallet.addEventListener("click", () => {
     
 // })
 
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("../sw.js")
+    .then(() => console.log("SW registered"))
+    .catch(err => console.log("SW error", err));
+}
 
 

@@ -85,4 +85,7 @@ let user1 = new UserWallet("tuhin", "tuh12@3", 3400, "01234567891")
 let user2 = new UserWallet("samia", "samw232", 3400, "01234567891")
 
 user1.Login("tuhin", "tuh12@3")
-user1.cashIn("tuh12@3", 2023, "01234567891")
+user1.cashIn(490, "tuh12@3", "01234567891")
+
+user1.cashOut(800, "tuh12@3", "01234567891")
+user1.cashOut(300, "tuh12@3", "01234567891")
