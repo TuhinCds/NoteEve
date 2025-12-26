@@ -8,7 +8,6 @@ const urlsToCache = [
   "/NoteEve/js/app.js",
   "/NoteEve/img/icon-192.png",
   "/NoteEve/img/icon-512.png",
-  "/NoteEve/fontawesome-free-7.0.0-web/css/all.min.css",
 ];
 
 self.addEventListener("install", event => {
