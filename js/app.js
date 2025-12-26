@@ -79,7 +79,7 @@ const SelectWalletMoney = document.getElementById("SelectWalletMoney")
 const InputMoney = document.getElementById("InputMoney")
 const AddMoney = document.getElementById("AddMoney")
 const ShowWallet = document.getElementById("ShowWallet")
-
+const addMoneyBtnWallet = document.getElementById("addMoneyBtnWallet")
 
 // BlackOverly
 const BlackOverly = document.getElementById("BlackOverly")
@@ -220,12 +220,16 @@ btns.forEach((btn) => {
 
 // Navigation
 addDataBtn.addEventListener("click", () => {
+   addDataBtnClick()
+});
+
+function addDataBtnClick() {
     LoadDataPage.classList.remove("hide");
     adddatainnerWraper.classList.add("hide");
     createNewBtn.classList.add("active");
     Home.classList.remove("active");
-});
-
+    NoteBtn.classList.remove("active")
+}
 SidebarBtn.forEach(btn => {
     btn.addEventListener("click", () => {
         SidebarBtn.forEach(offBtn => {
@@ -252,7 +256,13 @@ SidebarBtn.forEach(btn => {
                 adddata.classList.remove("hide")
                 adddatainnerWraper.classList.add("hide");
                 localStorage.setItem("isNotePage", "false")
-                 main_wraper_two.classList.add("hide")
+                main_wraper_two.classList.add("hide")
+                 NoteBtn.classList.remove("active")
+
+                // btns[0].classList.add("active")
+                // btns[1].classList.remove("active")
+                // btns[2].classList.remove("active")
+                // btns[3].classList.remove("active")
                 break;
             
         }
@@ -866,7 +876,6 @@ function isNotePageAdd() {
     if (isNotePage === "true") {
         adddata.classList.add("hide")
         NoteBtn.classList.add("active")
-        NoteBtn.classList.add("active")
         HomeBtn.classList.remove("active")
         createNewBtn.classList.remove("active")
         historyBtn.classList.remove("active")
@@ -877,7 +886,6 @@ function isNotePageAdd() {
         adddata.classList.remove("hide")
         main_wraper_two.classList.add("hide")
         NoteBtn.classList.remove("active")
-        
     }
 }
 
@@ -972,3 +980,28 @@ BlackOverly.addEventListener("click", () => {
 function BlackOverlyClick () {
     BlackOverlyRemove()
 }
+addMoneyBtnWallet.addEventListener("click", () => {
+ alert()
+  LoadDataInputExpense.classList.remove("show");
+  LoadDataInputIncome.classList.remove("show");
+  topShowLoadType.classList.add("close")
+  LoadDataInputWallet.classList.remove("hide")
+  HomeBtn.classList.remove("active")
+  btns[2].classList.add("active")
+  btns[0].classList.remove("active")
+  btns[1].classList.remove("active")
+  btns[3].classList.remove("active")
+  localStorage.setItem("isNotePage", "false")
+  NoteBtn.classList.remove("active")
+  main_wraper_two.classList.add("hide")
+  isNotePageAdd()
+  addDataBtnClick()
+ 
+
+})
+// addDataBtn.addEventListener('click',() => {
+    
+// })
+
+
+

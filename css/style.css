@@ -129,28 +129,38 @@ body.sidebarHide {
     border-radius: 1000px;
     color: rgb(48, 193, 0);
     background: rgba(0, 110, 17, 0.383);
+    position: relative;
 }
 .list-lengths {
     color: var(--light-transparent-80);
     font-size: .8rem;
     position: relative;
     font-weight: bold;
+    background: rgba(255, 255, 255, 0) !important;
 }
 .list-activity {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    background: red;
+    width: 13px;
+    height: 13px;
+    background: rgb(216, 0, 0);
     border-radius: 1000px;
     top: -2px;
     right: 1px;
-    border: 2px solid var(--bg-color);
+    border: 3px solid var(--bg-color);
 }
 #showListLength {
     background: transparent;
     border-radius: 1000px;
     padding: 4px 10px;
 }
+#addMoneyBtnWallet {
+    background: rgba(255, 255, 255, 0) !important;
+    padding-left: 0;
+}
+#sidebarController {
+    position: relative;
+}
+#sidebarController 
 .sidebar-wrapar nav ul {
    list-style: none;
 }
@@ -245,6 +255,7 @@ body.sidebarHide {
 .adddatainnerHeader.noBorder {
     border: none;
 }
+
 
 .list-controlls-btns {
     display: flex;
@@ -1266,10 +1277,26 @@ body.sidebarHide {
 .HeaderRightPart {
     gap: 10px !important;
 }
-
-
-
-
+.list-lengths {
+    display: flex;
+    align-items: center;
+    padding: 3px !important;
+}
+#addMoneyBtnWallet {
+    width: 26px;
+    height: 26px;
+    border: none;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 1000px;
+    font-size: .8rem;
+    color: var(--text-color-80)
+}
+#addDataBtn {
+    box-shadow: 2px 2px 50px rgb(0, 0, 0);
+}
+.filterListMenuBtns button {
+    padding: 7px 12px;
+}
 
 
 
