@@ -11,7 +11,6 @@ const ASSETS = [
   "fontawesome-free-7.0.0-web/webfonts/fa-solid-900.woff2",
   "fontawesome-free-7.0.0-web/webfonts/fa-regular-400.woff2",
   "fontawesome-free-7.0.0-web/webfonts/fa-brands-400.woff2",
-  "img/icon-192.png",
   "img/icon-512.png"
 ];
 
