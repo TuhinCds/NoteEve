@@ -1013,5 +1013,5 @@ addMoneyBtnWallet.addEventListener("click", () => {
 
 
 if ("serviceWorker" in navigator) {
- navigator.serviceWorker.register("/NoteEve/sw.js");
+ navigator.serviceWorker.register("sw.js");
 }

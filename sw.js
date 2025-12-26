@@ -1,18 +1,18 @@
 const CACHE = "noteeve-shell-v1";
-const APP_SHELL = "/NoteEve/index.html";
+const APP_SHELL = "index.html";
 
 const ASSETS = [
-  "/NoteEve/",
-  "/NoteEve/index.html",
-  "/NoteEve/manifest.json",
-  "/NoteEve/css/style.css",
-  "/NoteEve/js/app.js",
-  "/NoteEve/fontawesome-free-7.0.0-web/css/all.min.css",
-  "/NoteEve/fontawesome-free-7.0.0-web/webfonts/fa-solid-900.woff2",
-  "/NoteEve/fontawesome-free-7.0.0-web/webfonts/fa-regular-400.woff2",
-  "/NoteEve/fontawesome-free-7.0.0-web/webfonts/fa-brands-400.woff2",
-  "/NoteEve/img/icon-192.png",
-  "/NoteEve/img/icon-512.png"
+  "",
+  "index.html",
+  "manifest.json",
+  "css/style.css",
+  "js/app.js",
+  "fontawesome-free-7.0.0-web/css/all.min.css",
+  "fontawesome-free-7.0.0-web/webfonts/fa-solid-900.woff2",
+  "fontawesome-free-7.0.0-web/webfonts/fa-regular-400.woff2",
+  "fontawesome-free-7.0.0-web/webfonts/fa-brands-400.woff2",
+  "img/icon-192.png",
+  "img/icon-512.png"
 ];
 
 self.addEventListener("install", e => {
