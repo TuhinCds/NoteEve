@@ -1,3 +1,6 @@
+import { audiosData } from  "/js/data.js"
+
+
 const sidebar = document.getElementById("sidebar");
 const sidebarController = document.getElementById("sidebarController");
 const sidebarControllerIcon = sidebarController.querySelector("i");
@@ -9,13 +12,50 @@ const SidebarBtn = SidebarBtns.querySelectorAll("li button");
 const ShowEmpty = document.querySelector(".ShowEmpty");
 const adddata = document.querySelector(".adddata")
 const main_wraper_two = document.querySelector(".main_wraper_two")
+const QuickOpenBtn = document.getElementById("QuickOpenBtn")
+const QuickBtns = document.getElementById("QuickBtns")
+const QuickbtnsWraper = document.querySelector(".QuickbtnsWraper")
+
+// music 
+const MusicMenu = document.querySelector(".MusicMenu")
+const MusicBtn = document.getElementById("MusicBtn")
+const MusicmenuClose = document.getElementById("MusicmenuClose")
+const showAudioLength = document.getElementById("showAudioLength")
+const resetAudioTime = document.getElementById("resetAudioTime")
+const AudioCurrentTimeInto = document.getElementById("AudioCurrentTimeInto")
+const reduceAudioLength = document.querySelector(".reduceAudioLength")
+const increaseAudioLength = document.querySelector(".increaseAudioLength")
+const musicName = document.getElementById("musicName")
+const audioLength = document.getElementById("audioLength")
+
+
+
 
 // Initialize StoreLists from localStorage
 let StoreLists = JSON.parse(localStorage.getItem("Lists")) || [];
-let StoreHistory = JSON.parse(localStorage.getItem("ListsHistory")) || []
+// let StoreHistory = JSON.parse(localStorage.getItem("ListsHistory")) || []
 // All Wallet add money btns 
 let AddMoneyStore = JSON.parse(localStorage.getItem("AddMoneyBtns")) || []
 let UserWallet = parseFloat(localStorage.getItem("UserWallet")) || 0
+
+// totalIncome 
+let totalIncomeShow = 0
+
+
+
+function UserWalletStore(wallet, controll) {
+
+   if (controll === "+") {
+     UserWallet += wallet
+   } else if (controll === "-") {
+     UserWallet -= wallet
+   } else if (controll === "/") {
+     UserWallet /= wallet
+   }
+   localStorage.setItem("UserWallet", UserWallet)
+   ShowWallet.innerText = UserWallet
+   return UserWallet
+}
 // for note page 
 let isNotePage = localStorage.getItem("isNotePage")
 
@@ -227,8 +267,9 @@ function addDataBtnClick() {
     LoadDataPage.classList.remove("hide");
     adddatainnerWraper.classList.add("hide");
     createNewBtn.classList.add("active");
-    Home.classList.remove("active");
+    HomeBtn.classList.remove("active");
     NoteBtn.classList.remove("active")
+
 }
 SidebarBtn.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -249,7 +290,8 @@ SidebarBtn.forEach(btn => {
                 adddatainnerWraper.classList.remove("hide");
                 adddata.classList.remove("hide")
                 localStorage.setItem("isNotePage", "false")
-                 main_wraper_two.classList.add("hide")
+                main_wraper_two.classList.add("hide")
+                HomeBtn.classList.add("active")
                 break;
             case "Create new":
                 LoadDataPage.classList.remove("hide");
@@ -258,6 +300,7 @@ SidebarBtn.forEach(btn => {
                 localStorage.setItem("isNotePage", "false")
                 main_wraper_two.classList.add("hide")
                  NoteBtn.classList.remove("active")
+                HomeBtn.classList.remove("active")
 
                 // btns[0].classList.add("active")
                 // btns[1].classList.remove("active")
@@ -280,21 +323,23 @@ function AddIncomeInList() {
     if (!InputAmmoutIncomeValue || InputAmmoutIncomeValue <= 0) {
         alert("Please enter a valid amount");
         return;
-    }
-        MaxCountWalletBtns()
-        let inputWal = 0
-        inputWal += InputAmmoutIncomeValue 
-        let incomeTk = UserWallet + inputWal
+    } 
+         // Clear form
+        InputAmmoutIncome.value = "";
+        DescriptionIncome.value = "";
 
-        localStorage.setItem("UserWallet", incomeTk)
-        ShowWallet.innerHTML = incomeTk
+       let incomeBalance =  UserWalletStore(InputAmmoutIncomeValue, "+")
+        MaxCountWalletBtns()
+        
+        let incomeData = StoreLists.filter(item => item.AddType === "income")
+        let totalIncome = incomeData.map(income => income.ammount).reduce((sum, num) => sum + num, 0)
         // In Wallet algaridom
         AddMoneyStore.push({
             WalletBtn: InputAmmoutIncomeValue
         })
         localStorage.setItem("AddMoneyBtns", JSON.stringify(AddMoneyStore))
         
-        GetMessage(`Successfully added ${AddTypeData}`, `added ${InputAmmoutIncomeValue}tk in ${AddTypeData.toLocaleLowerCase()} list checkout in list total ${AddTypeData.toLocaleLowerCase()} is <span class="red-mark">0tk</span>`, `<i class="fa-solid fa-circle-check"></i>`, "green")
+        GetMessage(`Successfully added ${AddTypeData}`, `added ${InputAmmoutIncomeValue}tk in ${AddTypeData.toLocaleLowerCase()} list checkout in list total ${AddTypeData.toLocaleLowerCase()} is <span class="red-mark">${totalIncome + InputAmmoutIncomeValue}tk</span>`, `<i class="fa-solid fa-circle-check"></i>`, "green")
         messageOn(20)
     let pushList = {
         id: Date.now(), // Add unique ID for better management
@@ -308,9 +353,7 @@ function AddIncomeInList() {
     StoreLists.push(pushList);
     localStorage.setItem("Lists", JSON.stringify(StoreLists));
     
-    // Clear form
-    InputAmmoutIncome.value = "";
-    DescriptionIncome.value = "";
+   
     
     // Update UI
     ShowListLength();
@@ -318,6 +361,8 @@ function AddIncomeInList() {
     FilterAll();
     ShowEmptyPage();
 }
+
+
 
 // Add expense
 AddExpenseBtn.addEventListener("click", AddExpense);
@@ -333,16 +378,17 @@ function AddExpense() {
     }
         // In Wallet algaridom
 
+    // Clear form
+        ExpenseAmmount.value = "";
+        ExpenseDescription.value = "";
 
-        let b = UserWallet - ExpenseAmmountValue
-        localStorage.setItem("UserWallet", b.toString())
-        ShowWallet.innerText = b
+       let ExpenseBalance = UserWalletStore(ExpenseAmmountValue, "-")
         MaxCountWalletBtns()
         AddMoneyStore.push({
             WalletBtn: ExpenseAmmountValue
         })
         localStorage.setItem("AddMoneyBtns", JSON.stringify(AddMoneyStore))
-        GetMessage(`Successfully added ${AddTypeData}`, `added ${ExpenseAmmountValue}tk in ${AddTypeData.toLocaleLowerCase()} list checkout in list total ${AddTypeData.toLocaleLowerCase()} is <span class="red-mark">tk</span>`, `<i class="fa-solid fa-circle-check"></i>`, "red")
+        GetMessage(`Successfully added ${AddTypeData}`, `added ${ExpenseAmmountValue}tk in ${AddTypeData.toLocaleLowerCase()} list checkout in list total ${AddTypeData.toLocaleLowerCase()} is <span class="red-mark">${ExpenseBalance}tk</span>`, `<i class="fa-solid fa-circle-check"></i>`, "red")
         messageOn(20)
 
     let pushList = {
@@ -357,9 +403,7 @@ function AddExpense() {
     StoreLists.push(pushList);
     localStorage.setItem("Lists", JSON.stringify(StoreLists));
     
-    // Clear form
-    ExpenseAmmount.value = "";
-    ExpenseDescription.value = "";
+
     
     // Update UI
     ShowListLength();
@@ -457,6 +501,7 @@ function renderLists(StoreListsData) {
     const removeDetailsMenu = createData.querySelector(".removeDetailsMenu")
     removeDetailsMenu.addEventListener("click", () => {
        detailsMenu.classList.remove("show") 
+        activeDetailsMenu = null
     })
 
     });
@@ -495,18 +540,16 @@ if (activeDetailsMenu && activeDetailsMenu !== menu) {
 }
 // Close menu when clicking elsewhere
 document.addEventListener('click', (e) => {
-    if (activeMenu && !e.target.closest('.list-cuz')) {
-        activeMenu.classList.remove("show");
-        activeMenu = null;
+    if (activeDetailsMenu && activeMenu && !e.target.closest('.list-cuz')) {
+            activeDetailsMenu.classList.remove("show")
+            activeMenu.classList.add("show");
+            activeDetailsMenu = null
+    } else if (!activeDetailsMenu && activeMenu && !e.target.closest(".list-cuz")) {
+             activeMenu.classList.remove("show");
+             activeMenu = null
     }
 });
 
-document.addEventListener("click", (e) => {
-    if (activeDetailsMenu && !e.target.closest('.detailsMenu')) {
-        activeDetailsMenu.classList.remove("show")
-        activeDetailsMenu = null
-    }
-})
 
 // Delete list item
 function DelateList(id) {
@@ -750,8 +793,6 @@ let suggestWalletBtns = `
 `
 
 
-
-
 let suggestBtnsCon1 = {
    btnCon1: [
         {btn: 102},
@@ -794,7 +835,6 @@ let allWalletBtns = [RandomWalletBtnsCon1,RandomWalletBtnsCon2,RandomWalletBtnsC
 let btnsConTop = SelectWalletMoney.querySelector(".SuggestBtnsCon1Show")
 let btnSugestMoreBtns = SelectWalletMoney.querySelector(".btnSugestMoreBtns")
 
-let arrNum1 = []
 
 allWalletBtns.forEach(btn => {
     let createWalletBtn = document.createElement("button")
@@ -802,8 +842,7 @@ allWalletBtns.forEach(btn => {
     btnsConTop.appendChild(createWalletBtn)
 
     createWalletBtn.addEventListener("click", () => {
-        arrNum1.push(btn.btn)
-        TakaAdd()
+        TakaAdd(btn.btn)
     })
 })
 
@@ -814,17 +853,16 @@ for(let b of WaletbtnsData) {
     
 
     createBtn.addEventListener("click", () => {
-        arrNum1.push(b)
-        TakaAdd()
+        TakaAdd(b)
     })
 }
-function TakaAdd() {
-        let sumNum = arrNum1.reduce((sum, i) => sum + i, 0)
-        let sumxNum = UserWallet + sumNum
-        localStorage.setItem("UserWallet", sumxNum)
-        ShowWallet.innerHTML = sumxNum
-        console.log(sumxNum)
+
+function TakaAdd(num) {
+        let sumNum = Number(num)
+        UserWalletStore(sumNum, "+")
 }
+
+
 btnSugestMoreBtns.classList.add("hide")
 
 let SeeMoreBtn = SelectWalletMoney.querySelector(".SeeMoreBtn")
@@ -1011,7 +1049,238 @@ addMoneyBtnWallet.addEventListener("click", () => {
     
 // })
 
+QuickOpenBtn.addEventListener("click", () => {
+    QuickbtnsWraper.classList.toggle("open")
+    if (QuickbtnsWraper.classList.contains("open")) {
+        QuickOpenBtn.querySelector("i").classList.remove("fa-pen-to-square")
+        QuickOpenBtn.querySelector("i").classList.add("fa-chevron-down")
+    } else {
+        QuickOpenBtn.querySelector("i").classList.add("fa-pen-to-square")
+        QuickOpenBtn.querySelector("i").classList.remove("fa-chevron-down")
+        removeMenuClick()
+    }
+})
 
-if ("serviceWorker" in navigator) {
- navigator.serviceWorker.register("sw.js");
+let x = null
+
+MusicBtn.addEventListener("click", () => {
+  MusicMenuClick()  
+})
+function MusicMenuClick() {
+    MusicMenu.classList.toggle("close")
+    if (MusicMenu.classList.contains("close")) {
+        x = MusicMenu
+    } else {
+        x = null
+    }
 }
+function addMenuClick() {
+    MusicMenu.classList.add("close")
+}
+function removeMenuClick() {
+    MusicMenu.classList.remove("close")
+    x = null
+}
+
+
+
+
+document.addEventListener("click", (e) => {
+    if (!x && !e.target.closest(".QuickBtnsN")) {
+        QuickOpenBtn.querySelector("i").classList.add("fa-pen-to-square")
+        QuickOpenBtn.querySelector("i").classList.remove("fa-chevron-down")
+        QuickbtnsWraper.classList.remove("open")
+        removeMenuClick()
+    } else if (x && !e.target.closest(".QuickBtnsN")) {
+        MusicMenu.classList.remove("close")
+        x = null
+    }
+})
+
+// MusicMenu
+
+
+
+MusicmenuClose.addEventListener("click", () => {
+    removeMenuClick()
+    x = null
+}) 
+
+// play music 
+const audiosIn = document.getElementById ("audiosIn")
+const SongPlayBtn = document.getElementById("SongPlayBtn")
+const SongPlayBtnIcon = SongPlayBtn.querySelector("i")
+const RightSlideAudio = document.getElementById("RightSlideAudio")
+const LeftSlideAudio = document.getElementById("LeftSlideAudio");
+
+audiosData.audios.forEach((audio, index) => {
+   let createAudio = document.createElement("div")
+   createAudio.innerHTML = `<audio class="audio" src="${audio.audioSource}${audio.audio}" controls></audio>`
+   audiosIn.appendChild(createAudio)
+})
+
+const audiosAll = audiosIn.querySelectorAll(".audio");
+
+let countAudio = parseInt(localStorage.getItem("countAudio")) || 0
+let audioLastTime = parseFloat(localStorage.getItem("currentTime")) || 0
+let currentTime = 0
+
+
+
+
+
+if (countAudio >= audiosAll.length) countAudio = 0
+
+reduceAudioLength.addEventListener("click", () => {
+    audiosAll[countAudio].currentTime -= 5
+})
+increaseAudioLength.addEventListener('click',() => {
+    audiosAll[countAudio].currentTime += 5
+})
+
+audioLength.addEventListener('click', (e) => {
+    const rect = audioLength.getBoundingClientRect()
+    const clickX = e.clientX - rect.left
+    const percent = clickX / rect.width
+    audiosAll[countAudio].currentTime = percent * audiosAll[countAudio].duration
+      showAudioLength.innerHTML = `<div class="currentTime">${audioTime(percent * audiosAll[countAudio].duration)}</div><span>/</span><div class="audioDuration">${audioTime(audiosAll[countAudio].duration)}</div>`
+     AudioCurrentTimeInto.style.width = `${(audiosAll[countAudio].currentTime / audiosAll[countAudio].duration) * 100}%`
+})
+
+
+
+function resetAudioTimeData () {
+    audioLastTime = 0
+    localStorage.setItem("currentTime", audioLastTime)
+    audiosAll[countAudio].currentTime = audioLastTime
+
+    showAudioLength.innerHTML = `<div class="currentTime">
+                      <span>00</span>
+                      <span>:</span>
+                       <span>00</span>
+                       </div>
+                       <span>/</span>
+                        <div class="audioDuration">
+                        <span>00</span>
+                      <span>:</span>
+                      <span>00</span>
+                      </div>
+            `
+}
+resetAudioTime.addEventListener("click", () => {
+    resetAudioTimeData()
+    AudioCurrentTimeInto.style.width = "0%"
+})
+audiosAll[countAudio].currentTime = audioLastTime
+
+audiosAll.forEach((audio, index) => {
+    audio.addEventListener("timeupdate", () => {
+        if (!audio.paused && index === countAudio) {
+            currentTime = audio.currentTime
+            localStorage.setItem("currentTime", audio.currentTime)
+            AudioLengthShow(audio.currentTime, audio.duration)
+            showAudioLength.innerHTML = `<div class="currentTime">${audioTime(audio.currentTime)}</div><span>/</span><div class="audioDuration">${audioTime(audio.duration)}</div>`
+        }
+    })
+})
+
+function AudioLengthShow (currentTimeS, audioDuration) {
+    AudioCurrentTimeInto.style.width = `${(currentTimeS / audioDuration) * 100}%`
+}
+
+
+function PlayCurrentAudio() {
+    audiosAll.forEach(b => b.pause())
+    audiosAll[countAudio].play()
+    localStorage.setItem("countAudio", countAudio)
+    soundNameDisplay()
+}
+function soundNameDisplay() {
+    musicName.innerHTML = `${audiosData.audios[countAudio].song_name}`
+}
+
+soundNameDisplay()
+function audioTime(seconds) {
+    let hh = Math.floor(seconds / 3600).toString().padStart(2, "0")
+    let mm = Math.floor((seconds % 3600 ) / 60).toString().padStart(2, "0")
+    let ss = Math.floor((seconds % 60)).toString().padStart(2, "0")
+
+    return `
+        <span>${hh}</span>
+        <span>:</span>
+        <span>${mm}</span>
+        <span>:</span>
+        <span>${ss}</span>
+    `
+}
+RightSlideAudio.addEventListener('click', () => {
+    RightSlideAudioCon()
+})
+
+function RightSlideAudioCon() {
+    countAudio++ 
+    if (countAudio >= audiosAll.length) countAudio = 0 
+    SongPlayBtnIcon.classList.add("fa-stop")
+    SongPlayBtnIcon.classList.remove("fa-play")
+    PlayCurrentAudio()
+    soundNameDisplay()
+}
+LeftSlideAudio.addEventListener('click', () => {
+    LeftSlideAudioCon()
+})
+
+function LeftSlideAudioCon() {
+    countAudio--
+    if (countAudio < 0) countAudio = (audiosAll.length - 1)
+    SongPlayBtnIcon.classList.add("fa-stop")
+    SongPlayBtnIcon.classList.remove("fa-play")
+    PlayCurrentAudio()
+    soundNameDisplay()
+}
+SongPlayBtn.addEventListener("click", () => {
+    if (audiosAll[countAudio].paused) {
+
+        PlaySong()
+    } else {
+        PauseSong()
+    }
+
+})
+
+
+function PlaySong() {
+        audiosAll[countAudio].play()
+        SongPlayBtnIcon.classList.add("fa-stop")
+        SongPlayBtnIcon.classList.remove("fa-play") 
+}
+function PauseSong() {
+     audiosAll[countAudio].pause()
+    SongPlayBtnIcon.classList.remove("fa-stop")
+    SongPlayBtnIcon.classList.add("fa-play")
+}
+
+
+
+
+
+
+
+navigator.mediaSession.setActionHandler("pause", () => {
+    PauseSong()
+})
+navigator.mediaSession.setActionHandler("play", () => {
+    PlaySong()
+})
+navigator.mediaSession.setActionHandler("seekforward", () => {
+    RightSlideAudioCon()
+})
+navigator.mediaSession.setActionHandler("seekbackward", () => {
+    LeftSlideAudioCon()
+})
+
+// if ("serviceWorker" in navigator) {
+//   navigator.serviceWorker.register("/NoteEve/sw.js")
+//     .then(() => console.log("SW registered"))
+//     .catch(err => console.log("SW error", err));
+// }
+
