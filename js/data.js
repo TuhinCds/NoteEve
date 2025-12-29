@@ -1,7 +1,7 @@
 export const audiosData = {
     audios: [
         {
-            audio: "20_Min_Reiki_Healing_Music_for_Positive_Energy_Stress_Relief_healingmusicMP3.mp3",
+            audio: "20_Min_Reiki_Healing_Music_for_Positive_Energy_Stress_Relief_healingmusicM4A.m4a",
             song_name: "sound 1",
             audioSource: "audios/",
         },
