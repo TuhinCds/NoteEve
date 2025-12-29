@@ -27,8 +27,8 @@ const reduceAudioLength = document.querySelector(".reduceAudioLength")
 const increaseAudioLength = document.querySelector(".increaseAudioLength")
 const musicName = document.getElementById("musicName")
 const audioLength = document.getElementById("audioLength")
-
-
+const musicActiveShowerBtn = document.getElementById("musicActiveShowerBtn")
+const musicActiveShower = document.querySelector(".musicActiveShower")
 
 
 // Initialize StoreLists from localStorage
@@ -1130,7 +1130,16 @@ let audioLastTime = parseFloat(localStorage.getItem("currentTime")) || 0
 let currentTime = 0
 
 
-
+musicActiveShowerBtn.addEventListener("click", () => {
+    musicActiveShowerBtn.querySelector("i").classList.toggle("fa-circle-play")
+    if (musicActiveShowerBtn.querySelector("i").classList.contains("fa-circle-play")) {
+        PauseSong()
+        musicActiveShowerBtn.querySelector("i").classList.remove("fa-circle-stop")
+    } else {
+        PlaySong()
+        musicActiveShowerBtn.querySelector("i").classList.add("fa-circle-stop")
+    }
+})
 
 
 if (countAudio >= audiosAll.length) countAudio = 0
@@ -1208,14 +1217,15 @@ function audioTime(seconds) {
     let hh = Math.floor(seconds / 3600).toString().padStart(2, "0")
     let mm = Math.floor((seconds % 3600 ) / 60).toString().padStart(2, "0")
     let ss = Math.floor((seconds % 60)).toString().padStart(2, "0")
-
     return `
-        <span>${hh}</span>
-        <span>:</span>
-        <span>${mm}</span>
+        ${hh !== "00" ? `<span>${hh}</span>` : ""}
+        ${hh !== "00" ? `<span>:</span>` : ""}
+        ${mm !== "00" ? `<span>${mm}</span>` : "0"}
         <span>:</span>
         <span>${ss}</span>
     `
+
+    
 }
 RightSlideAudio.addEventListener('click', () => {
     RightSlideAudioCon()
@@ -1246,6 +1256,10 @@ SongPlayBtn.addEventListener("click", () => {
         PlaySong()
     } else {
         PauseSong()
+        let timeX = setTimeout(() => {
+            musicActiveShower.classList.remove("show")
+            clearTimeout(timeX)
+        }, 200)
     }
 
 })
@@ -1255,11 +1269,17 @@ function PlaySong() {
         audiosAll[countAudio].play()
         SongPlayBtnIcon.classList.add("fa-stop")
         SongPlayBtnIcon.classList.remove("fa-play") 
+        let timeX = setTimeout(() => {
+            musicActiveShower.classList.add("show")
+            clearTimeout(timeX)
+        }, 200)
+        musicActiveShowerBtn.querySelector("i").classList.add("fa-circle-stop")
 }
 function PauseSong() {
      audiosAll[countAudio].pause()
     SongPlayBtnIcon.classList.remove("fa-stop")
     SongPlayBtnIcon.classList.add("fa-play")
+    
 }
 
 
@@ -1286,5 +1306,3 @@ navigator.mediaSession.setActionHandler("seekbackward", () => {
 //     .then(() => console.log("SW registered"))
 //     .catch(err => console.log("SW error", err));
 // }
-
-console.log((90 * 12 * 24 * 3600 * 1000) / (30 * 12 * 24 * 3600 * 1000))

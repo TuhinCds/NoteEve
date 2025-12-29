@@ -1829,9 +1829,19 @@ body.sidebarHide {
 #AudioLinksIn li a:hover {
     background: rgba(255, 255, 255, 0.109);
 }
-
-
-
+.musicActiveShower {
+    scale: 0;
+    transition: scale .3s;
+}
+.musicActiveShower #musicActiveShowerBtn {
+    font-size: 1.2rem;
+    background: transparent;
+    border: none;
+    color: var(--text-color-50)
+}
+.musicActiveShower.show {
+    scale: 1;
+}
 
 
 
