@@ -1,4 +1,4 @@
-import { audiosData } from  "/js/data.js"
+import { audiosData } from  "./data.js"
 
 
 const sidebar = document.getElementById("sidebar");
@@ -53,7 +53,7 @@ function UserWalletStore(wallet, controll) {
      UserWallet /= wallet
    }
    localStorage.setItem("UserWallet", UserWallet)
-   ShowWallet.innerText = UserWallet
+   if (ShowWallet) ShowWallet.innerText = UserWallet
    return UserWallet
 }
 // for note page 
@@ -92,6 +92,7 @@ const ExpenseDescription = document.getElementById("ExpenseDescription");
 const TotalIncome = document.getElementById("TotalIncome");
 const Totalexpense = document.getElementById("Totalexpense");
 const ListLength = document.getElementById("ListLength");
+const ShowWallet = document.getElementById("ShowWallet");
 
 // Search elements
 const searchContainer = document.querySelector(".search-container-wraper");
@@ -118,7 +119,6 @@ const LoadDataInputWallet = document.querySelector(".LoadDataInputWallet")
 const SelectWalletMoney = document.getElementById("SelectWalletMoney")
 const InputMoney = document.getElementById("InputMoney")
 const AddMoney = document.getElementById("AddMoney")
-const ShowWallet = document.getElementById("ShowWallet")
 const addMoneyBtnWallet = document.getElementById("addMoneyBtnWallet")
 
 // BlackOverly
@@ -132,9 +132,9 @@ function AddWallet() {
     let InputMoneyValue = Number(InputMoney.value)
     if (!InputMoneyValue) return 
    let userWv1 = UserWallet += InputMoneyValue
-    localStorage.setItem("UserWallet", userWv1.toString())
-    ShowWallet.innerText = userWv1
-    InputMoney.value = "" 
+   localStorage.setItem("UserWallet", userWv1.toString())
+   if (ShowWallet) ShowWallet.innerText = userWv1
+   InputMoney.value = "" 
 
 }
 AddMoney.addEventListener("click", () => {
@@ -145,7 +145,7 @@ InputMoney.addEventListener("keypress", (e) => {
         AddWallet()
     }   
 })
-    ShowWallet.innerText = UserWallet
+    if (ShowWallet) ShowWallet.innerText = UserWallet
 
 
 // show message 
@@ -884,7 +884,7 @@ showListLength.addEventListener("click", () => {
     let y = confirm("You are sure You delete your wallet balance ?")
     if (y) {
         localStorage.removeItem("UserWallet")
-        ShowWallet.innerHTML = 0
+        if (ShowWallet) ShowWallet.innerHTML = 0
     }
 })
 
