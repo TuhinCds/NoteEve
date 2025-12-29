@@ -1,9 +1,24 @@
 export const audiosData = {
     audios: [
         {
-            audio: "Soothing_Relaxation_Relaxing_Piano_Music_Water_Sounds_for_Sleep.m4a",
+            audio: "20_Min_Reiki_Healing_Music_for_Positive_Energy_Stress_Relief_healingmusicMP3.mp3",
+            song_name: "sound 1",
+            audioSource: "audios/",
+        },
+        {
+            audio: "30 Min Deep Sleep_ Experience UNINTERRUPTED Rest(MP3_160K).mp3",
             song_name: "sound 2",
             audioSource: "audios/",
-        }
+        },
+        {
+            audio: "Relaxing rain sounds for sleeping 20 minute(MP3_160K).mp3",
+            song_name: "sound 3",
+            audioSource: "audios/",
+        },
+        {
+            audio: "Sleep_Music_Delta_Waves_Relaxing_Music_to_Help_you_Sleep_Deep_Sleep.mp3",
+            song_name: "sound 4",
+            audioSource: "audios/",
+        },
     ]
 }
