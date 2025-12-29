@@ -595,11 +595,15 @@ function formatTime(timeData) {
     let minutes = Math.floor(diffMiliSeconds / (1000 * 60))
     let hours = Math.floor(diffMiliSeconds / (1000 * 60 * 60))
     let day = Math.floor(diffMiliSeconds / ( 1000 * 60 * 60 * 24))
-
+    let month = Math.floor(diffMiliSeconds / (1000 * (24 * 30) * 60 * 60))
+    let years = Math.floor(diffMiliSeconds / (1000 * ((30 * 3600) * 24 ) * 12))
     if (minutes < 1) return "Just now"
     if (minutes < 60) return `${minutes}m ago`
     if (hours < 24) return `${hours}h ago` 
     if (day < 7 ) return `${day}day${day > 1 ? "'s" : ''} ago`
+    if (day > 6 && day < 30) return `${Math.floor(day/7) + " week"} ${day%7 !== 0 ? " ago" : `${Math.floor(day%7)} day ago`}`
+    if (month < 13 ) return `${month} ago`
+    
     return date.toLocaleDateString()
 }
 setInterval(() => {
@@ -1279,8 +1283,9 @@ navigator.mediaSession.setActionHandler("seekbackward", () => {
 })
 
 // if ("serviceWorker" in navigator) {
-//   navigator.serviceWorker.register("/NoteEve/sw.js")
+//     navigator.serviceWorker.register("/NoteEve/sw.js")
 //     .then(() => console.log("SW registered"))
 //     .catch(err => console.log("SW error", err));
 // }
 
+console.log((90 * 12 * 24 * 3600 * 1000) / (30 * 12 * 24 * 3600 * 1000))

@@ -2,7 +2,6 @@
 // const APP_SHELL = "index.html";
 
 // const ASSETS = [
-//   "",
 //   "index.html",
 //   "manifest.json",
 //   "css/style.css",
