@@ -1243,7 +1243,6 @@ function LeftSlideAudioCon() {
 }
 SongPlayBtn.addEventListener("click", () => {
     if (audiosAll[countAudio].paused) {
-
         PlaySong()
     } else {
         PauseSong()
