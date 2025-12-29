@@ -15,10 +15,5 @@ export const audiosData = {
             song_name: "sound 3",
             audioSource: "audios/",
         },
-        {
-            audio: "Sleep_Music_Delta_Waves_Relaxing_Music_to_Help_you_Sleep_Deep_Sleep.mp3",
-            song_name: "sound 4",
-            audioSource: "audios/",
-        },
     ]
 }
