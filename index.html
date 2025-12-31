@@ -21,6 +21,7 @@
     <div id="overlyMobile"></div>
     <div id="BlackOverly"></div>
     <div id="overlyDesk"></div>
+    <div id="fullScreenOverly"></div>
     <div id="messages">
         <div class="message-wraper">
             <div class="InnerContent">
@@ -28,6 +29,37 @@
             </div>
         </div>
         <div class="timeParcent"></div>
+    </div>
+    <div class="AlertContainer">
+        <div id="Alert" class="alertF">
+        <!-- Alert push -->
+
+        <div class="alert-wraper">
+            <div class="alert-header">
+                <div class="alertHead">
+                    <span></span>
+                    <button class="RemoveAlert"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+            <div class="alert-body">
+                <div class="alertSummarizetitle">
+                    You're sure delete your balance ?
+                </div>
+                <div class="alertSummarizeBody">
+                    <!-- empty -->
+                     Lorem ipsum dolor sit, amet consectetur adipisicing elit. Modi, amet!
+                </div>
+            </div>
+            <div class="alert-footer">
+                <div class="footer-wraper">
+                    <div class="alert-type-btns">
+                        <button id="CancelAlert">Cancel</button>
+                        <button id="ConfirmAlert">..</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
     <header class="header" id="header">
         <div class="header-wraper">
@@ -70,11 +102,32 @@
                     <li><button class="historyBtn"><i class="fa-solid fa-clock-rotate-left"></i>History</button></li>
                     <li><button class="settingBtn"><i class="fa-solid fa-gear"></i>Settings</button></li>
                     <li><button class="learningBtn"><i class="fa-solid fa-graduation-cap"></i>Learning</button></li>
+                    <li><button class="habitBtn"><i class="fa-solid fa-cube"></i>Make habit</button></li>
+                    <li><button class="TechnologyBtn"><i class="fa-solid fa-microchip"></i>Technology</button></li>
                     <li><button class="PrivacyPolicyBtn"><i class="fa-solid fa-shield-halved"></i>privacy policy</button></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
-                <button id="resetAllData">Reset All<i class="fa-solid fa-angle-right"></i></button>
+                <div class="sidebarType">
+                    <div class="sidebarTypeContainer">
+                        <div class="LearnMode sidebar-modes">
+                            <div class="learnModeText sidebar-modes-text-header"><i class="fa-solid fa-chalkboard-user"></i>Learn mode</div>
+                            <button id="LearnModeBtnCon" class="sidebar-modes-con">
+                                <div id="LearnModeBtnCircle" class="sidebar-modes-btn-circle"></div>
+                            </button>
+                        </div>
+                        <div class="hr-1px-wbg5 "></div>
+                        <div class="LearnMode sidebar-modes">
+                            <div class="learnModeText sidebar-modes-text-header"><i class="fa-solid fa-magnifying-glass"></i>Research</div>
+                            <button id="LearnModeBtnCon" class="sidebar-modes-con">
+                                <div id="LearnModeBtnCircle" class="sidebar-modes-btn-circle"></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="resetBtnContainer">
+                    <button id="resetAllData"><span>Reset All</span><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                </div>
             </div>
         </div>
     </aside>
@@ -179,10 +232,35 @@
             <div class="calculatorWraper">
                 <div class="calculatorContainer">
                    <div class="calcDisplayContainer">
-                     <input type="number" disabled placeholder="0">
+                     <input type="text" disabled placeholder="0">
                    </div>
                    <div class="calculatorbtns">
                     <!-- calc btns  -->
+                     <div class="calculatorAllbtns">
+                        <button class="acbtn">AC</button>
+                        <button class="oparator">%</button>
+                        <button>C</button>
+                        <button class="oparator"><i class="fa-solid fa-divide"></i></button>
+                        <button>7</button>
+                        <button>8</button>
+                        <button>9</button>
+                        <button class="oparator"><i class="fa-solid fa-xmark"></i></button>
+                        <button>4</button>
+                        <button>5</button>
+                        <button>6</button>
+                        <button class="oparator"><i class="fa-solid fa-minus"></i></button>
+                        <button>1</button>
+                        <button>2</button>
+                        <button>3</button>
+                        <button class="oparator"><i class="fa-solid fa-plus"></i></button>
+                        <button>(</button>
+                        <button>)</button>
+                        <button class="oparator"><i class="fa-solid fa-square-root-variable"></i></button>
+                        <button>00</button>
+                        <button>0</button>
+                        <button>.</button>
+                        <button class="equal_btn"><i class="fa-solid fa-equals"></i></button>
+                     </div>
                    </div>
                 </div>
             </div>

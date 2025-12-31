@@ -45,6 +45,21 @@ const calculatorBtn = document.querySelector(".calculatorBtn")
 const adddatainner = document.querySelector(".adddatainner")
 const Calculator = document.querySelector(".Calculator")
 
+// fullScreenOverly
+const fullScreenOverly = document.getElementById("fullScreenOverly")
+
+// Alert
+const Alert = document.getElementById("Alert")
+const alertHead = document.querySelector(".alertHead")
+const alertHeadText = alertHead.querySelector("span")
+const alertHeadRemove = alertHead.querySelector(".RemoveAlert")
+const alertSummarizetitle = document.querySelector(".alertSummarizetitle")
+const alertSummarizeBody = document.querySelector(".alertSummarizeBody")
+const CancelAlert = document.getElementById("CancelAlert")
+const ConfirmAlert = document.getElementById("ConfirmAlert")
+const AlertContainer  = document.querySelector(".AlertContainer")
+
+
 // Initialize StoreLists from localStorage
 let StoreLists = JSON.parse(localStorage.getItem("Lists")) || [];
 // let StoreHistory = JSON.parse(localStorage.getItem("ListsHistory")) || []
@@ -144,12 +159,13 @@ const showListLength = document.getElementById("showListLength")
 
 function AddWallet() {
     let InputMoneyValue = Number(InputMoney.value)
+    if (InputMoneyValue < 0) return
     if (!InputMoneyValue) return 
    let userWv1 = UserWallet += InputMoneyValue
    localStorage.setItem("UserWallet", userWv1.toString())
    if (ShowWallet) ShowWallet.innerText = userWv1
    InputMoney.value = "" 
-
+                
 }
 AddMoney.addEventListener("click", () => {
     AddWallet()
@@ -189,7 +205,7 @@ sidebarController.addEventListener("click", () => {
     sidebarControll();
 });
 
-const sidebarControll = () => {
+function sidebarControll() {
     sidebar.classList.toggle("open");
     document.body.classList.toggle("sidebarHide");
     
@@ -321,6 +337,18 @@ SidebarBtn.forEach(btn => {
                 localStorage.setItem("AddNotePageActive", "false")
                 calculatorBtn.classList.remove("active")
                 Calculator.classList.add("hide")
+
+
+
+
+
+                 LoadDataInputIncome.classList.add("show");
+                LoadDataInputExpense.classList.remove("show");
+                TopIcon.classList.remove("fa-eraser");
+                TopIcon.classList.add("fa-notes-medical");
+                topShowLoadType.classList.remove("close")
+                LoadDataInputWallet.classList.add("hide")
+                //
                 // btns[0].classList.add("active")
                 // btns[1].classList.remove("active")
                 // btns[2].classList.remove("active")
@@ -501,7 +529,7 @@ function renderLists(StoreListsData) {
                         <div class="list-cuz">
                             <button class="listSetting"><i class="fa-solid fa-list-ul"></i></button>
                             <div class="showMenu">
-                                <button onclick="DelateList(${item.id})" class="delateList"><i class="fa-solid fa-trash"></i> Delete</button>
+                                <button class="delateList" data-id="${item.id}"><i class="fa-solid fa-trash"></i> Delete</button>
                                 <button class="detailsBtn"><i class="fa-solid fa-window-restore"></i>Details</button>
                             </div>
                             <div class="detailsMenu">
@@ -512,10 +540,15 @@ function renderLists(StoreListsData) {
                                     </button>
                                 </header>
                                 <div class="detailsMain">
-                                    <p class="details1">1. ${item.AddType.charAt(0).toUpperCase() + item.AddType.slice(1)} ${item.ammount} taka</p>
-                                    <p class="details2">2. balance ${UserWallet} taka couse ${item.AddType === "expense" ? `( ${(UserWallet + item.ammount)} - ${item.ammount} )`: ``}</p>
-                                    ${item.Type ? `<p class="details3">3. reason ${item.Type}</p>` : ""}
-                                    ${item.description ? `<p class="details3">${item.Type ? "4" : "3"}. <span>description -</span> <span>${item.description}</span></p>` : ""}
+                                    <p class="details1">${item.AddType === "expense" ? `<i class="fa-solid fa-sack-dollar"></i>` : `<i class="fa-solid fa-wallet"></i>`}${item.AddType.charAt(0).toUpperCase() + item.AddType.slice(1)} ${item.ammount} taka</p>
+                                    <p class="hr-1px-wbg7"></p>
+                                    <p class="details2">${item.AddType === "expense" ? `<i class="fa-solid fa-circle-down"></i>` : `<i class="fa-solid fa-chart-simple"></i>`} balance ${UserWallet} taka ${item.AddType === "expense" ? `couse  ( ${(UserWallet + item.ammount)} - ${item.ammount} )`: ``}</p>
+                                    ${item.AddType ? `<p class="hr-1px-wbg7"></p>` : ""}
+                                    ${item.Type ? `<p class="details3"><i class="fa-brands fa-buffer"></i> reason ${item.Type}</p>` : ""}
+                                    ${item.Type ? `<p class="hr-1px-wbg7"></p>` : ""}
+                                    ${item.description ? `<p class="details3"><i class="fa-solid fa-arrow-up-a-z"></i> <span>description -</span> <span>${item.description}</span></p>` : ""}
+                                     ${item.description ? `<p class="hr-1px-wbg7"></p>`: ""}
+                                    <p class="${item.Type ? `details4` : "details3" || item.description == "" && item.Type == "" ? "details5" : "details4"}"><i class="fa-solid fa-clock"></i> Create time is ${formatTime(item.createAt)}</p>
                                 </div>
                             </div>
                         </div>
@@ -550,7 +583,6 @@ function renderLists(StoreListsData) {
     });
     
     ShowEmpty.style.display = "none";
-
     
 }
 
@@ -594,16 +626,20 @@ document.addEventListener('click', (e) => {
 });
 
 
-// Delete list item
-function DelateList(id) {
-    StoreLists = StoreLists.filter(item => item.id !== id);
-    localStorage.setItem("Lists", JSON.stringify(StoreLists));
-    
+
+ShowData.addEventListener("click", (e) => {
+    const btn = e.target.closest('.delateList')
+    if(!btn) return 
+
+    let id = Number(btn.dataset.id)
+    StoreLists = StoreLists.filter(item => item.id !== id)
+
+    localStorage.setItem("Lists", JSON.stringify(StoreLists))
     ShowListLength();
     applyCurrentFilter();
     FilterAll();
     ShowEmptyPage();
-}
+})
 
 // Show empty page
 function ShowEmptyPage() {
@@ -755,20 +791,9 @@ ExpenseDescription.addEventListener("keypress", (e) => {
 const resetAllData = document.getElementById("resetAllData")
 
 resetAllData.addEventListener("click", () => {
-    
     sidebarControll()
-
     setTimeout(() => {
-        const confirmDelate = confirm("Are you sure you want delate all list ?")
-    if (confirmDelate) {
-    StoreLists = []
-    localStorage.setItem("Lists", JSON.stringify(StoreLists))
-        renderLists(StoreLists)
-        ShowListLength();
-        applyCurrentFilter();
-        FilterAll();
-        ShowEmptyPage();
-    }
+        AlertAdd(`<i class="fa-regular fa-trash-can"></i>Delete All data`, "You're sure delete your all data ?", `Your all data has permanently delete to click confirm button`, `Calcel`, `Confirm`, 'delete', 'delete all data')
     }, 500)
 })
 
@@ -909,7 +934,6 @@ function TakaAdd(num) {
         UserWalletStore(sumNum, "+")
 }
 
-
 btnSugestMoreBtns.classList.add("hide")
 
 let SeeMoreBtn = SelectWalletMoney.querySelector(".SeeMoreBtn")
@@ -924,14 +948,12 @@ SeeMoreBtn.addEventListener("click", () => {
 })
 
 showListLength.addEventListener("click", () => {
-    let y = confirm("You are sure You delete your wallet balance ?")
-    if (y) {
-        localStorage.removeItem("UserWallet")
-        if (ShowWallet) ShowWallet.innerHTML = 0
+    if (ShowWallet.innerText !== "0") {
+        AlertAdd(`<i class="fa-regular fa-trash-can"></i>Delete balance`, "You're sure delete your wallet ?", `Your wallet have ${ShowWallet.innerHTML} taka , this is parmanently delete to click delete button !`, `Calcel`, `Delete`, 'delete', 'delete wallet')
     }
+
 })
 
-console.log(WaletbtnsData.length)
 function MaxCountWalletBtns() {
     if (WaletbtnsData.length > 30) {
         localStorage.removeItem("AddMoneyBtns")
@@ -1077,25 +1099,30 @@ function BlackOverlyClick () {
     BlackOverlyRemove()
 }
 addMoneyBtnWallet.addEventListener("click", () => {
-    adddata.classList.remove("hide")
-        main_wraper_two.classList.add("hide")
-        NoteBtn.classList.remove("active")
+  adddata.classList.remove("hide")
+  main_wraper_two.classList.add("hide")
+  NoteBtn.classList.remove("active")
   LoadDataInputExpense.classList.remove("show");
   LoadDataInputIncome.classList.remove("show");
   topShowLoadType.classList.add("close")
   LoadDataInputWallet.classList.remove("hide")
   HomeBtn.classList.remove("active")
-  btns[2].classList.add("active")
+ 
   btns[0].classList.remove("active")
   btns[1].classList.remove("active")
   btns[3].classList.remove("active")
   localStorage.setItem("isNotePage", "false")
-  NoteBtn.classList.remove("active")
-  main_wraper_two.classList.add("hide")
- 
-  addDataBtnClick()
- 
 
+  main_wraper_two.classList.add("hide")
+    calculatorBtn.classList.remove("active")
+    Calculator.classList.add("hide")
+  addDataBtnClick()
+     localStorage.setItem("isgetCreateNote", "false")
+     localStorage.setItem("AddNotePageActive", "false")
+     AddDataChilds.forEach(btnAll => btnAll.classList.remove("active"))
+     NoteBtn.classList.add("active")
+    btns[2].classList.add("active")
+    NoteBtn.classList.remove("active")
 })
 // addDataBtn.addEventListener('click',() => {
     
@@ -1363,7 +1390,6 @@ function getCreateNote () {
         localStorage.setItem("isgetCreateNote", "false")
         NoteCreatetorWraper.classList.remove("hide")
         createNote.classList.add("hide")
-           console.log("false")
     }
 }
 
@@ -1389,12 +1415,16 @@ CreateNoteBtnTwo.addEventListener("click", () => {
 })
 
 backTohome.addEventListener("click", () => {
+     BackToHomeLet()
+})
+
+function BackToHomeLet() {
      localStorage.setItem("isgetCreateNote", "false")
      localStorage.setItem("AddNotePageActive", "false")
      AddDataChilds.forEach(btnAll => btnAll.classList.remove("active"))
      NoteBtn.classList.add("active")
      isNotepageIn()
-})
+}
 let sidebarBtns = SidebarBtns.querySelectorAll("li button")
 AddNoteBtn.addEventListener("click", () => {
     
@@ -1445,13 +1475,87 @@ if (AddNotePageActive == "true") {
                     localStorage.setItem("AddNotePageActive", "true")
 } 
 
+function fullScreenOverlyAdd() {
+    fullScreenOverly.classList.add("active")
+}
+function fullScreenOverlyRemove() {
+    fullScreenOverly.classList.remove("active")
+}
+function fullScreenOverlyClick() {
+    fullScreenOverlyRemove()
+    removeAlert()
+}   
+
+fullScreenOverly.addEventListener("click", () => {
+    fullScreenOverlyClick()
+})
+let workNameStore = ""
+
+function AlertAdd(alertHeadTextValue, alertSummarizetitleValue, alertSummarizeBodyValue, CancelAlertBtnName, ConfirmAlertBtnName, ConfirmAlertBtnClass, workName) {
+    if ( !alertHeadTextValue && !alertSummarizetitleValue && !alertSummarizeBodyValue && !CancelAlertBtnName && !ConfirmAlertBtnName) return
+    fullScreenOverlyAdd()
+    Alert.classList.add("show")
+    AlertContainer.classList.add("active")
+    alertHeadText.innerHTML = alertHeadTextValue
+    alertSummarizetitle.innerHTML = alertSummarizetitleValue
+    alertSummarizeBody.innerHTML = alertSummarizeBodyValue
+    CancelAlert.innerHTML = CancelAlertBtnName
+    ConfirmAlert.innerHTML = ConfirmAlertBtnName
+    ConfirmAlert.classList.add(ConfirmAlertBtnClass)
+    workNameStore = workName
+}
+function removeAlert() {
+    fullScreenOverlyRemove()
+    
+    Alert.classList.remove("show")
+    let y = setTimeout(() => {
+        AlertContainer.classList.remove("active")
+        clearTimeout(y)
+    }, 100)
+    alertHeadText.innerHTML = ""
+}
+alertHeadRemove.addEventListener("click", () => {
+    removeAlert()
+})
+CancelAlert.addEventListener("click", () => {
+    removeAlert()
+})
+AlertContainer.addEventListener("click", (e) => {
+    if (!e.target.closest(".alertF")){
+        fullScreenOverlyClick()
+    }
+})
+ConfirmAlert.addEventListener("click", () => {
+    switch (workNameStore) {
+        case "delete wallet":
+            DeleteWallet()
+            break
+        case "delete all data":
+            DeleteAllData()
+            break
+    }
+    removeAlert()
+})
 
 
+function DeleteWallet() {
+    localStorage.removeItem("UserWallet")
+     if (ShowWallet) ShowWallet.innerHTML = 0
 
+}
 
-
-
-
+function DeleteAllData() {
+    StoreLists = []
+    localStorage.setItem("Lists", JSON.stringify(StoreLists))
+        UserWallet = 0
+        localStorage.setItem("UserWallet", UserWallet)
+        if (ShowWallet) ShowWallet.innerText = UserWallet
+        renderLists(StoreLists)
+        ShowListLength();
+        applyCurrentFilter();
+        FilterAll();
+        ShowEmptyPage();
+}
 
 // if ("serviceWorker" in navigator) {
 //     navigator.serviceWorker.register("/NoteEve/sw.js")

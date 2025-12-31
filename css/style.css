@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=BBH+Bartle&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300..700&display=swap');
 :root {
-    --bg-color: black;
+    --bg-color: rgb(7, 7, 7);
     --header-height: 70px;
     --footer-height: 70px;
     --text-color: white;
@@ -14,6 +14,7 @@
     --text-dark-50: rgba(0, 0, 0, 0.623);
     --light-transparent-20: rgba(255, 255, 255, 0.216);
     --light-transparent-10: rgba(255, 255, 255, 0.118);
+    --light-transparent-7: rgba(255, 255, 255, 0.061);
     --light-transparent-80: rgba(255, 255, 255, 0.771);
 }
 *,
@@ -56,7 +57,7 @@ body.sidebarHide {
     border-right: 1px solid rgba(255, 255, 255, 0.069);
     overflow-y: auto;
     overflow-x: hidden;
-    box-shadow: 3px 40px 60px rgba(0, 0, 0, 0.234);
+    box-shadow: 3px 40px 60px transparent;
 }
 .main {
     grid-area: main;
@@ -78,9 +79,6 @@ body.sidebarHide {
     display: flex;
     align-items: center;
     gap: 5px;
-}
-.HeaderMain {
-    
 }
 
 .HeaderMain {
@@ -208,7 +206,7 @@ body.sidebarHide {
     white-space: nowrap;
     overflow: hidden;
 }
-.sidebar-footer button {
+.sidebar-footer .resetBtnContainer button {
     width: 100%;
     display: flex;
     align-items: center;
@@ -908,7 +906,6 @@ body.sidebarHide {
     width: 300px;
     box-shadow: 2px 2px 40px rgb(0, 0, 0);
     transition: scale .2s;
-    
 }
 .detailsMain p {
     font-size: .9rem;
@@ -1382,7 +1379,7 @@ body.sidebarHide {
     border: none;
     background: rgb(42, 42, 42);
     color: var(--text-color-80);
-    box-shadow: 2px 2px 50px rgba(0, 0, 0, 0.514);
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.13);
     cursor: pointer;
     transition: background .3s;
 }
@@ -1399,7 +1396,7 @@ body.sidebarHide {
     height: 45px;
     border-radius: 100px;
     border: none;
-    box-shadow: 4px 4px 40px rgb(0, 0, 0);
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.289);
     cursor: pointer;
     transition: background .3s;
     font-size: .9rem;
@@ -2082,6 +2079,344 @@ body.sidebarHide {
 #backTohome:hover {
     color: var(--text-color-80)
 }
+.detailsMain {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.detailsMain p {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+.detailsMain p i {
+    color: var(--text-color-50)
+}
+.sidebar-footer {
+    border-top: 1px solid var(--light-transparent-7);
+    width: 100% !important;
+}
+.sidebarType {
+    background: rgba(255, 255, 255, 0.084);
+    border-radius: 10px;
+    margin-bottom: 9px;
+}
+.sidebar-modes {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}
+.sidebar-modes-text-header {
+    color: var(--text-color-80);
+    font-family: "Outfit", sans-serif;
+    font-size: .9rem;
+    padding: 3px;
+}
+.sidebarType {
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+}
+.sidebar-modes-con{
+    width: 40px;
+    height: 20px;
+    border-radius: 200px;
+    border: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgb(39, 39, 39);
+}
+.sidebar-modes-btn-circle {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: var(--text-color-50);
+    border-radius: 100px;
+    left: 3px;
+}
+.sidebar-modes-text-header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.sidebar-modes-text-header i {
+    font-size: .68rem;
+}
+.sidebarTypeContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.AlertContainer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    display: flex;
+    z-index: -1;
+    align-items: center;
+    justify-content: center;
+}
+
+#Alert {
+    background: rgb(26, 26, 26);
+    scale: 0;
+    z-index: 99999999999999;
+    width: 80%;
+    max-width: 400px;
+    height: max-content;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    transition: scale .3s;
+}
+#fullScreenOverly {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    scale: 0;
+    background: rgba(0, 0, 0, 0.311);
+    z-index: 9999999999;
+    transition: background .3s;
+}
+.alert-header {
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid var(--light-transparent-7);
+}
+.alertHead {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.alertHead span {
+    color: var(--text-color-50);
+    font-size: .9rem;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 460;
+}
+.alertHead button {
+    padding: 4px;
+    border: none;
+    border-radius: 5px;
+    background: transparent;
+    font-size: 1rem;
+    color: var(--text-color-60);
+    cursor: pointer;
+    transition: color .2s;
+}
+.alertHead button:hover {
+    color: var(--text-color-80);
+}
+.alert-body {
+    height: 100%;
+    padding: 10px 15px;
+    margin-top: 5px;
+    color: var(--text-color-70)
+}
+.alert-wraper {
+    height: auto;
+}
+.alert-wraper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.alert-footer {
+    /* position: absolute; */
+    position: absolute;
+    width: 100%;
+    bottom: 6px;
+}
+.footer-wraper {
+    padding: 10px;
+    padding-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 5px;
+}
+.footer-wraper .alert-type-btns button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--text-color-50);
+    cursor: pointer;
+}
+.alert-type-btns {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    
+}
+.alert-type-btns button.delete {
+    color: rgb(177, 0, 0);
+    transition: background .3s;
+}   
+.alert-type-btns button.delete:hover {
+    background: rgba(255, 0, 0, 0.121);
+}   
+.alertSummarizeBody {
+    font-size: .8rem;
+    margin-top: 6px;
+    color: var(--text-color-50)
+}
+.alertHead span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+#resetAllData span {
+    font-size: .9rem;
+}
+#Alert.show {
+    scale: 1;
+}
+#fullScreenOverly.active {
+    scale: 1;
+    background: rgba(0, 0, 0, 0.798);
+}
+.AlertContainer.active {
+    z-index: 999999999999;
+}
+
+.Calculator {
+    display: flex;
+    align-items: center;
+    height: calc(100vh - var(--header-height));
+    justify-content: center;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.calculatorWraper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 5px;
+}
+.calculatorContainer {
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+
+}
+.calcDisplayContainer {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 10px;
+}
+.calcDisplayContainer input {
+    width: 100%;
+
+    padding: 10px 14px;
+    border: none;
+    height: 100%;
+    background: var(--bg-color);
+    font-size: 2.8rem;
+    text-align: end;
+    border-radius: 10px;
+}
+.calcDisplayContainer input::placeholder {
+    color: var(--text-color-70);
+}
+#addMoneyBtnWallet {
+    background: rgba(0, 0, 0, 0) !important;
+    cursor: pointer;
+    transition: background .4s;
+}
+#addMoneyBtnWallet:hover {
+    background: var(--light-transparent-10) !important;
+}
+.btnSugestMoreBtns button {
+    background: rgba(34, 34, 34, 0.998);
+}
+.SuggestBtnsCon1Show button {
+    background: rgba(0, 0, 0, 0.305);
+}
+.calculatorContainer {
+    padding: 5px;
+}
+.calculatorContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5px;
+}
+.calculatorAllbtns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+.calculatorAllbtns button{
+    padding: 10px;
+    height: 85px;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 500;
+    border-radius: 10px;
+    background: rgb(27, 27, 27);
+    color: var(--text-color-80);
+    scale: 1;
+    transition: scale .3s, background .3s;
+    cursor: pointer;
+     
+}
+.calculatorAllbtns button:hover {
+    scale: 1.03;
+    
+}
+.calculatorAllbtns button:active {
+     scale: .8;
+}
+.calculatorAllbtns .equal_btn {
+    background: rgba(255, 94, 0, 0.21) !important;
+    color: rgba(255, 255, 255, 0.71);
+      grid-column: span 2;
+}
+.calculatorAllbtns .acbtn {
+    color: rgba(255, 98, 0, 0.631);
+    background: rgba(255, 85, 0, 0.209);
+}
+.calculatorAllbtns .oparator {
+    background: rgba(255, 255, 255, 0.064);
+    color: var(--text-color-60)
+    
+}
+.calculatorAllbtns .acbtn:hover {
+    color: rgba(255, 98, 0, 0.721);
+    background: rgba(255, 85, 0, 0.274);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2090,6 +2425,9 @@ body.sidebarHide {
 /*  controller css classes  */
 .show {
     display: block;
+}
+.show-scale {
+    scale: 1;
 }
 .show-flex {
     display: flex;
@@ -2108,12 +2446,16 @@ body.sidebarHide {
     width: 90%;
     background: rgba(255, 255, 255, 0.06)
 }
-
-
-
-
-
-
+.hr-1px-wbg7 {
+    height: 1px;
+    width: 90%;
+    background: rgba(255, 255, 255, 0.053)
+}
+.hr-1px-wbg5 {
+    height: 1px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.025)
+}
 
 
 
@@ -2162,7 +2504,7 @@ body.sidebarHide {
     margin-top: calc(50% - 200px);
 }
 .sidebar {
-    border-right: 1px solid var(--light-transparent-20);
+    border-right: 1px solid var(--light-transparent-7);
 }
 .MusicMenu {
     width: 380px !important;
@@ -2190,4 +2532,12 @@ body.sidebarHide {
 .MusicMenu {
     width: 330px;
 }
+}
+@media (max-width: 450px) {
+    .sidebar {
+    border-right: 1px solid var(--light-transparent-7);
+    }
+    .sidebar.openP {
+        transform: translateX(-100%);
+    }
 }
