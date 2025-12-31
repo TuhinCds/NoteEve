@@ -644,7 +644,7 @@ function formatTime(timeData) {
     if (minutes < 60) return `${minutes}m ago`
     if (hours < 24) return `${hours}h ago` 
     if (day < 7 ) return `${day}day${day > 1 ? "'s" : ''} ago`
-    if (day > 6 && day < 30) return `${Math.floor(day/7) + " w"} ${day%7 !== 0 ? " ago" : `${Math.floor(day%7) ? Math.floor(day%7) + " day ago" : ""}`}`
+    if (day > 6 && day < 30) return `${Math.floor(day/7) + " W"} ${day%7 !== 0 ? " ago" : `${Math.floor(day%7) ? Math.floor(day%7) + " day ago" : "ago"}`}`
     if (month < 12 ) return `${month} month ago`
     if (month > 11 ) return `${month / 12} year ago` 
     return date.toLocaleDateString()
