@@ -30,6 +30,20 @@ const audioLength = document.getElementById("audioLength")
 const musicActiveShowerBtn = document.getElementById("musicActiveShowerBtn")
 const musicActiveShower = document.querySelector(".musicActiveShower")
 
+// create note 
+
+const NoteCreatetorWraper = document.querySelector(".NoteCreatetorWraper")
+const CreateNoteBtn = document.getElementById("CreateNoteBtn")
+const CreateNoteBtnTwo = document.getElementById("CreateNoteBtnTwo")
+const createNote = document.getElementById("createNote")
+const backTohome = document.getElementById("backTohome")
+const AddNoteBtn = document.getElementById("AddNoteBtn")
+
+
+// calculator 
+const calculatorBtn = document.querySelector(".calculatorBtn")
+const adddatainner = document.querySelector(".adddatainner")
+const Calculator = document.querySelector(".Calculator")
 
 // Initialize StoreLists from localStorage
 let StoreLists = JSON.parse(localStorage.getItem("Lists")) || [];
@@ -292,6 +306,9 @@ SidebarBtn.forEach(btn => {
                 localStorage.setItem("isNotePage", "false")
                 main_wraper_two.classList.add("hide")
                 HomeBtn.classList.add("active")
+                localStorage.setItem("AddNotePageActive", "false")
+                calculatorBtn.classList.remove("active")
+                Calculator.classList.add("hide")
                 break;
             case "Create new":
                 LoadDataPage.classList.remove("hide");
@@ -301,13 +318,39 @@ SidebarBtn.forEach(btn => {
                 main_wraper_two.classList.add("hide")
                  NoteBtn.classList.remove("active")
                 HomeBtn.classList.remove("active")
-
+                localStorage.setItem("AddNotePageActive", "false")
+                calculatorBtn.classList.remove("active")
+                Calculator.classList.add("hide")
                 // btns[0].classList.add("active")
                 // btns[1].classList.remove("active")
                 // btns[2].classList.remove("active")
                 // btns[3].classList.remove("active")
                 break;
+            case "Calculator":
+                LoadDataPage.classList.remove("hide");
+                adddata.classList.remove("hide")
+                adddatainnerWraper.classList.add("hide");
+                localStorage.setItem("isNotePage", "false")
+                main_wraper_two.classList.add("hide")
+                NoteBtn.classList.remove("active")
+                HomeBtn.classList.remove("active")
+                localStorage.setItem("AddNotePageActive", "false")
+                calculatorBtn.classList.add("active")
+                Calculator.classList.remove("hide")
+                calculatorBtn.classList.add("active")
+                break
             
+        }
+        RemoveCalculator()
+
+        if (btn.innerText !== "Note") {
+             NoteBtn.classList.remove("active")
+            localStorage.setItem("AddNotePageActive", "false")
+            localStorage.setItem("isgetCreateNote", "false")
+            
+        } else {
+            localStorage.setItem("AddNotePageActive", "true")
+            localStorage.setItem("isgetCreateNote", "false")
         }
     });
 });
@@ -596,14 +639,14 @@ function formatTime(timeData) {
     let hours = Math.floor(diffMiliSeconds / (1000 * 60 * 60))
     let day = Math.floor(diffMiliSeconds / ( 1000 * 60 * 60 * 24))
     let month = Math.floor(diffMiliSeconds / (1000 * (24 * 30) * 60 * 60))
-    let years = Math.floor(diffMiliSeconds / (1000 * ((30 * 3600) * 24 ) * 12))
+    // let years = Math.floor(diffMiliSeconds / (1000 * ((30 * 3600) * 24 ) * 12))
     if (minutes < 1) return "Just now"
     if (minutes < 60) return `${minutes}m ago`
     if (hours < 24) return `${hours}h ago` 
     if (day < 7 ) return `${day}day${day > 1 ? "'s" : ''} ago`
-    if (day > 6 && day < 30) return `${Math.floor(day/7) + " week"} ${day%7 !== 0 ? " ago" : `${Math.floor(day%7)} day ago`}`
-    if (month < 13 ) return `${month} ago`
-    
+    if (day > 6 && day < 30) return `${Math.floor(day/7) + " w"} ${day%7 !== 0 ? " ago" : `${Math.floor(day%7) ? Math.floor(day%7) + " day ago" : ""}`}`
+    if (month < 12 ) return `${month} month ago`
+    if (month > 11 ) return `${month / 12} year ago` 
     return date.toLocaleDateString()
 }
 setInterval(() => {
@@ -916,6 +959,11 @@ NoteBtn.addEventListener("click", () => {
     PrivacyPolicyBtn.classList.remove("active")
     // active btn
     NoteBtn.classList.add("active")
+    localStorage.setItem("AddNotePageActive", "false")
+    localStorage.setItem("isgetCreateNote", "false")
+    NoteCreatetorWraper.classList.remove("hide")
+    createNote.classList.add("hide")
+    RemoveCalculator()
 })
 
 // Notes 
@@ -1301,8 +1349,125 @@ navigator.mediaSession.setActionHandler("seekbackward", () => {
     LeftSlideAudioCon()
 })
 
+
+
+function getCreateNote () {
+    let isgetCreateNote = localStorage.getItem("isgetCreateNote")
+    if (isgetCreateNote === "false") {
+        localStorage.setItem("isgetCreateNote", "true")
+
+        NoteCreatetorWraper.classList.add("hide")
+        createNote.classList.remove("hide")
+        console.log("true")
+    } else {
+        localStorage.setItem("isgetCreateNote", "false")
+        NoteCreatetorWraper.classList.remove("hide")
+        createNote.classList.add("hide")
+           console.log("false")
+    }
+}
+
+function isNotepageIn () {
+    let isgetCreateNoteT = localStorage.getItem("isgetCreateNote")
+    if (isgetCreateNoteT === "true") {
+        NoteCreatetorWraper.classList.add("hide")
+        createNote.classList.remove("hide")
+} else {
+        NoteCreatetorWraper.classList.remove("hide")
+        createNote.classList.add("hide")
+}
+}
+
+let AddDataChilds = AddData.querySelectorAll("button")
+
+CreateNoteBtn.addEventListener("click", () => {
+    getCreateNote()
+})
+
+CreateNoteBtnTwo.addEventListener("click", () => {
+    getCreateNote()
+})
+
+backTohome.addEventListener("click", () => {
+     localStorage.setItem("isgetCreateNote", "false")
+     localStorage.setItem("AddNotePageActive", "false")
+     AddDataChilds.forEach(btnAll => btnAll.classList.remove("active"))
+     NoteBtn.classList.add("active")
+     isNotepageIn()
+})
+let sidebarBtns = SidebarBtns.querySelectorAll("li button")
+AddNoteBtn.addEventListener("click", () => {
+    
+    sidebarBtns.forEach(btn => btn.classList.remove("active"))
+    NoteBtn.classList.add("active")
+    getCreateNote()
+    
+})
+
+
+
+
+
+AddDataChilds.forEach(btn => {
+    btn.addEventListener("click", () => {
+        if (btn.textContent !== "Add Note") {
+            sidebarBtns.forEach(allbtn => {
+                allbtn.classList.remove("active")
+                createNewBtn.classList.add("active")
+            })
+        } else {
+
+                    AddDataChilds.forEach(btnAll => btnAll.classList.remove("active"))
+                    LoadDataPage.classList.add("hide");
+                    adddatainnerWraper.classList.add("hide");
+                    adddata.classList.add("hide")
+                    main_wraper_two.classList.remove("hide")
+                    NoteBtn.classList.add("active")
+                    NoteCreatetorWraper.classList.add("hide")
+                    createNote.classList.remove("hide")
+                    localStorage.setItem("AddNotePageActive", "true")
+        }
+    })
+})
+isNotepageIn()
+let AddNotePageActive = localStorage.getItem("AddNotePageActive")
+
+if (AddNotePageActive == "true") {
+                    AddDataChilds.forEach(btnAll => btnAll.classList.remove("active"))
+                    LoadDataPage.classList.add("hide");
+                    adddatainnerWraper.classList.add("hide");
+                    adddata.classList.add("hide")
+                    main_wraper_two.classList.remove("hide")
+                    NoteBtn.classList.add("active")
+                    HomeBtn.classList.remove("active")
+                    NoteCreatetorWraper.classList.add("hide")
+                    createNote.classList.remove("hide")
+                    localStorage.setItem("AddNotePageActive", "true")
+} 
+
+
+
+
+
+
+
+
+
 // if ("serviceWorker" in navigator) {
 //     navigator.serviceWorker.register("/NoteEve/sw.js")
 //     .then(() => console.log("SW registered"))
 //     .catch(err => console.log("SW error", err));
 // }
+
+
+calculatorBtn.addEventListener('click', () => {
+        adddata.classList.add("hide")
+        main_wraper_two.classList.add("hide")
+        calculatorBtn.classList.add("active")
+        Calculator.classList.remove("hide")
+})
+
+function RemoveCalculator() {
+        calculatorBtn.classList.remove("active")
+        Calculator.classList.add("hide")
+}
