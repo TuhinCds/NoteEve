@@ -1,4 +1,4 @@
-import { audiosData } from  "./data.js"
+import { audiosData, LinksTypeIcons } from  "./data.js"
 
 
 const sidebar = document.getElementById("sidebar");
@@ -15,7 +15,10 @@ const main_wraper_two = document.querySelector(".main_wraper_two")
 const QuickOpenBtn = document.getElementById("QuickOpenBtn")
 const QuickBtns = document.getElementById("QuickBtns")
 const QuickbtnsWraper = document.querySelector(".QuickbtnsWraper")
-
+const filterNoteBtn = document.getElementById("filterNoteBtn")
+const FilterListMenu = document.querySelector(".FilterListMenu")
+const CloseMenu = FilterListMenu.querySelector(".CloseMenu")
+const ShowNotesDisplay = document.getElementById("ShowNotesDisplay")
 // music 
 const MusicMenu = document.querySelector(".MusicMenu")
 const MusicBtn = document.getElementById("MusicBtn")
@@ -38,13 +41,35 @@ const CreateNoteBtnTwo = document.getElementById("CreateNoteBtnTwo")
 const createNote = document.getElementById("createNote")
 const backTohome = document.getElementById("backTohome")
 const AddNoteBtn = document.getElementById("AddNoteBtn")
+const noteTitle = document.getElementById("noteTitle")
+const NoteBodyData = document.getElementById("NoteBodyData")
+const SaveNote = document.getElementById("SaveNote")
+const SearchNote = document.getElementById("SearchNote")
+const SearchNoteBtn = document.getElementById("SearchNoteBtn")
+const countListLength = document.getElementById("countListLength")
+const noteLenght = document.getElementById("noteLenght")
 
+
+// create links 
+const LinkInputWraper = document.querySelector(".LinkInputWraper")
+const LinkNameInputWraper = document.querySelector(".LinkNameInputWraper")
+const LinkInput = document.getElementById("LinkInput")
+const LinkNameInput = document.getElementById("LinkNameInput")
+const TargetLinksBtns = document.querySelector(".TargetLinksBtns")
+const linkCreateBtn = document.getElementById("linkCreateBtn")
+const HideCreateLinkMenu = document.getElementById("HideCreateLinkMenu")
+const HR3Dropdowns = document.querySelector(".HR3Dropdowns")
+const CreateLinkBtn = document.getElementById("CreateLinkBtn")
+const linkCreateBtnSpan = document.querySelector(".linkCreateBtnSpan")
+const loadingWraper = document.querySelector(".loadingWraper")
+const NoteLinksIn = document.getElementById("NoteLinksIn")
 
 // calculator 
 const calculatorBtn = document.querySelector(".calculatorBtn")
 const adddatainner = document.querySelector(".adddatainner")
 const Calculator = document.querySelector(".Calculator")
-
+const calculatorAllbtns = document.querySelector(".calculatorAllbtns")
+const Calculatordisplay = document.getElementById("Calculatordisplay")
 // fullScreenOverly
 const fullScreenOverly = document.getElementById("fullScreenOverly")
 
@@ -60,6 +85,11 @@ const ConfirmAlert = document.getElementById("ConfirmAlert")
 const AlertContainer  = document.querySelector(".AlertContainer")
 
 
+
+
+
+
+
 // Initialize StoreLists from localStorage
 let StoreLists = JSON.parse(localStorage.getItem("Lists")) || [];
 // let StoreHistory = JSON.parse(localStorage.getItem("ListsHistory")) || []
@@ -73,21 +103,22 @@ let totalIncomeShow = 0
 
 
 function UserWalletStore(wallet, controll) {
-
+    wallet = Math.floor(wallet)
    if (controll === "+") {
      UserWallet += wallet
    } else if (controll === "-") {
      UserWallet -= wallet
    } else if (controll === "/") {
      UserWallet /= wallet
+   } else {
+    UserWallet = 0
    }
    localStorage.setItem("UserWallet", UserWallet)
-   if (ShowWallet) ShowWallet.innerText = UserWallet
+    ShowWallet.innerText = UserWallet
    return UserWallet
 }
 // for note page 
 let isNotePage = localStorage.getItem("isNotePage")
-
 // SidebarBtns
 
 const HomeBtn = SidebarBtns.querySelector(".HomeBtn")
@@ -158,7 +189,7 @@ const BlackOverly = document.getElementById("BlackOverly")
 const showListLength = document.getElementById("showListLength")
 
 function AddWallet() {
-    let InputMoneyValue = Number(InputMoney.value)
+    let InputMoneyValue = Math.floor(Number(InputMoney.value))
     if (InputMoneyValue < 0) return
     if (!InputMoneyValue) return 
    let userWv1 = UserWallet += InputMoneyValue
@@ -325,6 +356,9 @@ SidebarBtn.forEach(btn => {
                 localStorage.setItem("AddNotePageActive", "false")
                 calculatorBtn.classList.remove("active")
                 Calculator.classList.add("hide")
+
+                calculatorBtn.classList.remove("active")
+                Calculator.classList.add("hide")
                 break;
             case "Create new":
                 LoadDataPage.classList.remove("hide");
@@ -348,6 +382,11 @@ SidebarBtn.forEach(btn => {
                 TopIcon.classList.add("fa-notes-medical");
                 topShowLoadType.classList.remove("close")
                 LoadDataInputWallet.classList.add("hide")
+
+
+
+                calculatorBtn.classList.remove("active")
+                Calculator.classList.add("hide")
                 //
                 // btns[0].classList.add("active")
                 // btns[1].classList.remove("active")
@@ -356,20 +395,19 @@ SidebarBtn.forEach(btn => {
                 break;
             case "Calculator":
                 LoadDataPage.classList.remove("hide");
-                adddata.classList.remove("hide")
                 adddatainnerWraper.classList.add("hide");
                 localStorage.setItem("isNotePage", "false")
                 main_wraper_two.classList.add("hide")
                 NoteBtn.classList.remove("active")
                 HomeBtn.classList.remove("active")
                 localStorage.setItem("AddNotePageActive", "false")
-                calculatorBtn.classList.add("active")
+                localStorage.setItem("isOpenCalculator", "true")
+                adddata.classList.add("hide")
+                 calculatorBtn.classList.add("active")
                 Calculator.classList.remove("hide")
-                calculatorBtn.classList.add("active")
                 break
             
         }
-        RemoveCalculator()
 
         if (btn.innerText !== "Note") {
              NoteBtn.classList.remove("active")
@@ -1009,10 +1047,7 @@ function isNotePageAdd() {
 
 isNotePageAdd()
 
-const filterNoteBtn = document.getElementById("filterNoteBtn")
-const FilterListMenu = document.querySelector(".FilterListMenu")
-const CloseMenu = FilterListMenu.querySelector(".CloseMenu")
-const ShowNotesDisplay = document.getElementById("ShowNotesDisplay")
+
 
 const shortFilterContainer = document.querySelector(".shortFilterContainer")
 filterNoteBtn.addEventListener("click", () => {
@@ -1173,7 +1208,7 @@ document.addEventListener("click", (e) => {
     } else if (x && !e.target.closest(".QuickBtnsN")) {
         MusicMenu.classList.remove("close")
         x = null
-    }
+    } 
 })
 
 // MusicMenu
@@ -1183,7 +1218,7 @@ document.addEventListener("click", (e) => {
 MusicmenuClose.addEventListener("click", () => {
     removeMenuClick()
     x = null
-}) 
+})
 
 // play music 
 const audiosIn = document.getElementById ("audiosIn")
@@ -1339,7 +1374,6 @@ SongPlayBtn.addEventListener("click", () => {
 
 })
 
-
 function PlaySong() {
         audiosAll[countAudio].play()
         SongPlayBtnIcon.classList.add("fa-stop")
@@ -1424,6 +1458,7 @@ function BackToHomeLet() {
      AddDataChilds.forEach(btnAll => btnAll.classList.remove("active"))
      NoteBtn.classList.add("active")
      isNotepageIn()
+     SaveNotedta()
 }
 let sidebarBtns = SidebarBtns.querySelectorAll("li button")
 AddNoteBtn.addEventListener("click", () => {
@@ -1484,6 +1519,7 @@ function fullScreenOverlyRemove() {
 function fullScreenOverlyClick() {
     fullScreenOverlyRemove()
     removeAlert()
+    LinkMenu()
 }   
 
 fullScreenOverly.addEventListener("click", () => {
@@ -1537,10 +1573,10 @@ ConfirmAlert.addEventListener("click", () => {
     removeAlert()
 })
 
-
 function DeleteWallet() {
     localStorage.removeItem("UserWallet")
-     if (ShowWallet) ShowWallet.innerHTML = 0
+    ShowWallet.innerHTML = 0
+    UserWalletStore(0, "0")
 
 }
 
@@ -1555,6 +1591,8 @@ function DeleteAllData() {
         applyCurrentFilter();
         FilterAll();
         ShowEmptyPage();
+        localStorage.removeItem("NoteLists")
+        ShowNotesDisplay.innerHTML = ""
 }
 
 // if ("serviceWorker" in navigator) {
@@ -1564,14 +1602,491 @@ function DeleteAllData() {
 // }
 
 
-calculatorBtn.addEventListener('click', () => {
-        adddata.classList.add("hide")
-        main_wraper_two.classList.add("hide")
-        calculatorBtn.classList.add("active")
-        Calculator.classList.remove("hide")
-})
+// calculatorBtn.addEventListener('click', () => {
+//         adddata.classList.add("hide")
+//         main_wraper_two.classList.add("hide")
+//         calculatorBtn.classList.add("active")
+//         Calculator.classList.remove("hide")
+// })
 
 function RemoveCalculator() {
         calculatorBtn.classList.remove("active")
         Calculator.classList.add("hide")
+} 
+const calculatorAllbtnsQuery = calculatorAllbtns.querySelectorAll("button")
+
+calculatorAllbtnsQuery.forEach(btn => {
+    btn.addEventListener("click", () => {
+
+        let btnValue = btn.dataset.type
+                if (btnValue === "=") {
+                    Calculate()
+                } else if (btnValue === "ac") {
+                    Calculatordisplay.value = ""
+                } else if (btnValue === "del") {
+                    Calculatordisplay.value = Calculatordisplay.value.slice(0, -1) 
+                }  else {
+                    if ( Calculatordisplay.value === "Error") {
+                        Calculatordisplay.value = Calculatordisplay.value.slice(5)
+                    } else if (Calculatordisplay.value === undefined) {
+                        Calculatordisplay.value = Calculatordisplay.value.slice(9)
+                    } else if (btnValue === "+" && Calculatordisplay.value === "") {
+                            Calculatordisplay.value = ""
+                    } else if (btnValue === "+" && Calculatordisplay.value === "") {
+                            Calculatordisplay.value = ""
+                    } else if (btnValue === "-" && Calculatordisplay.value === "") {
+                            Calculatordisplay.value = ""
+                    } else if (btnValue === "*" && Calculatordisplay.value === "") {
+                            Calculatordisplay.value = ""
+                    } else if (btnValue === "/" && Calculatordisplay.value === "") {
+                            Calculatordisplay.value = ""
+                    } else if (btnValue === "%" && Calculatordisplay.value === "") {
+                            Calculatordisplay.value = ""
+                    } else if (btnValue === "00" && Calculatordisplay.value === "") {
+                            Calculatordisplay.value = ""
+                    } else if (btnValue === "0" && Calculatordisplay.value === "") {
+                            Calculatordisplay.value = ""
+                    } else if (btnValue === "add") {
+                            UserWalletStore(Number(Calculatordisplay.value), "+")
+                            Calculatordisplay.value = ""
+                    } else {        
+                        Calculatordisplay.value += btnValue
+                    }
+            } 
+    })
+})
+
+function Calculate() {
+    try {
+        Calculatordisplay.value = eval(Calculatordisplay.value) || ""
+    }
+    catch (err) {
+        console.warn(err)
+        Calculatordisplay.value = `Error`
+    }
 }
+
+Calculator.addEventListener("keydown", (e) => {
+    if (e.key >= 0 && e.key <= 9) {
+        Calculatordisplay.value += e.key
+    } else if ((e.key === "+" || e.key === "-" || e.key === "*" || e.key === "%" || e.key === "/" || e.key === "(" || e.key === ")" )&& Calculatordisplay.value !== "") {
+        Calculatordisplay.value += e.key
+    } else if (e.key === "=") {
+        Calculate()
+    } else if (e.key === "Backspace") {
+        Calculatordisplay.value = Calculatordisplay.value.slice(0, -1)
+    } else if (e.key === "Enter") {
+        Calculate()
+    }
+    else {
+        console.log(e.key)
+    }
+})
+
+// Note text save in localStorage 
+let NoteTitle = localStorage.getItem("NoteTitle")
+let NoteBody = localStorage.getItem("NoteBody")
+let NoteLists = JSON.parse(localStorage.getItem("NoteLists")) || []
+let CurrentAllLinksSaved = JSON.parse(localStorage.getItem("CurrentAllLinksSaved")) || []
+
+NoteBodyData.value = NoteBody
+noteTitle.value = NoteTitle
+
+noteTitle.addEventListener("input", () => {
+    let noteTitleVal = noteTitle.value
+    localStorage.setItem("NoteTitle", noteTitleVal)
+    noteTitle.value = noteTitleVal
+})
+NoteBodyData.addEventListener("input", () => {
+    let noteBodyVal = NoteBodyData.value
+    localStorage.setItem("NoteBody", noteBodyVal)
+    NoteBodyData.value = noteBodyVal
+    noteLenght.innerHTML = noteBodyVal.length
+})
+SaveNote.addEventListener("click", () => {
+    if (noteTitle.value !== "" || NoteBodyData.value !== "") {
+        BackToHomeLet()
+        SaveNotedta()
+    }
+    
+})
+function LinkLengthDisplay() {
+    if (localStorage.getItem("NoteBody")) {
+    noteLenght.innerHTML = NoteBody.length
+} else {
+    noteLenght.innerHTML = 0
+}
+}
+LinkLengthDisplay()
+// Create links 
+LinkInputWraper.addEventListener("click", () => {
+    LinkInput.focus()
+     WhiceActive("link")
+})
+ 
+LinkNameInputWraper.addEventListener("click", () => {
+    LinkNameInput.focus()
+     WhiceActive("linkname")
+
+})
+
+function WhiceActive(active) {
+    let borthFilled = LinkInput.value !== "" && LinkNameInput.value !== ""
+    if (borthFilled) {
+        LinkNameInputWraper.querySelector("span").classList.add("tapInput")
+        LinkInputWraper.querySelector("span").classList.add("tapInput")
+        if (active === "link") {
+             LinkInput.classList.add("inputBorder2")
+            LinkNameInput.classList.remove("inputBorder2")
+            LinkInputWraper.querySelector("span").classList.add("tapInput")
+            if (LinkNameInput.value !== "") {
+                LinkNameInputWraper.querySelector("span").classList.add("tapInput")
+            } else {
+                LinkNameInputWraper.querySelector("span").classList.remove("tapInput")
+            }
+        } else {
+            LinkNameInput.classList.add("inputBorder2")
+            LinkInput.classList.remove("inputBorder2")
+            LinkNameInputWraper.querySelector("span").classList.add("tapInput")
+            if (LinkInput.value !== "") {
+                LinkInputWraper.querySelector("span").classList.add("tapInput")
+            } else {
+                LinkInputWraper.querySelector("span").classList.remove("tapInput")
+            }
+        }
+    } else {
+        if (active === "link") {
+            LinkInput.classList.add("inputBorder2")
+            LinkNameInput.classList.remove("inputBorder2")
+            LinkInputWraper.querySelector("span").classList.add("tapInput")
+            if (LinkNameInput.value !== "") {
+                LinkNameInputWraper.querySelector("span").classList.add("tapInput")
+            } else {
+                LinkNameInputWraper.querySelector("span").classList.remove("tapInput")
+            }
+        } else {
+            LinkNameInput.classList.add("inputBorder2")
+            LinkInput.classList.remove("inputBorder2")
+            LinkNameInputWraper.querySelector("span").classList.add("tapInput")
+            if (LinkInput.value !== "") {
+                LinkInputWraper.querySelector("span").classList.add("tapInput")
+            } else {
+                LinkInputWraper.querySelector("span").classList.remove("tapInput")
+            }
+        }
+    }
+}
+
+LinkInput.addEventListener("input", () => {
+    WhiceActive("link")
+})
+LinkNameInput.addEventListener("input", () => {
+    WhiceActive("linkname")
+})
+
+window.addEventListener("load", () => {
+    LinkInput.value = ""
+    LinkNameInput.value = ""
+})
+
+
+
+CreateLinkBtn.addEventListener("click", () => {
+     LinkMenu()
+})
+
+function LinkMenu() {
+    HR3Dropdowns.classList.toggle("open")
+    if (HR3Dropdowns.classList.contains("open")) {
+        fullScreenOverlyAdd()
+    } else {
+        fullScreenOverlyRemove()
+    }
+}
+function RemoveLinkMenu() {
+    HR3Dropdowns.classList.remove("open")
+    fullScreenOverlyRemove()
+}
+HideCreateLinkMenu.addEventListener("click", () => {
+    RemoveLinkMenu()
+})
+
+
+const TargetLinksBtnsBtns = TargetLinksBtns.querySelectorAll("button")
+let targetStore = "_blank"
+TargetLinksBtnsBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        TargetLinksBtnsBtns.forEach(allBtn => allBtn.classList.remove("active"))
+        btn.classList.add("active")
+        targetStore = btn.dataset.target
+    })
+})
+
+
+function CreateLinks() {
+    let IconLink = ""
+    let LinkInputValue = LinkInput.value
+    let LinkNameInputValue = LinkNameInput.value
+    
+    if (!LinkInputValue && !LinkNameInputValue) return linkCreateBtnSpan.innerHTML = `<span>Enter Link </span>`
+    if (!LinkInputValue) linkCreateBtnSpan.innerHTML = `<span>Enter Link</span>`
+    if (!LinkNameInputValue) linkCreateBtnSpan.innerHTML = `<span>Enter link name</span>`
+    if (!LinkInputValue.toLowerCase().startsWith("https://") && !LinkInputValue.toLowerCase().startsWith("http://") &&!LinkInputValue.toLowerCase().startsWith("www.")) {
+       return linkCreateBtnSpan.innerHTML = `<span>Wrong link</span>`
+    } 
+    if (LinkInputValue || LinkNameInputValue) {
+         let filteredLinkIcon = LinksTypeIcons.filter(k => k.keyword.some( l => LinkInputValue.toLowerCase().includes(l.toLowerCase()) ||  LinkNameInputValue.toLowerCase().includes(l.toLowerCase())))
+
+        let AllLinkIcon = LinksTypeIcons.filter(linkIcon => linkIcon.keyword.includes("link"))
+        let LinkIconFound = LinksTypeIcons.filter(icon => icon.keyword.includes(LinkInputValue.toLowerCase()) || icon.keyword.includes(LinkNameInputValue.toLowerCase()))
+
+        let LinkIconF2
+
+        if (filteredLinkIcon.length > 0) {
+            LinkIconF2 = filteredLinkIcon
+        } else {
+            if (LinkIconFound.length > 0) {
+                LinkIconF2 = LinkIconFound
+            } else {
+                LinkIconF2 = AllLinkIcon
+            }
+        }
+
+
+        // filteredLinkIcon.length <= 0 ? LinkIconFound.length <= 0  ? AllLinkIcon : LinkIconFound : filteredLinkIcon
+
+        
+        if (LinkIconF2.length > 1) {
+           let index = Math.floor(Math.random() * LinkIconF2.length)
+            IconLink = LinkIconF2[index].icon
+        } else {
+            IconLink = LinkIconF2[0].icon
+        }
+
+    }     
+    
+    let currentNotesLink = {
+
+        link: LinkInputValue,
+        linkName: LinkNameInputValue,
+        target: targetStore,
+        icon: IconLink
+    }
+
+    CurrentAllLinksSaved.push(currentNotesLink)
+    localStorage.setItem("CurrentAllLinksSaved", JSON.stringify(CurrentAllLinksSaved))
+    renderNoteLinkInfo(CurrentAllLinksSaved)
+    linkCreateBtn.disabled = true
+    linkCreateBtn.style.cursor = "not-allowed"
+    linkCreateBtnSpan.innerHTML = `<span>Creating</span>`
+    loadingWraper.style.display = "flex"
+    linkCreateBtn.classList.add("click")
+    setTimeout(() => {
+        loadingWraper.style.display = "none"
+        linkCreateBtnSpan.innerHTML = `<i class="fa-regular fa-circle-check"></i><span>Saved</span>`
+        
+    }, 1200)
+   
+    setTimeout(() => {
+        // other code
+         linkCreateBtnSpan.innerHTML = `<i class="fa-solid fa-plus"></i>Create Link </span>`
+         loadingWraper.style.display = "none"
+         linkCreateBtn.classList.remove("click")
+         linkCreateBtn.style.cursor = "pointer"
+         linkCreateBtn.disabled = false
+        let yT = setInterval(() => {
+            if (LinkInput.value.length === 0 && LinkNameInput.value.length === 0) {
+                clearInterval(yT)
+                return
+            }
+            LinkNameInput.value = LinkNameInput.value.slice(0, -1)
+            LinkInput.value = LinkInput.value.slice(0, -1)
+         }, 30)
+         
+    }, 1900)
+
+}
+linkCreateBtn.addEventListener("click", () => {
+    CreateLinks()
+})
+
+LinkInput.addEventListener("keydown",(e) => {
+    if (e.key === "Enter") {
+        CreateLinks()
+    }
+})  
+LinkNameInput.addEventListener("keydown",(e) => {
+    if (e.key === "Enter") {
+        CreateLinks()
+    }
+})  
+
+
+
+
+
+
+
+function SaveNotedta() {
+    let NoteBodyValue = NoteBodyData.value 
+    let NoteTitleValue = noteTitle.value
+    if (NoteBodyValue === "" && NoteTitleValue === "") return
+
+    let NoteListsData = {
+        noteTitle: NoteTitleValue,
+        noteBody: NoteBodyValue,
+        NoteAllLinks: [...CurrentAllLinksSaved],
+        NoteCreateTime: new Date(),
+    }
+    NoteLists.push(NoteListsData)
+    localStorage.setItem("NoteLists", JSON.stringify(NoteLists))
+     RenderNote(NoteLists)
+    let noteBodyVal = ""
+    let noteTitleVal = ""
+    CurrentAllLinksSaved = []
+    localStorage.setItem("CurrentAllLinksSaved", JSON.stringify(CurrentAllLinksSaved))
+    renderNoteLinkInfo(CurrentAllLinksSaved)
+    LinkLengthDisplay()
+    localStorage.setItem("NoteBody", noteBodyVal)
+    NoteBodyData.value = ""
+    localStorage.setItem("NoteTitle", noteTitleVal)
+    noteTitle.value = ""
+    RenderNoteListLength()
+}
+
+function RenderNoteListLength() {
+    countListLength.innerHTML = `${NoteLists.length} list`
+}
+RenderNoteListLength()
+
+function RenderNote(noteListsD) {
+    ShowNotesDisplay.innerHTML = ""
+    noteListsD.forEach((item, index) => {
+        let createNote = document.createElement("div")
+        createNote.innerHTML = `<div class="note normal">
+                                <header class="noteHeader">
+                                    <div class="noteTitle">
+                                        ${item.noteTitle.length > 16 ? item.noteTitle.slice(0, (item.noteTitle / 2)).length > 30 ? item.noteTitle.slice(0, 20) + "..." : item.noteTitle.slice(0, 15) + "...": item.noteTitle}
+                                    </div>
+                                    <div class="noteDescription">
+                                        ${item.noteBody.length > 25 ? item.noteBody.slice(0, 20) + "..." : item.noteBody}
+                                    </div>
+                                    <div class="showTime" data-time="${item.NoteCreateTime}">${FormatTime(item.NoteCreateTime)}</div>
+                                </header>
+                                <div class="noteBody">
+                                    <div class="leftSidenoteBody">
+                                        <div class="LinksDataInfo">
+                                            <div class="showLink"><i class="fa-solid fa-paperclip"></i>${item.NoteAllLinks.length > 200 ? String(item.NoteAllLinks.length).slice(0, 200) + "+": item.NoteAllLinks.length} links</div>
+                                            <button><i class="fa-regular fa-copy"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="rightNoteBody">
+                                        <button><i class="fa-solid fa-bars-staggered"></i></button>
+                                    </div>
+                                </div>
+                            </div>`
+        ShowNotesDisplay.appendChild(createNote)
+    })
+
+}
+RenderNote(NoteLists)
+
+
+
+
+function renderNoteLinkInfo(LinkInfo) {
+    NoteLinksIn.innerHTML = ""
+
+    if (LinkInfo && LinkInfo.length > 0) {
+        LinkInfo.forEach((item, index) => {
+        let LinkDisplay = ""
+        
+        if (item.linkName) {
+            if (item.linkName.length > 13 ) {
+                LinkDisplay = item.linkName.slice(0, 10) + "..."
+            } else {
+                LinkDisplay = item.linkName
+            }
+        } else {
+            if (item.link.length > 13) {
+                if (item.link.toLowerCase().startsWith("https://www.")) {
+                    LinkDisplay = item.link.slice(12, 20) + "..."
+                } else if (item.link.toLowerCase().startsWith("http://www.")) {
+                    LinkDisplay = item.link.slice(11, 20) + "..."
+                } else if (item.link.toLowerCase().startsWith("https")) {
+                    LinkDisplay = item.link.slice(8, 15) + "..."
+                } else if (item.link.toLowerCase().startsWith("http")) {
+                   LinkDisplay = item.link.slice(7, 16) + "..."
+                } else if (item.link.toLowerCase().startsWith("www.")) {
+                    LinkDisplay = item.link.slice(4, 15) + "..."
+                } else {
+                    LinkDisplay = item.link.slice(0, 10) + "..."
+                }
+            } else {
+                LinkDisplay = item.link
+            }
+        }
+
+
+
+        let createBtn = document.createElement("span")
+    createBtn.innerHTML = `
+    <a target="${item.target}" href="${item.link}">
+        <span>${item.icon}</span>
+        <span>${LinkDisplay}</span>
+    </a>`
+    NoteLinksIn.appendChild(createBtn)
+    })
+    } else {
+       NoteLinksIn.innerHTML = `<div class="emptyNoteLink"><i class="fa-solid fa-paperclip"></i>empty link</div>`
+    }
+}
+
+renderNoteLinkInfo(CurrentAllLinksSaved)
+SearchNote.addEventListener("input", () => {
+    setTimeout(() => {
+        SearchNotes()
+    }, 300)
+})
+function SearchNotes() {
+    let SearchNoteValue = SearchNote.value.trim().toLowerCase()
+    let filtredSearchNotes = NoteLists.filter(note => note.noteTitle.includes(SearchNoteValue) || note.noteBody.includes(SearchNoteValue) || note.NoteAllLinks.some(l => l.link.includes(SearchNoteValue)))
+    RenderNote(filtredSearchNotes)
+    // let c = NoteLists.filter(j => ))
+    }
+
+// localStorage.removeItem("CurrentAllLinksSaved")
+
+
+function FormatTime(old) {
+    let now = new Date()
+    let past = new Date(old)
+    let diff = now - past
+    let s = Math.floor(diff / 1000)
+    let m = Math.floor(s / 60)
+    let h = Math.floor(m / 60)
+    let day = Math.floor(h / 24)
+    let month = Math.floor(day / 30)
+    let years = Math.floor(month / 12)
+    
+
+    if (s < 60) return `Just Now`
+    if (m < 60) return `${m}m ago`
+    if (h < 24) return `${h}h ago`
+    if (day < 30) return `${day % 7 ? `${day / 7}` : `${day}day ago`}`
+    if (month < 12) return `${month}month ago`
+    if (years) return `${years}year ago` 
+
+    return past.toLocaleDateString()
+}
+
+function AutoUpdateTime() {
+    const showTimeAll = document.querySelectorAll(".showTime")
+    showTimeAll.forEach(timecon => {
+        let time = timecon.dataset.time
+        timecon.innerHTML = formatTime(time)
+    })
+}
+setInterval(() => {
+    AutoUpdateTime()
+}, 1000)

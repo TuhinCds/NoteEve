@@ -232,34 +232,34 @@
             <div class="calculatorWraper">
                 <div class="calculatorContainer">
                    <div class="calcDisplayContainer">
-                     <input type="text" disabled placeholder="0">
+                     <input type="text" id="Calculatordisplay" disabled placeholder="0">
                    </div>
                    <div class="calculatorbtns">
                     <!-- calc btns  -->
                      <div class="calculatorAllbtns">
-                        <button class="acbtn">AC</button>
-                        <button class="oparator">%</button>
-                        <button>C</button>
-                        <button class="oparator"><i class="fa-solid fa-divide"></i></button>
-                        <button>7</button>
-                        <button>8</button>
-                        <button>9</button>
-                        <button class="oparator"><i class="fa-solid fa-xmark"></i></button>
-                        <button>4</button>
-                        <button>5</button>
-                        <button>6</button>
-                        <button class="oparator"><i class="fa-solid fa-minus"></i></button>
-                        <button>1</button>
-                        <button>2</button>
-                        <button>3</button>
-                        <button class="oparator"><i class="fa-solid fa-plus"></i></button>
-                        <button>(</button>
-                        <button>)</button>
-                        <button class="oparator"><i class="fa-solid fa-square-root-variable"></i></button>
-                        <button>00</button>
-                        <button>0</button>
-                        <button>.</button>
-                        <button class="equal_btn"><i class="fa-solid fa-equals"></i></button>
+                        <button class="acbtn" data-type="ac">AC</button>
+                        <button data-type="del">DEL</button>
+                        <button data-type="add" class="oparator"><i class="fa-solid fa-plus"></i> add</button>
+                        <button class="oparator" data-type="%">%</button>
+                        <button data-type="/" class="oparator"><i class="fa-solid fa-divide"></i></button>
+                        <button data-type="7">7</button>
+                        <button data-type="8">8</button>
+                        <button data-type="9">9</button>
+                        <button data-type="*" class="oparator"><i class="fa-solid fa-xmark"></i></button>
+                        <button data-type="4">4</button>
+                        <button data-type="5">5</button>
+                        <button data-type="6">6</button>
+                        <button data-type="-" class="oparator"><i class="fa-solid fa-minus"></i></button>
+                        <button data-type="1">1</button>
+                        <button data-type="2">2</button>
+                        <button data-type="3">3</button>
+                        <button data-type="+"class="oparator"><i class="fa-solid fa-plus"></i></button>
+                        <button data-type="(">(</button>
+                        <button data-type=")">)</button>
+                        <button data-type="00">00</button>
+                        <button data-type="0">0</button>
+                        <button data-type=".">.</button>
+                        <button data-type="=" class="equal_btn"><i class="fa-solid fa-equals"></i></button>
                      </div>
                    </div>
                 </div>
@@ -289,8 +289,8 @@
                             </div>
                             </div>
                             <div class="searchContainer">
-                                <input type="text" placeholder="Search list...">
-                                <button><i class="fa-solid fa-magnifying-glass"></i></button>
+                                <input type="text" placeholder="Search list..." id="SearchNote">
+                                <button id="searchNoteBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
                         </div>
                     </div>
@@ -314,94 +314,7 @@
                 <div class="NoteMainContainer">
                     <div class="showNotes">
                         <div id="ShowNotesDisplay">
-                            <div class="note normal">
-                                <header class="noteHeader">
-                                    <div class="noteTitle">
-                                        Lorem id
-                                    </div>
-                                    <div class="noteDescription">
-                                        Lorem ipsum amet....
-                                    </div>
-                                    <div class="showTime"> 12day ago</div>
-                                </header>
-                                <div class="noteBody">
-                                    <div class="leftSidenoteBody">
-                                        <div class="LinksDataInfo">
-                                            <div class="showLink"><i class="fa-solid fa-paperclip"></i>12+ links</div>
-                                            <button><i class="fa-regular fa-copy"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="rightNoteBody">
-                                        <button><i class="fa-solid fa-bars-staggered"></i></button>
-                                    </div>
-                                </div>
-                            </div>           
-                            <div class="note normal">
-                                <header class="noteHeader">
-                                    <div class="noteTitle">
-                                        Lorem id
-                                    </div>
-                                    <div class="noteDescription">
-                                        Lorem ipsum amet....
-                                    </div>
-                                    <div class="showTime"> 12day ago</div>
-                                </header>
-                                <div class="noteBody">
-                                    <div class="leftSidenoteBody">
-                                        <div class="LinksDataInfo">
-                                            <div class="showLink"><i class="fa-solid fa-paperclip"></i>12+ links</div>
-                                            <button><i class="fa-regular fa-copy"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="rightNoteBody">
-                                        <button><i class="fa-solid fa-bars-staggered"></i></button>
-                                    </div>
-                                </div>
-                            </div>           
-                            <div class="note normal">
-                                <header class="noteHeader">
-                                    <div class="noteTitle">
-                                        Lorem id
-                                    </div>
-                                    <div class="noteDescription">
-                                        Lorem ipsum amet....
-                                    </div>
-                                    <div class="showTime"> 12day ago</div>
-                                </header>
-                                <div class="noteBody">
-                                    <div class="leftSidenoteBody">
-                                        <div class="LinksDataInfo">
-                                            <div class="showLink"><i class="fa-solid fa-paperclip"></i>12+ links</div>
-                                            <button><i class="fa-regular fa-copy"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="rightNoteBody">
-                                        <button><i class="fa-solid fa-bars-staggered"></i></button>
-                                    </div>
-                                </div>
-                            </div>           
-                            <div class="note normal">
-                                <header class="noteHeader">
-                                    <div class="noteTitle">
-                                        Lorem id
-                                    </div>
-                                    <div class="noteDescription">
-                                        Lorem ipsum amet....
-                                    </div>
-                                    <div class="showTime"> 12day ago</div>
-                                </header>
-                                <div class="noteBody">
-                                    <div class="leftSidenoteBody">
-                                        <div class="LinksDataInfo">
-                                            <div class="showLink"><i class="fa-solid fa-paperclip"></i>12+ links</div>
-                                            <button><i class="fa-regular fa-copy"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="rightNoteBody">
-                                        <button><i class="fa-solid fa-bars-staggered"></i></button>
-                                    </div>
-                                </div>
-                            </div>           
+                                  <!-- Notes -->
                     </div>
                 </div>
             </div>
@@ -524,7 +437,7 @@
                                             <div class="noteDetailsDataCon">
                                                 <div class="createDetails">
                                                 <div id="createTime">2025/2/12 - 04:56 PM</div>
-                                                <div id="noteLenght">120</div>
+                                                <div id="noteLenght">0</div>
                                             </div>
                                             <button id="SaveNote">Save</button>
                                         </div>
@@ -535,16 +448,78 @@
                             </div>
                             <div class="header-row2">
                                 <div class="AppendLinks">
-                                    <div class="AppendLinksWraper">
-                                        <button><i class="fa-solid fa-square-arrow-up-right"></i>facebook video 1</button>
-                                        <button><i class="fa-solid fa-link"></i>facebook video 2</button>
-                                        <button><i class="fa-solid fa-link"></i>youtube</button>
+                                    <div class="AppendLinksWraper" id="NoteLinksIn">
+                                        <!-- append link ite -->
                                     </div>
                                 </div>
                                 <div class="headerRow2ControllsBtns">
                                     <div class="headerRow2BtnsCon1">
-                                        <button class="CreateLinkBtn"><i class="fa-solid fa-paperclip"></i> create</button>
+                                        <button class="CreateLinkBtn" id="CreateLinkBtn"><i class="fa-solid fa-paperclip"></i> create</button>
                                         <button class="SetTime"><i class="fa-regular fa-clock"></i></button>
+                                    </div>
+                                </div>
+                                <div class="HR3Dropdowns">
+                                        <div class="createLinksMenu">
+                                            <div class="createLinksMenuWraper">
+                                                <div class="createLinksMenuHead">
+                                                    <span>Create link</span>
+                                                    <button id="HideCreateLinkMenu">
+                                                         <i class="fa-solid fa-xmark"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="hrWraper">
+                                                    <div class="hr-1px-wbg7"></div>
+                                                </div>
+                                            <div class="createLinksMenuBody">
+                                                <div class="LinkInputContainer">
+                                                    <div class="LinkInputWraper">
+                                                        <span>Enter link</span>
+                                                        <input type="text" id="LinkInput">
+                                                    </div>
+                                                </div>
+                                                <div class="LinkNameInputContainer">
+                                                    <div class="LinkNameInputWraper">
+                                                        <span>Enter link name (optional)</span>
+                                                        <input type="text" id="LinkNameInput">
+                                                    </div>
+                                                </div>
+                                                <div class="LinkTargetLinksInputContainer">
+                                                    <div class="LinkTargetHead">
+                                                        <span><i class="fa-solid fa-arrow-up-right-from-square"></i>Link target</span>
+                                                    </div>
+                                                    <div class="LinkTargetLinksInputWraper">
+                                                        <div class="TargetLinksBtns">
+                                                            <button data-target="_blank" class="active">blank</button>
+                                                            <button data-target="_self">self</button>
+                                                            <button data-target="_parent">parent</button>
+                                                            <button data-target="_top">top</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="createLinksMenuFooter">
+                                                <div class="CreateLinksMenuFooterWraper">
+                                                    <div class="createLinkSteps">
+                                                    <h4>Create link Steps</h4>
+                                                </div>
+                                                <ul>
+                                                    <li>First Enter the link.</li>
+                                                    <li>Then Enter link name </li>
+                                                    <li>Last one link target </li>
+                                                </ul>
+                                                </div>
+                                            </div>
+                                           <div class="CreateLinkbtn">
+                                             <button id="linkCreateBtn">
+                                                <div class="linkCreateBtnWraper">
+                                                    <span class="linkCreateBtnSpan"><i class="fa-solid fa-plus"></i>Create Link </span>
+                                                    <span class="loadingWraper">
+                                                        <span id="loading"></span>
+                                                    </span>
+                                                </div>
+                                            </button>
+                                           </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

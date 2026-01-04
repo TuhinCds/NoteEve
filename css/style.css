@@ -1142,9 +1142,13 @@ body.sidebarHide {
     background: rgb(15, 15, 15);
     border-radius: 10px;
     transition: .3s;
-    height: max-content;
+    height: 15.8vh;
     overflow: hidden;
-    
+    cursor: pointer;
+    transition: background .3s;
+}
+.note:hover {
+    background: rgba(163, 163, 163, 0.142);
 }
 #ShowNotesDisplay.grid-display {
     width: 100%;
@@ -1932,10 +1936,11 @@ body.sidebarHide {
     align-items: center;
     gap: 7px;
 }
-.AppendLinksWraper button {
+.AppendLinksWraper a {
     padding: 8px 10px;
     white-space: nowrap;
     font-size: .8rem;
+    display: block;
     border-radius: 5px;
     border: none;
 }
@@ -1965,15 +1970,21 @@ body.sidebarHide {
     padding: 1px 10px !important;
 }
 
-.AppendLinksWraper button {
+.AppendLinksWraper a {
     background: rgba(255, 255, 255, 0);
     color: var(--text-color-60);
     border-radius: 1000px;
     border-right: 1px solid rgba(255, 255, 255, 0.098);
 }
-.AppendLinksWraper button {
+.AppendLinksWraper a {
     display: flex;
     gap: 6px;
+    text-decoration: none;
+    transition: color .3s, border .3s;
+}
+.AppendLinksWraper a:hover{
+    color: var(--text-color-80);
+    border-color: rgba(255, 255, 255, 0.218);
 }
 .headerRow2ControllsBtns button {
     white-space: nowrap;
@@ -2321,6 +2332,7 @@ body.sidebarHide {
     border: none;
     height: 100%;
     background: var(--bg-color);
+    color: var(--text-color);
     font-size: 2.8rem;
     text-align: end;
     border-radius: 10px;
@@ -2396,19 +2408,325 @@ body.sidebarHide {
     background: rgba(255, 85, 0, 0.274);
 }
 
+.header-row2 {
+    position: relative;
+    overflow: visible;
+}
+.HR3Dropdowns {
+    background-color: rgb(36, 36, 36);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 20px;
+    border-radius: 6px;
+    padding: 0px;
+    box-shadow: 2px 2px 40px rgb(0, 0, 0);
+    width: 90%;
+    max-width: 460px;
+    scale: 0;
+    z-index: 9999999999;
+    transition: scale .2s ease-out;
+}
+.HR3Dropdowns.open {
+    scale: 1;
+}
+.createLinksMenuHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.createLinksMenuHead span {
+    font-size: .9rem;
+    display: flex;
+    align-items: center;
+    color: var(--text-color-80)
+}
+.createLinksMenuHead button {
+    padding: 5px;
+    border: none;
+    background-color: transparent;
+    color: var(--text-color-60);
+    transition: color .3s;
+    cursor: pointer;
+}
+.createLinksMenuHead button:hover {
+    color: var(--text-color-80);
+}
+.createLinksMenuHead {
+    padding: 11px;
+
+}
+.createLinksMenu {
+    width: 100%;
+}
+.createLinksMenuWraper {
+    width: 100%;
+}
+
+.createLinksMenuBody {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.LinkInputContainer {
+    display: flex;
+    align-items: center;
+    width: 100%; 
+}
+.LinkInputWraper {
+    position: relative;
+    width: 100%;
+}
 
 
 
+.LinkNameInputContainer {
+    display: flex;
+    align-items: center;
+    width: 100%; 
+}
+.LinkNameInputWraper {
+    position: relative;
+    width: 100%;
+}
 
+.LinkNameInputWraper span {
+    position: absolute;
+    font-size: .9rem;
+    top: 0
+}
+.LinkInputWraper span {
+    position: absolute;
+    font-size: .9rem;
+}
+.LinkNameInputWraper span , .LinkInputWraper span {
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+    color: var(--text-color-70);
+    font-family: "DM Sans", sans-serif;
+    padding: 1px 10px;
+    transition: transform .4s, top .4s;
+    user-select: none;
+    cursor: text;
+}
+.LinkInputWraper input, .LinkNameInputWraper input {
+    width: 100%;
+    padding: 14px 12px;
+    font-size: .9rem;
+    border: none;
+    border-radius: 5px;
+    background: transparent;
+    border: 1px solid var(--light-transparent-10);
+    outline: none;
+    color: var(--text-color-70);
+}
+.LinkTargetLinksInputContainer {
+    padding: 3px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.LinkTargetLinksInputWraper .TargetLinksBtns {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+.LinkTargetLinksInputWraper .TargetLinksBtns button {
+    border: 2px solid transparent;
+    padding: 6px 14px;
+    font-size: .8rem;
+    background-color: var(--light-transparent-7);
+    color: var(--text-color-60);
+    transition: border .3s , background .3s;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.createLinksMenuFooter {
+    width: 100%;
+    margin-top: 5px;
+}
+.createLinkSteps {
+    width: 100%;
+}
+.createLinkSteps h4 {
+    text-align: center;
+    color: var(--text-color-60);
+    margin-bottom: 5px;
+}
+.createLinksMenuFooter  {
+    width: 100%;
+    padding: 14px 10px;
+    
+}
+.CreateLinksMenuFooterWraper {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.064);
+    padding: 14px 10px;
+    border-radius: 10px;
+}
 
+.createLinksMenuFooter ul{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: var(--text-color-60);
+    font-size: .8rem;
+    gap: 2px;
+}
+.CreateLinkbtn {
+    width: 100%;
+    padding: 10px;
+}
+.CreateLinkbtn button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 560;
+}
+#linkCreateBtn {
+    transition: background .4s;
+    cursor: pointer;
+}
+#linkCreateBtn:hover {
+    background: rgb(255, 255, 255);
+}
+.hrWraper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.LinkNameInputWraper span.tapInput {
+    top: 0 !important;
+    transform: translateY(-9px) !important;
+    font-size: .8rem;
+    background: rgb(36, 36, 36);
 
+}
+.LinkInputWraper span.tapInput {
+    top: 0 !important;
+    transform: translateY(-9px) !important;
+    font-size: .8rem;
+    background: rgb(36, 36, 36);
 
+}
+#LinkInput.inputBorder2 {
+    border: 2px solid var(--text-color-70);
+}
+#LinkNameInput.inputBorder2 {
+    border: 2px solid var(--text-color-70);
+}
+#CreateLinkBtn {
+    cursor: pointer;
+}
+#linkCreateBtn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+}
+.loadingWraper {
+    display: flex;
+    align-items: center;
+    display: none;
+}
+#loading {
+    width: 23px;
+    height: 23px;
+    border: 3px solid rgba(0, 0, 0, 0.087);
+    border-radius: 100px;
+    position: relative;
+}
+#loading::after {
+    content: "";
+    position: absolute;
+    border: 3px solid transparent;
+    border-top: 3px solid rgb(233, 233, 233);
+    left: -3px;
+    top: -3px;
+    bottom: -3px;
+    right: -3px;
+    border-radius: 1000px;
+    animation: rotateLoading 2.6s cubic-bezier(0.2, 0, 0.6, 1) infinite;
+}
+.linkCreateBtnWraper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
+@keyframes rotateLoading {
+    to {
+        transform: rotate(0deg);
+    } from {
+        transform: rotate(360deg);
+    }
+}
 
+.linkCreateBtnSpan {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+.linkCreateBtnSpan i {
+    font-size: .9rem;
+}
+#linkCreateBtn.click {
+    background: rgb(75, 75, 75);
+    color: rgb(240, 240, 240);
+}
+.TargetLinksBtns button.active {
+    background: rgba(255, 255, 255, 0.184);
+    color: rgba(255, 255, 255, 0.741);
 
+}
+.TargetLinksBtns {
+    display: inline-flex !important;
+    text-wrap: wrap;
+    padding: 3px;
+    border-radius: 1000px;
+    border: 1px solid rgba(255, 255, 255, 0.096);
+}
+.TargetLinksBtns button:first-child {
+    border-radius: 100px 20px 20px 100px !important;
+}
+.TargetLinksBtns button:last-child {
+    border-radius: 20px 100px 100px 20px !important;
+}
 
-
-
+.TargetLinksBtns button:not(:last-child, :last-child) {
+    border-radius: 5px;
+}
+.LinkTargetHead {
+    margin-bottom: 6px;
+}
+.LinkTargetHead span {
+    font-size: .8rem;
+    color: var(--text-color-60);
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.LinkTargetHead span i {
+    font-size: .8rem;
+}
+.emptyNoteLink {
+    color: rgba(255, 255, 255, 0.617);
+    font-size: .8rem;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    background: rgba(255, 255, 255, 0.081);
+    padding: 6px 10px;
+    border-radius: 1000px;
+}
 
 
 
@@ -2456,10 +2774,6 @@ body.sidebarHide {
     width: 100%;
     background: rgba(255, 255, 255, 0.025)
 }
-
-
-
-
 
 
 /* Make responsive */
