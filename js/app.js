@@ -19,6 +19,8 @@ const filterNoteBtn = document.getElementById("filterNoteBtn")
 const FilterListMenu = document.querySelector(".FilterListMenu")
 const CloseMenu = FilterListMenu.querySelector(".CloseMenu")
 const ShowNotesDisplay = document.getElementById("ShowNotesDisplay")
+
+
 // music 
 const MusicMenu = document.querySelector(".MusicMenu")
 const MusicBtn = document.getElementById("MusicBtn")
@@ -32,9 +34,11 @@ const musicName = document.getElementById("musicName")
 const audioLength = document.getElementById("audioLength")
 const musicActiveShowerBtn = document.getElementById("musicActiveShowerBtn")
 const musicActiveShower = document.querySelector(".musicActiveShower")
+const threeDot = document.getElementById("threeDot")
+
 
 // create note 
-
+const createTime = document.getElementById("createTime")
 const NoteCreatetorWraper = document.querySelector(".NoteCreatetorWraper")
 const CreateNoteBtn = document.getElementById("CreateNoteBtn")
 const CreateNoteBtnTwo = document.getElementById("CreateNoteBtnTwo")
@@ -48,6 +52,9 @@ const SearchNote = document.getElementById("SearchNote")
 const SearchNoteBtn = document.getElementById("SearchNoteBtn")
 const countListLength = document.getElementById("countListLength")
 const noteLenght = document.getElementById("noteLenght")
+const filterListMenuBtns = document.querySelector(".filterListMenuBtns")
+const noteCreatetorMenu = document.querySelector(".noteCreatetorMenu")
+const hideNoteCreatorMenu = document.getElementById("hideNoteCreatorMenu")
 
 
 // create links 
@@ -1007,6 +1014,7 @@ if (WaletbtnsData.length < 1) {
 }
 
 NoteBtn.addEventListener("click", () => {
+    RenderNote(NoteLists)
     adddata.classList.add("hide")
      main_wraper_two.classList.remove("hide")
     localStorage.setItem("isNotePage", "true")
@@ -1046,7 +1054,6 @@ function isNotePageAdd() {
 }
 
 isNotePageAdd()
-
 
 
 const shortFilterContainer = document.querySelector(".shortFilterContainer")
@@ -1459,6 +1466,7 @@ function BackToHomeLet() {
      NoteBtn.classList.add("active")
      isNotepageIn()
      SaveNotedta()
+     LinkLengthDisplay()
 }
 let sidebarBtns = SidebarBtns.querySelectorAll("li button")
 AddNoteBtn.addEventListener("click", () => {
@@ -1602,12 +1610,7 @@ function DeleteAllData() {
 // }
 
 
-// calculatorBtn.addEventListener('click', () => {
-//         adddata.classList.add("hide")
-//         main_wraper_two.classList.add("hide")
-//         calculatorBtn.classList.add("active")
-//         Calculator.classList.remove("hide")
-// })
+
 
 function RemoveCalculator() {
         calculatorBtn.classList.remove("active")
@@ -1711,7 +1714,7 @@ SaveNote.addEventListener("click", () => {
     
 })
 function LinkLengthDisplay() {
-    if (localStorage.getItem("NoteBody")) {
+    if (localStorage.getItem("NoteBody").length > 0) {
     noteLenght.innerHTML = NoteBody.length
 } else {
     noteLenght.innerHTML = 0
@@ -1921,11 +1924,32 @@ LinkNameInput.addEventListener("keydown",(e) => {
     }
 })  
 
+const months = [
+  { full: "January",   short: "Jan" },
+  { full: "February",  short: "Feb" },
+  { full: "March",     short: "Mar" },
+  { full: "April",     short: "Apr" },
+  { full: "May",       short: "May" },
+  { full: "June",      short: "Jun" },
+  { full: "July",      short: "Jul" },
+  { full: "August",    short: "Aug" },
+  { full: "September", short: "Sep" },
+  { full: "October",   short: "Oct" },
+  { full: "November",  short: "Nov" },
+  { full: "December",  short: "Dec" }
+];
 
 
+function DateShowDisplay() {
+    let newDate = new Date()
+    let year = newDate.getFullYear()
+    let month = newDate.getMonth()
+    let day = newDate.getDate()
 
+    createTime.innerHTML = `<span>${year}</span>/<span>${month + 1}</span>/<span>${months[month].short}</span><span>${day}</span>`
+}
 
-
+DateShowDisplay()
 
 function SaveNotedta() {
     let NoteBodyValue = NoteBodyData.value 
@@ -1933,6 +1957,7 @@ function SaveNotedta() {
     if (NoteBodyValue === "" && NoteTitleValue === "") return
 
     let NoteListsData = {
+        id: Date.now(),
         noteTitle: NoteTitleValue,
         noteBody: NoteBodyValue,
         NoteAllLinks: [...CurrentAllLinksSaved],
@@ -1951,13 +1976,13 @@ function SaveNotedta() {
     NoteBodyData.value = ""
     localStorage.setItem("NoteTitle", noteTitleVal)
     noteTitle.value = ""
-    RenderNoteListLength()
+    RenderNoteListLength(NoteLists)
 }
 
-function RenderNoteListLength() {
-    countListLength.innerHTML = `${NoteLists.length} list`
+function RenderNoteListLength(NoteListsL) {
+    countListLength.innerHTML = `${NoteListsL.length} list`
 }
-RenderNoteListLength()
+RenderNoteListLength(NoteLists)
 
 function RenderNote(noteListsD) {
     ShowNotesDisplay.innerHTML = ""
@@ -1981,19 +2006,80 @@ function RenderNote(noteListsD) {
                                         </div>
                                     </div>
                                     <div class="rightNoteBody">
-                                        <button><i class="fa-solid fa-bars-staggered"></i></button>
+                                       <div class="NotemenuToggler">
+                                             <button class="NoteMenuShowBtn"><i class="fa-solid fa-bars-staggered"></i></button>
+                                             <div class="NoteMenu scale0">
+                                                <div class="NoteMenuWraper">
+                                                    <div class="NoteMenuBody">
+                                                        <button class="deleteNoteBtn" data-id="${item.id}"><i class="fa-regular fa-trash-can"></i>Delete</button>
+                                                        <div class="hr-1px-wbg10"></div>
+                                                        <button class="ShowLinkBtn"><span><i class="fa-solid fa-paperclip"></i>Links</span><span class="showLinkLength ${item.NoteAllLinks.length > 0 ? "show" : "hide"}">${item.NoteAllLinks.length > 0 ? item.NoteAllLinks.length : ""}</span></button>
+                                                    </div>
+                                                </div>
+                                                <div class="noteMenus">
+                                                        <div class="NotesLinksShow">
+                                                            <div class="NotesLinksShowWraper">
+                                                                <div class="NotesLinksHead">
+                                                                    <span><i class="fa-solid fa-paperclip"></i>10 links</span>
+                                                                    <button><i class="fa-solid fa-xmark"></i></button>
+                                                                </div>
+                                                                <div class=".hr-1px-wbg5"></div>
+                                                                <div class="NotesLinksBody">
+                                                                    <a href="#"><span><i class="fa-brands fa-youtube"></i></span><span>youtube</span></a>
+                                                                    <a href="#"><span><i class="fa-brands fa-youtube"></i></span><span>youtube</span></a>
+                                                                    <a href="#"><span><i class="fa-brands fa-youtube"></i></span><span>youtube</span></a>
+                                                                    <a href="#"><span><i class="fa-brands fa-youtube"></i></span><span>youtube</span></a>
+                                                                    <a href="#"><span><i class="fa-brands fa-youtube"></i></span><span>youtube</span></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                             </div>
+                                       </div>
+
                                     </div>
                                 </div>
                             </div>`
         ShowNotesDisplay.appendChild(createNote)
+        let NoteMenuShowBtn = createNote.querySelector(".NoteMenuShowBtn")
+        let NoteMenu = createNote.querySelector(".NoteMenu")
+        
+        NoteMenuShowBtn.addEventListener("click", (e) => {
+            e.stopPropagation()
+           NoteConfigToggler(NoteMenu)
+        })
     })
-
 }
 RenderNote(NoteLists)
 
+// Note menu 
+let activeNoteMenu = null
 
+function NoteConfigToggler(noteMenu) {
+    if (activeNoteMenu && activeNoteMenu !== noteMenu) {
+        activeNoteMenu.classList.add("scale0")
+    }
+   noteMenu.classList.toggle("scale0")
+   if (noteMenu.classList.contains("scale")) {
+        activeNoteMenu = null
+   } else {
+        activeNoteMenu = noteMenu
+   }
 
+}
 
+// const NoteMenuAll = document.querySelectorAll(".NoteMenu")
+// NoteMenuAll.forEach(menu => {
+//     menu.addEventListner("click", (e) => {
+//         e.stopPropagation()
+//     })
+// })
+
+document.addEventListener("click", (e) => {
+    if (activeNoteMenu && !e.target.closest(".NoteMenu")) {
+        activeNoteMenu.classList.add("scale0")
+    }
+})
 function renderNoteLinkInfo(LinkInfo) {
     NoteLinksIn.innerHTML = ""
 
@@ -2049,9 +2135,10 @@ SearchNote.addEventListener("input", () => {
     }, 300)
 })
 function SearchNotes() {
-    let SearchNoteValue = SearchNote.value.trim().toLowerCase()
-    let filtredSearchNotes = NoteLists.filter(note => note.noteTitle.includes(SearchNoteValue) || note.noteBody.includes(SearchNoteValue) || note.NoteAllLinks.some(l => l.link.includes(SearchNoteValue)))
+    let SearchNoteValue = SearchNote.value.toLowerCase()
+    let filtredSearchNotes = NoteLists.filter(note => note.noteTitle.toLowerCase().includes(SearchNoteValue) || note.noteBody.toLowerCase().includes(SearchNoteValue) || note.NoteAllLinks.some(l => l.link.toLowerCase().includes(SearchNoteValue)))
     RenderNote(filtredSearchNotes)
+    RenderNoteListLength(filtredSearchNotes)
     // let c = NoteLists.filter(j => ))
     }
 
@@ -2070,7 +2157,7 @@ function FormatTime(old) {
     let years = Math.floor(month / 12)
     
 
-    if (s < 60) return `Just Now`
+    if (s < 60) return `Just now`
     if (m < 60) return `${m}m ago`
     if (h < 24) return `${h}h ago`
     if (day < 30) return `${day % 7 ? `${day / 7}` : `${day}day ago`}`
@@ -2084,9 +2171,100 @@ function AutoUpdateTime() {
     const showTimeAll = document.querySelectorAll(".showTime")
     showTimeAll.forEach(timecon => {
         let time = timecon.dataset.time
-        timecon.innerHTML = formatTime(time)
+        timecon.innerText = formatTime(time)
     })
 }
 setInterval(() => {
     AutoUpdateTime()
 }, 1000)
+
+
+let filterListMenuBtnsAll = filterListMenuBtns.querySelectorAll("button")
+let currentNoteFilter = "All"
+let nowTime = new Date()
+filterListMenuBtnsAll.forEach(filterbtn => {
+    filterbtn.addEventListener("click", () => {
+        filterListMenuBtnsAll.forEach(bBtn => {
+            bBtn.classList.remove("active")
+            })
+
+            
+        filterbtn.classList.add("active")
+        switch (filterbtn.innerText) {
+            case "All":
+              currentNoteFilter = "All"
+              RenderNote(NoteLists)
+              RenderNoteListLength(NoteLists)
+              break
+            case "10 day":
+              currentNoteFilter = "10 day"
+              let filter10day = NoteLists.filter(item => nowTime - (new Date(item.NoteCreateTime).getTime()) <= 864000000)
+              RenderNote(filter10day)
+              RenderNoteListLength(filter10day)
+              break
+            case "1 hours":
+                currentNoteFilter = "1 hours"
+                let filter1h = NoteLists.filter(item => nowTime - (new Date(item.NoteCreateTime).getTime()) <= 360000)
+              RenderNote(filter1h)
+              RenderNoteListLength(filter1h)
+                break
+            case "1 month":
+                currentNoteFilter = "1 month"
+                let filter1Month = NoteLists.filter(item => nowTime - (new Date(item.NoteCreateTime).getTime()) <= 2592000000)
+                RenderNote(filter1Month)
+                RenderNoteListLength(filter1Month)
+                break
+        }
+    })
+})
+
+let isActiveMenu = false
+threeDot.addEventListener("click", (e) => {
+    e.stopPropagation()
+    noteCreatorMenu()
+})
+
+function noteCreatorMenu() {
+    noteCreatetorMenu.classList.toggle("scale0")
+    isActiveMenu = !(noteCreatetorMenu.classList.contains("scale0"))
+    if (noteCreatetorMenu.classList.contains("scale0")) {
+        BlackOverlyRemove()
+    } else {
+        BlackOverlyAdd()
+    }
+}
+function noteCreatorMenuRemove() {
+    noteCreatetorMenu.classList.add("scale0")
+    isActiveMenu = false
+}
+hideNoteCreatorMenu.addEventListener("click", (e) => {  
+    e.stopPropagation()
+    noteCreatorMenuRemove()
+    BlackOverlyRemove()
+})
+noteCreatetorMenu.addEventListener("click", (e) => {
+     e.stopPropagation()
+})
+document.addEventListener("click", (e) => {
+    if (isActiveMenu && !e.target.closest(".noteCreatetorMenu")){
+        noteCreatorMenuRemove()
+    }
+})
+
+
+ShowNotesDisplay.addEventListener("click", (e) => {
+    let deleteBtn = e.target.closest(".deleteNoteBtn")
+    if (!deleteBtn) return
+
+    DeleteNote(deleteBtn.dataset.id)
+})
+    
+  
+
+
+function DeleteNote(noteId) {
+    NoteLists = NoteLists.filter(item => String(item.id) !== String(noteId))
+    localStorage.setItem("NoteLists", JSON.stringify(NoteLists))
+    RenderNote(NoteLists)
+    RenderNoteListLength(NoteLists)
+}
