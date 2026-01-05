@@ -1527,7 +1527,7 @@ function fullScreenOverlyRemove() {
 function fullScreenOverlyClick() {
     fullScreenOverlyRemove()
     removeAlert()
-    LinkMenu()
+    RemoveLinkMenu()
 }   
 
 fullScreenOverly.addEventListener("click", () => {
