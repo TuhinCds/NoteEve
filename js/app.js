@@ -49,12 +49,14 @@ const noteTitle = document.getElementById("noteTitle")
 const NoteBodyData = document.getElementById("NoteBodyData")
 const SaveNote = document.getElementById("SaveNote")
 const SearchNote = document.getElementById("SearchNote")
-const SearchNoteBtn = document.getElementById("SearchNoteBtn")
 const countListLength = document.getElementById("countListLength")
 const noteLenght = document.getElementById("noteLenght")
 const filterListMenuBtns = document.querySelector(".filterListMenuBtns")
 const noteCreatetorMenu = document.querySelector(".noteCreatetorMenu")
 const hideNoteCreatorMenu = document.getElementById("hideNoteCreatorMenu")
+const CreateListbtnEmpty = document.getElementById("CreateListbtnEmpty")
+const ShowEmptyNotes = document.querySelector(".ShowEmptyNotes")
+const CreateNewNoteBtn = document.getElementById("CreateNewNoteBtn")
 
 
 // create links 
@@ -70,6 +72,9 @@ const CreateLinkBtn = document.getElementById("CreateLinkBtn")
 const linkCreateBtnSpan = document.querySelector(".linkCreateBtnSpan")
 const loadingWraper = document.querySelector(".loadingWraper")
 const NoteLinksIn = document.getElementById("NoteLinksIn")
+
+
+// share notes 
 
 // calculator 
 const calculatorBtn = document.querySelector(".calculatorBtn")
@@ -190,7 +195,6 @@ const addMoneyBtnWallet = document.getElementById("addMoneyBtnWallet")
 
 // BlackOverly
 const BlackOverly = document.getElementById("BlackOverly")
-
 
 
 const showListLength = document.getElementById("showListLength")
@@ -368,32 +372,7 @@ SidebarBtn.forEach(btn => {
                 Calculator.classList.add("hide")
                 break;
             case "Create new":
-                LoadDataPage.classList.remove("hide");
-                adddata.classList.remove("hide")
-                adddatainnerWraper.classList.add("hide");
-                localStorage.setItem("isNotePage", "false")
-                main_wraper_two.classList.add("hide")
-                 NoteBtn.classList.remove("active")
-                HomeBtn.classList.remove("active")
-                localStorage.setItem("AddNotePageActive", "false")
-                calculatorBtn.classList.remove("active")
-                Calculator.classList.add("hide")
-
-
-
-
-
-                 LoadDataInputIncome.classList.add("show");
-                LoadDataInputExpense.classList.remove("show");
-                TopIcon.classList.remove("fa-eraser");
-                TopIcon.classList.add("fa-notes-medical");
-                topShowLoadType.classList.remove("close")
-                LoadDataInputWallet.classList.add("hide")
-
-
-
-                calculatorBtn.classList.remove("active")
-                Calculator.classList.add("hide")
+                CreateNewbtnClick()
                 //
                 // btns[0].classList.add("active")
                 // btns[1].classList.remove("active")
@@ -427,6 +406,35 @@ SidebarBtn.forEach(btn => {
         }
     });
 });
+
+function CreateNewbtnClick() {
+    LoadDataPage.classList.remove("hide");
+                adddata.classList.remove("hide")
+                adddatainnerWraper.classList.add("hide");
+                localStorage.setItem("isNotePage", "false")
+                main_wraper_two.classList.add("hide")
+                 NoteBtn.classList.remove("active")
+                HomeBtn.classList.remove("active")
+                localStorage.setItem("AddNotePageActive", "false")
+                calculatorBtn.classList.remove("active")
+                Calculator.classList.add("hide")
+
+
+
+
+
+                 LoadDataInputIncome.classList.add("show");
+                LoadDataInputExpense.classList.remove("show");
+                TopIcon.classList.remove("fa-eraser");
+                TopIcon.classList.add("fa-notes-medical");
+                topShowLoadType.classList.remove("close")
+                LoadDataInputWallet.classList.add("hide")
+
+
+
+                calculatorBtn.classList.remove("active")
+                Calculator.classList.add("hide")
+}
 
 // Add income
 AddIncomeBtn.addEventListener("click", AddIncomeInList);
@@ -1015,6 +1023,7 @@ if (WaletbtnsData.length < 1) {
 
 NoteBtn.addEventListener("click", () => {
     RenderNote(NoteLists)
+    RenderNoteListLength(NoteLists)
     adddata.classList.add("hide")
      main_wraper_two.classList.remove("hide")
     localStorage.setItem("isNotePage", "true")
@@ -1171,7 +1180,11 @@ addMoneyBtnWallet.addEventListener("click", () => {
 // })
 
 QuickOpenBtn.addEventListener("click", () => {
-    QuickbtnsWraper.classList.toggle("open")
+   QueckbtnToggler()
+})
+
+function QueckbtnToggler() {
+     QuickbtnsWraper.classList.toggle("open")
     if (QuickbtnsWraper.classList.contains("open")) {
         QuickOpenBtn.querySelector("i").classList.remove("fa-pen-to-square")
         QuickOpenBtn.querySelector("i").classList.add("fa-chevron-down")
@@ -1180,7 +1193,14 @@ QuickOpenBtn.addEventListener("click", () => {
         QuickOpenBtn.querySelector("i").classList.remove("fa-chevron-down")
         removeMenuClick()
     }
-})
+}
+
+function QueckbtnTogglerRemove() {
+     QuickOpenBtn.querySelector("i").classList.add("fa-pen-to-square")
+     QuickOpenBtn.querySelector("i").classList.remove("fa-chevron-down")
+     QuickbtnsWraper.classList.remove("open")
+     removeMenuClick()
+}
 
 let x = null
 
@@ -1506,16 +1526,16 @@ isNotepageIn()
 let AddNotePageActive = localStorage.getItem("AddNotePageActive")
 
 if (AddNotePageActive == "true") {
-                    AddDataChilds.forEach(btnAll => btnAll.classList.remove("active"))
-                    LoadDataPage.classList.add("hide");
-                    adddatainnerWraper.classList.add("hide");
-                    adddata.classList.add("hide")
-                    main_wraper_two.classList.remove("hide")
-                    NoteBtn.classList.add("active")
-                    HomeBtn.classList.remove("active")
-                    NoteCreatetorWraper.classList.add("hide")
-                    createNote.classList.remove("hide")
-                    localStorage.setItem("AddNotePageActive", "true")
+            AddDataChilds.forEach(btnAll => btnAll.classList.remove("active"))
+            LoadDataPage.classList.add("hide");
+            adddatainnerWraper.classList.add("hide");
+            adddata.classList.add("hide")
+            main_wraper_two.classList.remove("hide")
+            NoteBtn.classList.add("active")
+            HomeBtn.classList.remove("active")
+            NoteCreatetorWraper.classList.add("hide")
+            createNote.classList.remove("hide")
+            localStorage.setItem("AddNotePageActive", "true")
 } 
 
 function fullScreenOverlyAdd() {
@@ -1599,8 +1619,10 @@ function DeleteAllData() {
         applyCurrentFilter();
         FilterAll();
         ShowEmptyPage();
-        localStorage.removeItem("NoteLists")
-        ShowNotesDisplay.innerHTML = ""
+        NoteLists = []
+        localStorage.setItem("NoteLists", JSON.stringify(NoteLists))
+        RenderNote(NoteLists)
+        RenderNoteListLength(NoteLists)
 }
 
 // if ("serviceWorker" in navigator) {
@@ -1650,7 +1672,11 @@ calculatorAllbtnsQuery.forEach(btn => {
                     } else if (btnValue === "0" && Calculatordisplay.value === "") {
                             Calculatordisplay.value = ""
                     } else if (btnValue === "add") {
-                            UserWalletStore(Number(Calculatordisplay.value), "+")
+                                try {
+                                     UserWalletStore(Number(Calculatordisplay.value), "+")
+                                } catch(err) {
+                                    console.log(err)
+                                }
                             Calculatordisplay.value = ""
                     } else {        
                         Calculatordisplay.value += btnValue
@@ -1981,6 +2007,11 @@ function SaveNotedta() {
 
 function RenderNoteListLength(NoteListsL) {
     countListLength.innerHTML = `${NoteListsL.length} list`
+    if (NoteListsL.length < 1) {
+        ShowEmptyNotes.classList.add("show")
+    } else {
+        ShowEmptyNotes.classList.remove("show")
+    }
 }
 RenderNoteListLength(NoteLists)
 
@@ -1988,15 +2019,18 @@ function RenderNote(noteListsD) {
     ShowNotesDisplay.innerHTML = ""
     noteListsD.forEach((item, index) => {
         let createNote = document.createElement("div")
+        createNote.classList.add("noteParent")
         createNote.innerHTML = `<div class="note normal">
                                 <header class="noteHeader">
-                                    <div class="noteTitle">
-                                        ${item.noteTitle.length > 16 ? item.noteTitle.slice(0, (item.noteTitle / 2)).length > 30 ? item.noteTitle.slice(0, 20) + "..." : item.noteTitle.slice(0, 15) + "...": item.noteTitle}
+                                    <div class="noteTitleContainer">
+                                        <div class="noteTitle">
+                                            ${item.noteTitle.length > 16 ? item.noteTitle.slice(0, (item.noteTitle / 2)).length > 30 ? item.noteTitle.slice(0, 20) + "..." : item.noteTitle.slice(0, 15) + "...": item.noteTitle}
+                                        </div>
+                                        <div class="showTime" data-time="${item.NoteCreateTime}">${FormatTime(item.NoteCreateTime)}</div>
                                     </div>
                                     <div class="noteDescription">
                                         ${item.noteBody.length > 25 ? item.noteBody.slice(0, 20) + "..." : item.noteBody}
                                     </div>
-                                    <div class="showTime" data-time="${item.NoteCreateTime}">${FormatTime(item.NoteCreateTime)}</div>
                                 </header>
                                 <div class="noteBody">
                                     <div class="leftSidenoteBody">
@@ -2013,7 +2047,9 @@ function RenderNote(noteListsD) {
                                                     <div class="NoteMenuBody">
                                                         <button class="deleteNoteBtn" data-id="${item.id}"><i class="fa-regular fa-trash-can"></i>Delete</button>
                                                         <div class="hr-1px-wbg10"></div>
-                                                        <button class="ShowLinkBtn"><span><i class="fa-solid fa-paperclip"></i>Links</span><span class="showLinkLength ${item.NoteAllLinks.length > 0 ? "show" : "hide"}">${item.NoteAllLinks.length > 0 ? item.NoteAllLinks.length : ""}</span></button>
+                                                        ${item.NoteAllLinks.length > 0 ? `<button class="ShowLinkBtn" data-index="${index}"><span><i class="fa-solid fa-paperclip"></i>Links</span><span class="showLinkLength ${item.NoteAllLinks.length > 0 ? "show" : "hide"}">${item.NoteAllLinks.length > 0 ? item.NoteAllLinks.length : ""}</span></button>
+                                                        <div class="hr-1px-wbg10"></div>` : ""}
+                                                        <button class="shareNote"><i class="fa-solid fa-arrow-up-from-bracket"></i> Share</button>
                                                     </div>
                                                 </div>
                                                 <div class="noteMenus">
@@ -2021,15 +2057,52 @@ function RenderNote(noteListsD) {
                                                             <div class="NotesLinksShowWraper">
                                                                 <div class="NotesLinksHead">
                                                                     <span><i class="fa-solid fa-paperclip"></i>10 links</span>
-                                                                    <button><i class="fa-solid fa-xmark"></i></button>
+                                                                    <button class="NotesLinksShowCloseBtn"><i class="fa-solid fa-xmark"></i></button>
                                                                 </div>
                                                                 <div class=".hr-1px-wbg5"></div>
                                                                 <div class="NotesLinksBody">
-                                                                    <a href="#"><span><i class="fa-brands fa-youtube"></i></span><span>youtube</span></a>
-                                                                    <a href="#"><span><i class="fa-brands fa-youtube"></i></span><span>youtube</span></a>
-                                                                    <a href="#"><span><i class="fa-brands fa-youtube"></i></span><span>youtube</span></a>
-                                                                    <a href="#"><span><i class="fa-brands fa-youtube"></i></span><span>youtube</span></a>
-                                                                    <a href="#"><span><i class="fa-brands fa-youtube"></i></span><span>youtube</span></a>
+                                                                    <div class="NotesLinksBodybtns">
+                                                                    
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="NoteShareMenu">
+                                                        <div class="NoteShareMenuWraper">
+                                                            <div class="NoteShareMenuHead">
+                                                                <span class="NoteShareMenuHeadLeft">
+                                                                <i class="fa-solid fa-share"></i>
+                                                                    Share
+                                                                </span>
+                                                                <button class="NoteShareMenuHeadRight">
+                                                                    <i class="fa-solid fa-xmark"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="NoteShareMenuBody">
+                                                                <div class="appsMenu">
+                                                                    <div class="appsMenuBtns">
+                                                                        <button><i class="fa-brands fa-whatsapp"></i></button>
+                                                                        <button><i class="fa-brands fa-facebook-messenger"></i></button>
+                                                                        <button><i class="fa-brands fa-telegram"></i></button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="ShareTextInAppContainer">   
+                                                                    <div class="ShareTextInApp">
+                                                                        <div class="ShareTextInAppHead"></div>
+                                                                        <div class="ShareTextInAppBody">
+                                                                            <div class="ShareTextInAppInput">
+                                                                                <div class="shareTextInCon">
+                                                                                    <input type="text">
+                                                                                    <span class="inputPlaceholder">Text here (optional)</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="chatSharebtnCon">
+                                                                                <button><i class="fa-solid fa-arrow-up-from-bracket"></i> Share chatgpt</button>
+                                                                                <button class="ShareTextInAppBtn"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -2047,10 +2120,125 @@ function RenderNote(noteListsD) {
         NoteMenuShowBtn.addEventListener("click", (e) => {
             e.stopPropagation()
            NoteConfigToggler(NoteMenu)
+           QueckbtnTogglerRemove()
         })
+        
+        // share 
+        let shareTextInputValueData = 0
+
+        const shareTextInCon = createNote.querySelector(".shareTextInCon")
+             let shareTextInput = createNote.querySelector(".shareTextInCon input")
+        shareTextInput.addEventListener("input", () => {
+            let shareTextInputValue = shareTextInput.value.trim()
+            shareTextInputValueData = shareTextInputValue.length
+            if (shareTextInputValue.value.length > 0) {
+                ShareTextInputActiveAdd(shareTextInCon)
+            } else {
+                ShareTextInputActiveRemove(shareTextInCon)
+            }
+        })
+        shareTextInCon.addEventListener("click", (e) => {
+            e.stopPropagation()
+           ShareTextInputActiveAdd(shareTextInCon)
+        })
+      
+        document.addEventListener("click", (e) => {
+            let shareTextInputValue = shareTextInput.value.trim()
+             if (!e.target.closest(".shareTextInCon")) {
+                 if (shareTextInputValueData <= 0) {
+                    ShareTextInputActiveRemove(shareTextInCon)
+                 }
+             }
+        })
+
+
+        const NotesLinksBodybtns = createNote.querySelector(".NotesLinksBodybtns")
+        item.NoteAllLinks.forEach((noteLink, index) => {
+            let createLinkButton = document.createElement("button")
+            let noteLinkDetails = ""
+
+            if (noteLink.linkName) {
+                if (noteLink.linkName.length > 10) {
+                    if (noteLink.linkName.startsWith("https://www.")) {
+                        noteLinkDetails = `${noteLink.linkName.slice(11, 19) + '...'}`
+                    } else if (noteLink.linkName.startsWith("https://")) {
+                        noteLinkDetails = `${noteLink.linkName.slice(8, 16) + '...'}`
+                    } else if (noteLink.linkName.startsWith("http://")) {
+                        noteLinkDetails = `${noteLink.linkName.slice(7, 16) + '...'}`
+                    } else if (noteLink.linkName.startsWith("www.")) {
+                        noteLinkDetails = `${noteLink.linkName.slice(4, 12) + '...'}`
+                    } else {
+                        noteLinkDetails = `${noteLink.linkName.slice(0, 8) + '...'}`
+                    }
+                } else {
+                    noteLinkDetails = noteLink.linkName
+                }
+            } else {
+                if (noteLink.link.length > 10) {
+                    if (noteLink.link.startsWith("https://www.")) {
+                        noteLinkDetails = `${noteLink.link.slice(12, 19) + '...'}`
+                    } else if (noteLink.link.startsWith("https://")) {
+                        noteLinkDetails = `${noteLink.link.slice(8, 16) + '...'}`
+                    } else if (noteLink.link.startsWith("http://")) {
+                        noteLinkDetails = `${noteLink.link.slice(7, 16) + '...'}`
+                    } else if (noteLink.link.startsWith("www.")) {
+                        noteLinkDetails = `${noteLink.link.slice(4, 12) + '...'}`
+                    } else {
+                        noteLinkDetails = `${noteLink.link.slice(0, 8) + '...'}`
+                    }
+                } else {
+                    noteLinkDetails = noteLink.link
+                }
+            }
+            createLinkButton.innerHTML =   `<span>${noteLink.icon}</span><span>${noteLinkDetails}</span>`
+            createLinkButton.addEventListener("click", () => {
+                window.open(noteLink.link, noteLink.target)
+            })
+            NotesLinksBodybtns.appendChild(createLinkButton)
+            let lastChild = index === item.NoteAllLinks.length - 1
+            let LinkLen = item.NoteAllLinks.length
+            let isValidLength = LinkLen >= 4 && (LinkLen - 4) % 3 === 0
+            
+
+            let To2set5 = LinkLen >= 2 && (LinkLen - 2) % 3 === 0
+            if (LinkLen <= 1) {
+                createLinkButton.style.borderRadius = "10px"
+            } else if (lastChild && To2set5) {
+                createLinkButton.style.borderRadius = "0 10px 10px 0"
+            } else if (lastChild && isValidLength) {
+                createLinkButton.style.borderRadius = "10px"
+           } else {
+             if ((index + 1 - 2) % 3 === 0) {
+                createLinkButton.style.borderRadius = "0px"
+            } else if ((index + 1 - 3) % 3 === 0) {
+                createLinkButton.style.borderRadius = "0 10px 10px 0"
+            } else if ((index + 1 - 1) % 4 === 0) {
+                 createLinkButton.style.borderRadius = "10px 0 0 10px"
+            } 
+           } 
+
+        })
+
     })
 }
 RenderNote(NoteLists)
+
+
+  function ShareTextInputActiveAdd(shareTextInCon) {
+            let shareTextInput = shareTextInCon.querySelector(".shareTextInCon input")
+            let inputPlaceholder = shareTextInCon.querySelector(".inputPlaceholder")
+             shareTextInput.classList.add("active")
+             inputPlaceholder.classList.add("active")
+        }
+        
+  function ShareTextInputActiveRemove(shareTextInCon) {
+            let shareTextInput = shareTextInCon.querySelector(".shareTextInCon input")
+            let inputPlaceholder = shareTextInCon.querySelector(".inputPlaceholder")
+             shareTextInput.classList.remove("active")
+             inputPlaceholder.classList.remove("active")
+        }
+
+
 
 // Note menu 
 let activeNoteMenu = null
@@ -2254,12 +2442,30 @@ document.addEventListener("click", (e) => {
 
 ShowNotesDisplay.addEventListener("click", (e) => {
     let deleteBtn = e.target.closest(".deleteNoteBtn")
-    if (!deleteBtn) return
-
-    DeleteNote(deleteBtn.dataset.id)
+    let ShowLinkBtn = e.target.closest(".ShowLinkBtn")
+    let note = e.target.closest(".note")
+    let shareNote = e.target.closest(".shareNote")
+    let NotesLinksShow = e.target.closest(".NotesLinksShow")
+    if (deleteBtn){
+         DeleteNote(deleteBtn.dataset.id)
+    } else if (ShowLinkBtn){
+         ShowLinkDisplay(note)
+    }
+   
 })
-    
-  
+
+function ShowLinkDisplay(NotesLinksShow) {
+   let noteToLinkMneu = NotesLinksShow.querySelector(".NotesLinksShow")
+   let noteLinkMenuCloseBtn = NotesLinksShow.querySelector(".NotesLinksShowCloseBtn")
+   noteToLinkMneu.classList.add("show")
+    noteToLinkMneu.addEventListener("click", (e) => {
+        e.stopPropagation()
+    })
+   noteLinkMenuCloseBtn.addEventListener("click", () => {
+        noteToLinkMneu.classList.remove("show")
+   })
+}
+
 
 
 function DeleteNote(noteId) {
@@ -2268,3 +2474,10 @@ function DeleteNote(noteId) {
     RenderNote(NoteLists)
     RenderNoteListLength(NoteLists)
 }
+CreateListbtnEmpty.addEventListener("click", () => {
+    CreateNewbtnClick()
+    addDataBtnClick()
+})
+CreateNewNoteBtn.addEventListener("click", () => {
+    getCreateNote()
+})

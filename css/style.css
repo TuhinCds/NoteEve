@@ -25,6 +25,7 @@
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
     scrollbar-width: none;
+    outline: none;
 }
 body {
     width: 100%;
@@ -1056,23 +1057,16 @@ body.sidebarHide {
 .searchContainer input::placeholder {
     color: var(--text-color-50)
 }
-.searchContainer input , .searchContainer button {
+.searchContainer input {
     outline: none;
-    padding: 8px 10px;
     border: none;
     border-radius: 4px;
     background: rgba(255, 254, 254, 0.157);
     color: var(--text-color);
 }
-.searchContainer button {
-    background: rgba(255, 255, 255, 0.066);
-    color: var(--light-transparent-80);
-    border-radius: 0px 4px 4px 0px !important;
-}
 .searchContainer {
     border-radius: 4px 4px 4px 4px !important;
     background: rgba(255, 255, 255, 0.106);
-    margin-right: 5px;
 }
 .filterListMenuBtns button {
     background: transparent;
@@ -2937,18 +2931,634 @@ body.sidebarHide {
     color: var(--text-color-60);
 
 }
+.EmptyIcon {
+    font-size: 4.8rem;
+      opacity: 0.8;
+      animation: boxFloat 3.5s ease-in-out infinite;
+      display: inline-block;
+}
+@keyframes boxFloat {
+    0% {
+        transform: rotate(0deg) ;
+    } 50% {
+       transform: rotate(30deg);
+    } 100% {
+        transform: rotate(0deg) ;
+    }
+}
 
+.intro-user1-text {
+    font-size: 1.07rem;
+    font-weight: bold;
+    color: var(--text-color-70);
+}
+.intro-user1-small-text1 {
+    width: 100%;
+    text-wrap: wrap;
+    color: var(--text-color-50);
+    font-size: .8rem;
+}
+.intro-user1-small {
+    padding: 3px;
+    margin: 0 10px;
+}
+#CreateListbtnEmpty {
+    padding: 14px 10px;
+    width: 110px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.209);
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    cursor: pointer;
+}
+.createDatafromUser {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+#CreateListbtnEmpty:hover {
+    background: rgba(255, 255, 255, 0.144);
+}
+.showNotes {
+    position: relative;
+}
+.NoteMainContainer {
+    position: relative;
+}
+.ShowEmptyNotes {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    width: 90%;
+    left: 50%;
+}
+.ShowEmptyNotesWraper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.createNoteBtnCon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.EmptyNotesIcon1 > span {
+    font-size: 4.4rem;
+    display: inline-block;
+    animation: boxFloatTwo 3.5s ease-in-out infinite;
+    color: rgb(200, 200, 200)
+}
+.EmptyNotesIcon {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.EmptyNotes-head {
+    font-size: 1rem;
+    font-weight: 560;
+    color: var(--text-color-80);
+    margin-top: 3px;
+}
+.ShowEmptyNotesBody .body-description {
+    color: var(--text-color-60);
+    font-size: .8rem;
+    padding: 3px;
+    text-align: center;
+    width: 320px;
+}
+.EmptyNotes-head {
+    background: rgba(255, 255, 255, 0);
+    padding: 4px 10px;
+    border-radius: 100px;
+}
+#CreateNewNoteBtn {
+    padding: 10px 15px;
+    border-radius: 1000px;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 10px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.128);
+    color: var(--text-color-80)
+}
+#CreateNewNoteBtn:hover {
+    background: rgba(255, 255, 255, 0.222);
+    color: var(--text-color-80)
+}
+@keyframes boxFloatTwo {
+    0% {
+        transform: rotate(0deg) ;
+    } 50% {
+       transform: rotate(30deg);
+    } 100% {
+        transform: rotate(0deg) ;
+    }
+}
+.EmptyNotesIcon1 {
+    position: relative;
+}
+.EmptyNotesIcon1 > span {
+    z-index: 9;
+}
+.AnimationEmptyNote {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(-60px);
+    z-index: -1;
+}
+.AnimationEmptyNote .circle {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.482);
+    filter: blur(10px);
+}
+.AnimationEmptyNote .circle1 {
+    top: -57px !important;
+    left: 0px;
+    background: rgb(196, 196, 196);
+    animation: circleAnimate1 4s ease-in-out infinite;
+}
+.AnimationEmptyNote .circle2 {
+    width: 40px;
+    height: 40px;
+    transform: translateY(200px) !important;
+    transition: transform .3s;
+    filter: blur(60px);
+    animation: circleAnimate2 3s ease-in-out infinite;
+}
+@keyframes circleAnimate1 {
+    0% {
+        transform: translateY(0);
+    } 
+    50% {
+        transform: translateY(-30px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+@keyframes circleAnimate2 {
+    0% {
+        transform: translateY(0);
+    } 
+    50% {
+        transform: translateY(-100px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+/* .mainWraperChildHeader {
+    border: 1px solid rgba(255, 255, 255, 0.182);
+    border-radius: 10px;
+} */
 
+.searchContainer {
+    padding: 8px 10px !important;
+    display: flex;
+    align-items: center;
+    border-radius: 1000px !important;
+    justify-content: space-between;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.094);
+}
+.searchContainer input {
+    border-radius: 1000px;
+    padding: 5px;
+}
+.SearchContainerBtns {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    
+}
+.SearchContainerBtns button {
+    padding: 4px;
+    border: none;
+    border-radius: 1000px;
+    background: transparent;
+    color: var(--text-color-50);
+    transition: color .3s;
+    cursor: pointer;
+}
+.SearchContainerBtns button:hover {
+    color: var(--text-color-80)
+}
+.LeftElement {
+    gap: 0px !important; 
+}
+.createNoteElement {
+    border-radius: 1000px;
+}
+.LeftElement button {
+    padding: 12px 15px !important;
+    border-radius: 0px !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.075) !important;
+}
+.LeftElement button:first-child {
+    padding: 10px 15px !important;
+    border-radius:  1000px 0 0 1000px !important;
+}
+.LeftElement button:last-child {
+    border-radius: 0 1000px 1000px 0 !important;
+}
+.LeftElement button.active {
+    background: rgba(255, 255, 255, 0.802) !important;
+    color: var(--bg-color) !important;
+}
+.LeftElement button:not(button.active):hover {
+    background: rgba(255, 255, 255, 0.202) !important;
+    border-right: 1px solid transparent !important;
+    color: var(--text-color) !important;
+}
+#CreateNoteBtn {
+    padding: 10px 30px !important;
+}
+.FilterListMenu {
+    width: 240px !important;
+    background: rgb(23, 23, 23);
+}
+.FilterListMenu button.active {
+    background: rgba(255, 255, 255, 0.063);
+    border-radius: 0px !important;
+}
 
+.mainWraperchildRow2 {
+    z-index: 8;
+}
+.mainWraperchildRow2Deco {
+     position: relative;
+     pointer-events: none;
+}
+.mainWraperchildRow2Deco .circleStyle {
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 71, 251, 0.196);
+    position: absolute;
+    filter: blur(70px);
+    z-index: -1;
+    pointer-events: none;
+}
+.mainWraperchildRow2Deco .circleStyle1 {
+    width: 100px;
+    height: 100px;
+    background: rgba(0, 43, 154, 0.704);
+    position: absolute;
+    filter: blur(100px);
+    animation: circleStyle1 8s ease-in-out infinite;
+}
+@keyframes circleStyle1 {
+    0% {
+        transform: translateY(0);
+    } 50% {
+        transform: translateY(500px);
+    } 
+    100% {
+          transform: translateY(0);
+    }
+}
+.mainWraperchildRow2Deco .circleStyle2 {
+    width: 100px;
+    height: 100px;
+    background: rgba(172, 89, 0, 0.512);
+    position: absolute;
+    right: 0;
+    filter: blur(110px);
+    animation: circleStyle2 10s ease-in-out infinite;
+}
+@keyframes circleStyle2 {
+    0% {
+        transform: translateY(0);
+    } 50% {
+        transform: translateY(500px);
+    } 
+    100% {
+          transform: translateY(0);
+    }
+}
+.createNoteElement {
+    z-index: 9999;
+}
+.mainWraperchildRow2Deco {
+    width: 100%;
+    top: 10px !important;
+    z-index: -1;
+}
+.noteTitleContainer {
+    display: flex;
+    align-items: center !important;
+    gap: 7px;
+}
+.showTime {
+    display: flex;
+    align-items: center;
+    margin-bottom: 3px
+}
+.noteMenus {
+    position: relative;
+}
+.NotesLinksShow {
+    position: absolute;
+    top: -100px;
+    right: -150px;
+    width: max-content;
+    height: max-content;
+}
+.NoteShareMenu {
+    position: absolute;
+    background: rgb(41, 47, 51);
+    bottom: -100px;
+}
 
+.NotesLinksHead button {
+    background: transparent;
+    border: none;
+    color: var(--text-color-60);
+}
 
+.NotesLinksHead {
+    padding: 13px 13px;
+}
+.NoteMenu {
+    bottom: -70px;
+}
+.NotesLinksBody a {
+    padding: 5px 10px;
+    width: 100%;
+    display: inline;
+    background: red;
+}
+.NotesLinksBody {
+    display: flex;
+    text-wrap: wrap;
+    width: 100%;
+    gap: 4px;
+}
+.NotesLinksBodybtns {
+    text-wrap: wrap;
+    width: 100%;
+}
+.NotesLinksBodybtns button {
+    padding: 6px 10px;
+    white-space: nowrap;
+    border: none;
 
+}
 
+ .noteParent:nth-child(even) .note .NoteShareMenu {
+    right: 0;
+ }
+ .noteParent:nth-child(even) .note .NotesLinksShow{
+    position: absolute;
+    top: -100px;
+    right: 20px;
+    width: max-content;
+    height: max-content;
+}
+.NotesLinksBodybtns {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    gap: 3px;
+}
+.NotesLinksBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+.NotesLinksBody {
+    padding: 6px;
+}
+.NotesLinksBodybtns button {
+    border-radius: 10px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    background: rgba(255, 255, 255, 0.086);
+    color: var(--text-color-80);
+    font-size: .8rem;
+    cursor: pointer;
+}
+.NotesLinksBodybtns button:hover {
+    background: rgb(73, 73, 73);
+}
+.NotesLinksHead {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.068);
+    margin-bottom: 9px;
+}
+.NoteShareMenu {
+    right: -90px;
+    border-radius: 10px;
+    z-index: 99999999;
+    box-shadow: 3px -40px 40px rgba(0, 0, 0, 0.366);
+    width: 250px;
+}
+.NoteShareMenuHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid rgba(246, 246, 246, 0.077);
+}
+.NoteShareMenuHead .NoteShareMenuHeadLeft {
+    font-size: .8rem;
+    color: var(--text-color-60);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.NoteShareMenuHeadRight {
+    background: none;
+    border: none;
+    color: var(--text-color-70)
+}
 
+.NoteShareMenu {
+    /* opacity: 0; */
+}
+.NoteShareMenuBody {
+    padding: 5px;
+}
+.appsMenu {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 9px;
+    padding: 5px;
+}
+.appsMenu button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    border-radius: 1000px;
+    border: none;
+    background: rgba(65, 80, 90, 0.067);
+    color: var(--text-color-70);
+    border: 1px solid rgba(255, 255, 255, 0.092);
+}
+.appsMenu .chatSharebtnCon button {
+    padding: 8px 10px !important;
+    font-size: .8rem !important;
+    height: unset !important;
+    width: unset;
+    width: 100%;
+}
+.chatSharebtnCon {
+    width: 100%;
+}
+.appsMenuBtns {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.appsMenu .chatSharebtnCon button:hover {
+    background: rgba(255, 255, 255, 0.149);
+}
+.appsMenuBtns button {
+    cursor: pointer;
+}
+.appsMenuBtns button:hover {
+     background: rgba(255, 255, 255, 0.135);
+}
+/* appsMenuBtns button active */
+.appsMenuBtns button.active {
+    background: rgba(254, 254, 254, 0.986);
+    color: var(--bg-color);
+}
 
+.ShareTextInAppBody {
+     padding: 8px;
+}
+.ShareTextInAppInput {
+    width: 100%;
+    margin-bottom: 7px;
+   
+}
+.ShareTextInAppInput input {
+    width: 100%;
+    padding: 9px 12px;
+    border: none;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.084);
+    border: 1px solid rgba(255, 255, 255, 0);
+    color: var(--text-color-80);
+    outline: none;
+}
+.ShareTextInAppInput input::placeholder {
+    color: var(--text-color-60);
+}
+.shareTextInCon {
+    position: relative;
+}
+.inputPlaceholder {
+    position: absolute;
+    left: 10px;
+    font-size: .8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-color-60);
+    padding: 2px 3px;
+    pointer-events: none;
+    transition: transform .4s;
+}
+.inputPlaceholder.active {
+    transform: translateY(-28px);
+    left: 15px;
+    background: rgb(41, 47, 51);
+}
+.ShareTextInAppInput input.active {
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.189) !important;
+}
+.chatSharebtnCon {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.chatSharebtnCon button {
+    flex: 2;
+}
+.chatSharebtnCon button:last-child {
+    flex: 1;
+}
+.chatSharebtnCon button{
+    padding: 9px;
+    border-radius: 1000px;
+    border: none;
+    cursor: pointer;
+}
+.chatSharebtnCon button:last-child {
+    color: var(--bg-color);
+    font-size: .8rem;
+    background: rgb(255, 255, 255);
+}
+.chatSharebtnCon button:first-child {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.095);
+    color: var(--text-color-80);
+    font-size: .8rem;
+}
+.chatSharebtnCon button:first-child:hover {
+    background: rgba(255, 255, 255, 0.106);
+}
 
-
-
+.NotesLinksShow {
+    opacity: 0;
+    transform: scale(0);
+    box-shadow: 3px -30px 50px rgba(0, 0, 0, 0.338);
+    transition: transform .4s, opacity .1s;
+}
+.NotesLinksShow.show {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+}
+.NoteShareMenu {
+    opacity: 0;
+    transform: scale(0);
+    transition: transform .4s;
+}
+.NoteShareMenu.show {
+    opacity: 1;
+     transform: scale(1);
+}
+.NotesLinksBodybtns button:nth-child(3n + 2) {
+  border-radius: 0;
+}
+.NotesLinksBodybtns button:nth-child(3n + 3) {
+  border-radius: 0 10px 10px 0;
+}
+.NotesLinksBodybtns button:nth-child(3n + 1) {
+    border-radius: 10px 0 0 10px;
+}
+.NotesLinksShowCloseBtn {
+    padding: 4px;
+    cursor: pointer;
+}
+.NoteMenu {
+    z-index: 999;
+}
+.NotesLinksBodybtns button {
+    display: flex;
+    align-items: center;
+    
+}
 
 
 
@@ -3000,6 +3610,21 @@ body.sidebarHide {
      margin: 0 20px;
     background: rgba(255, 255, 255, 0.025)
 }
+/* <div class="top-bottom-border-slim1-bg5"></div> */
+.top-bottom-border-slim1-bg5 {
+    width: 1px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.ShowEmptyNotes {
+    scale: 0;
+    transition: scale .1s ease-in;
+}
+.ShowEmptyNotes.show {
+    scale: 1;
+}
+
 
 
 /* Make responsive */
@@ -3072,6 +3697,28 @@ body.sidebarHide {
 .MusicMenu {
     width: 330px;
 }
+.FilterListMenu {
+    width: 240px !important;
+    background: rgb(40, 40, 40);
+}
+.mainWraperchildRow2Deco .circleStyle1 {
+    width: 100px;
+    height: 100px;
+    background: rgba(0, 71, 251, 0.295);
+    position: absolute;
+    filter: blur(100px);
+    animation: circleStyle1 8s ease-in-out infinite;
+    
+}
+.mainWraperchildRow2Deco .circleStyle2 {
+    width: 100px;
+    height: 100px;
+    background: rgba(251, 130, 0, 0.252);
+    position: absolute;
+    right: 0;
+    filter: blur(110px);
+    animation: circleStyle2 12s ease-in-out infinite;
+}
 }
 @media (max-width: 450px) {
     .sidebar {
@@ -3080,4 +3727,11 @@ body.sidebarHide {
     .sidebar.openP {
         transform: translateX(-100%);
     }
+    .NoteShareMenu {
+    right: -100px;
+    border-radius: 10px;
+    z-index: 99999999;
+    width: 230px;
+    box-shadow: 3px -40px 40px rgba(0, 0, 0, 0.366);
+}
 }

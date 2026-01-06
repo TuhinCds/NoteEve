@@ -248,4 +248,19 @@ export const LinksTypeIcons = [
             "electronic", "balb", "led"
          ]
     },
+    {
+        sort_name: "search",icon_name: "search link", icon: `<i class="fa-solid fa-magnifying-glass"></i>`,
+         keyword: 
+         [
+            "search", "searching", "website"
+         ]
+    },
+    {
+        sort_name: "translate",icon_name: "translate link", icon: `<i class="fa-solid fa-language"></i>`,
+         keyword: 
+         [
+            "translate", "translator", "transform"
+         ]
+    },
+    
 ]
