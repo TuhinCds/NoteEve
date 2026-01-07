@@ -3,6 +3,7 @@ import { audiosData, LinksTypeIcons } from  "./data.js"
 
 const sidebar = document.getElementById("sidebar");
 const sidebarController = document.getElementById("sidebarController");
+const HideSidebarMenu = document.getElementById("HideSidebarMenu")
 const sidebarControllerIcon = sidebarController.querySelector("i");
 const adddatainnerWraper = document.querySelector(".adddatainnerWraper");
 const addDataBtn = document.getElementById("addDataBtn");
@@ -19,7 +20,7 @@ const filterNoteBtn = document.getElementById("filterNoteBtn")
 const FilterListMenu = document.querySelector(".FilterListMenu")
 const CloseMenu = FilterListMenu.querySelector(".CloseMenu")
 const ShowNotesDisplay = document.getElementById("ShowNotesDisplay")
-
+const leftSideHeader = document.querySelector(".leftSideHeader")
 
 // music 
 const MusicMenu = document.querySelector(".MusicMenu")
@@ -246,16 +247,21 @@ function ShowListLength() {
 sidebarController.addEventListener("click", () => {
     sidebarControll();
 });
-
+HideSidebarMenu.addEventListener("click", () => {
+    document.body.classList.add("sidebarHide");
+    sidebarControll()
+})
 function sidebarControll() {
     sidebar.classList.toggle("open");
     document.body.classList.toggle("sidebarHide");
     
     if (sidebar.classList.contains("open")) {
-        document.body.classList.add("sidebarHide");
+        document.body.classList.remove("sidebarHide");
+        leftSideHeader.classList.remove("showDis")
         overly1Add();
     } else {
-        document.body.classList.remove("sidebarHide");
+        document.body.classList.add("sidebarHide");
+        leftSideHeader.classList.add("showDis")
         overly1Remove();
     }
 };
@@ -1743,7 +1749,7 @@ function LinkLengthDisplay() {
     if (localStorage.getItem("NoteBody").length > 0) {
     noteLenght.innerHTML = NoteBody.length
 } else {
-    noteLenght.innerHTML = 0
+    noteLenght.innerHTML = "0"
 }
 }
 LinkLengthDisplay()
@@ -1930,7 +1936,7 @@ function CreateLinks() {
             }
             LinkNameInput.value = LinkNameInput.value.slice(0, -1)
             LinkInput.value = LinkInput.value.slice(0, -1)
-         }, 30)
+         }, 6)
          
     }, 1900)
 
@@ -2019,17 +2025,50 @@ function RenderNote(noteListsD) {
     ShowNotesDisplay.innerHTML = ""
     noteListsD.forEach((item, index) => {
         let createNote = document.createElement("div")
+
+        let titleDisplay = ""
+        let descriptionDisplay = ""
+        if (item.noteTitle && item.noteBody) {
+            if (item.noteTitle.length > 12) {
+                titleDisplay = item.noteTitle.slice(0, 10)
+            } else {
+                titleDisplay = item.noteTitle
+            }
+
+            if (item.noteBody.length > 17) {
+                descriptionDisplay = item.noteBody.slice(0, 16)
+            } else {
+                descriptionDisplay = item.noteBody
+            }
+        } else if (item.noteTitle) {
+            if (item.noteTitle.length > 12) {
+                titleDisplay = item.noteTitle.slice(0, 10)
+            } else {
+                titleDisplay = item.noteTitle
+            }
+
+        } else {
+            if (item.noteBody) {
+                if (item.noteBody.length > 12) {
+                    titleDisplay = item.noteBody.slice(0, 10)
+                } else {
+                    titleDisplay = item.noteBody
+                }
+            }
+        }
+
+
         createNote.classList.add("noteParent")
         createNote.innerHTML = `<div class="note normal">
                                 <header class="noteHeader">
                                     <div class="noteTitleContainer">
                                         <div class="noteTitle">
-                                            ${item.noteTitle.length > 16 ? item.noteTitle.slice(0, (item.noteTitle / 2)).length > 30 ? item.noteTitle.slice(0, 20) + "..." : item.noteTitle.slice(0, 15) + "...": item.noteTitle}
+                                            ${titleDisplay}
                                         </div>
                                         <div class="showTime" data-time="${item.NoteCreateTime}">${FormatTime(item.NoteCreateTime)}</div>
                                     </div>
                                     <div class="noteDescription">
-                                        ${item.noteBody.length > 25 ? item.noteBody.slice(0, 20) + "..." : item.noteBody}
+                                        ${descriptionDisplay}
                                     </div>
                                 </header>
                                 <div class="noteBody">
@@ -2060,6 +2099,9 @@ function RenderNote(noteListsD) {
                                                                     <button class="NotesLinksShowCloseBtn"><i class="fa-solid fa-xmark"></i></button>
                                                                 </div>
                                                                 <div class=".hr-1px-wbg5"></div>
+                                                                <div class="showFullLinkCon">
+                                                                <div class="showFullLink"></div>
+                                                                </div>
                                                                 <div class="NotesLinksBody">
                                                                     <div class="NotesLinksBodybtns">
                                                                     
@@ -2113,7 +2155,19 @@ function RenderNote(noteListsD) {
                                     </div>
                                 </div>
                             </div>`
+
+
+                            
         ShowNotesDisplay.appendChild(createNote)
+
+            const NoteShareMenu = createNote.querySelector(".NoteShareMenu")
+            const shareNoteBtn = createNote.querySelector(".shareNote")
+            const note = createNote.querySelector(".note")
+            const NotesLinksShow = createNote.querySelector(".NotesLinksShow")
+
+         createNote.addEventListener("click", () => {
+            ShowLinkDisplayRemove(note)
+        })
         let NoteMenuShowBtn = createNote.querySelector(".NoteMenuShowBtn")
         let NoteMenu = createNote.querySelector(".NoteMenu")
         
@@ -2121,8 +2175,24 @@ function RenderNote(noteListsD) {
             e.stopPropagation()
            NoteConfigToggler(NoteMenu)
            QueckbtnTogglerRemove()
+           NoteShareMenuRemove(NoteShareMenu)
+           ShowLinkDisplayRemove(note)
         })
-        
+
+
+
+        NoteMenu.addEventListener("click", (e) => {
+            e.stopPropagation()
+            let note = e.target.closest(".note")
+
+            if (e.target.closest(".deleteNoteBtn")) {
+                DeleteNote(item.id)
+            } else if (e.target.closest(".ShowLinkBtn")) {
+                ShowLinkDisplay(note)
+                NoteShareMenuRemove(NoteShareMenu)
+            }
+        })
+         let showFullLink = createNote.querySelector(".showFullLink")
         // share 
         let shareTextInputValueData = 0
 
@@ -2143,13 +2213,41 @@ function RenderNote(noteListsD) {
         })
       
         document.addEventListener("click", (e) => {
-            let shareTextInputValue = shareTextInput.value.trim()
+            let shareTextInputValueData = shareTextInput.value.trim()
+
              if (!e.target.closest(".shareTextInCon")) {
                  if (shareTextInputValueData <= 0) {
                     ShareTextInputActiveRemove(shareTextInCon)
                  }
              }
+
+             if (!e.target.closest(".NoteShareMenu")) {
+                NoteShareMenuRemove(NoteShareMenu)
+                 
+             } 
+             if (!e.target.closest(".NotesLinksShow")) {
+                 ShowLinkDisplayRemove(note)
+             }
+             
+
+
         })
+
+         shareNoteBtn.addEventListener("click", (e) => {
+            e.stopPropagation()
+            NoteShareMenuToggler(NoteShareMenu)
+            ShowLinkDisplayRemove(note)
+         })
+         const NoteShareMenuHeadRight = createNote.querySelector(".NoteShareMenuHeadRight")
+         NoteShareMenuHeadRight.addEventListener("click", () => {
+            NoteShareMenuRemove(NoteShareMenu)
+         })
+
+         const NotesLinksShowCloseBtn = createNote.querySelector(".NotesLinksShowCloseBtn")
+         NotesLinksShowCloseBtn.addEventListener("click", () => {
+            ShowLinkDisplayRemove(note)
+
+         })
 
 
         const NotesLinksBodybtns = createNote.querySelector(".NotesLinksBodybtns")
@@ -2190,7 +2288,9 @@ function RenderNote(noteListsD) {
                     noteLinkDetails = noteLink.link
                 }
             }
-            createLinkButton.innerHTML =   `<span>${noteLink.icon}</span><span>${noteLinkDetails}</span>`
+            createLinkButton.innerHTML =   `
+            <span>${noteLink.icon}</span><span>${noteLinkDetails}</span>
+            `
             createLinkButton.addEventListener("click", () => {
                 window.open(noteLink.link, noteLink.target)
             })
@@ -2217,11 +2317,69 @@ function RenderNote(noteListsD) {
             } 
            } 
 
+
+           let xdata = ""
+
+           if (item.NoteAllLinks.length > 0) {
+                xdata = item.NoteAllLinks[0].link
+                 showFullLink.innerHTML = xdata
+           }
+           
+            createLinkButton.addEventListener("mouseover", () => {
+                xdata = noteLink.link
+                showFullLink.innerHTML = xdata
+            })
+          
+
+
         })
 
+            const noteItem = createNote.querySelector(".note")
+            const ThisNoteMenu = noteItem.querySelector(".NoteMenu")
+            const ThisNotesLinksShow = noteItem.querySelector(".NotesLinksShow")
+
+        let lastChild = index === (noteListsD.length - 1) 
+        let lastM1Child = index === (noteListsD.length - 1) - 1
+        let lastValidLen = noteListsD.length >= 10 && noteListsD.length % 2 === 0
+         if (noteListsD.length >= 10) {
+            if (lastChild && lastValidLen) {
+                ThisNoteMenu.style.bottom = "0px"
+                ThisNoteMenu.style.right = "80px"
+                ThisNotesLinksShow.style.top = "-280px"
+                ThisNotesLinksShow.style.right = "-30px"
+                NoteShareMenu.style.bottom = "120px"
+
+        } else if (lastM1Child) {
+           ThisNotesLinksShow.style.top = "-240px"
+           ThisNoteMenu.style.bottom = "30px"
+        }
+         else if (lastM1Child || lastChild) {
+           ThisNotesLinksShow.style.top = "-240px"
+           ThisNoteMenu.style.bottom = "0px"
+        }
+         }
+
+         if (item.noteTitle && item.noteBody) {
+           const noteBodyContent = noteItem.querySelector(".noteBody")
+           
+         }
+         
+       
     })
 }
 RenderNote(NoteLists)
+
+
+
+
+    function NoteShareMenuToggler(NoteShareMenu) {
+        NoteShareMenu.classList.add("show")
+    }
+   function NoteShareMenuRemove(NoteShareMenu) {
+        NoteShareMenu.classList.remove("show")
+   }
+
+
 
 
   function ShareTextInputActiveAdd(shareTextInCon) {
@@ -2445,11 +2603,14 @@ ShowNotesDisplay.addEventListener("click", (e) => {
     let ShowLinkBtn = e.target.closest(".ShowLinkBtn")
     let note = e.target.closest(".note")
     let shareNote = e.target.closest(".shareNote")
+    let NoteShareMenuHeadRight = e.target.closest(".NoteShareMenuHeadRight")
     let NotesLinksShow = e.target.closest(".NotesLinksShow")
     if (deleteBtn){
          DeleteNote(deleteBtn.dataset.id)
     } else if (ShowLinkBtn){
          ShowLinkDisplay(note)
+    } else if (NoteShareMenuHeadRight) {
+
     }
    
 })
@@ -2462,10 +2623,22 @@ function ShowLinkDisplay(NotesLinksShow) {
         e.stopPropagation()
     })
    noteLinkMenuCloseBtn.addEventListener("click", () => {
-        noteToLinkMneu.classList.remove("show")
+        ShowLinkDisplayRemove(NotesLinksShow)
    })
 }
 
+
+function ShowLinkDisplayRemove(noteToLinkMneu) {
+    let noteToLinkMneuData = noteToLinkMneu.querySelector(".NotesLinksShow")
+    noteToLinkMneuData.classList.remove("show")
+}
+
+function ShareNoteShow(thisShare) {
+    thisShare.classList.add("show")
+}
+function ShareNoteRemove(thisShare) {
+    thisShare.classList.remove("show")
+}
 
 
 function DeleteNote(noteId) {

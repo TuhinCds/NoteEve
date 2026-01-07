@@ -32,7 +32,7 @@ body {
     height: 100vh;
     display: grid;
     grid-template-areas: 
-    "header header"
+    "sidebar header"
     "sidebar main"
     "footer footer"
     ;
@@ -59,11 +59,15 @@ body.sidebarHide {
     overflow-y: auto;
     overflow-x: hidden;
     box-shadow: 3px 40px 60px transparent;
+    padding-top: 20px;
+
 }
+
 .main {
     grid-area: main;
     background: var(--bg-color);
     height: 100%;
+    overflow: hidden;
 }
 .footer {
     grid-area: footer;
@@ -1131,12 +1135,13 @@ body.sidebarHide {
     gap: 13px;
     transition: all .4s;
     width: 100%;
+    padding-bottom: 50px;
 }
 .note {
-    background: rgb(15, 15, 15);
+    background: rgb(29, 29, 29);
     border-radius: 10px;
     transition: .3s;
-    height: 15.5vh;
+    height: 13vh;
     cursor: pointer;
     transition: background .3s;
 }
@@ -1363,6 +1368,7 @@ body.sidebarHide {
     height: 200px;
     position: absolute;
     left: 50%;
+    top: -41.5px;
     /*  */
     transform: translate(-50%, 100%);
     opacity: 0;
@@ -1408,10 +1414,10 @@ body.sidebarHide {
 .MusicMenu {
     position: absolute;
     background: rgb(44, 44, 44);
-    width: 300px;
-    right: 60px;
+    width: 290px;
+    right: 70px;
     height: max-content;
-    top: -160px;
+    top: -100px;
     border-radius: 7px;
     padding: 10px;
     box-shadow: 3px 4px 50px rgba(0, 0, 0, 0.181);
@@ -3178,9 +3184,14 @@ body.sidebarHide {
     border-radius: 0 1000px 1000px 0 !important;
 }
 .LeftElement button.active {
-    background: rgba(255, 255, 255, 0.802) !important;
+    background: rgba(255, 255, 255, 0.807) !important;
+    border-color: transparent !important;
     color: var(--bg-color) !important;
+    position: relative;
 }
+
+
+
 .LeftElement button:not(button.active):hover {
     background: rgba(255, 255, 255, 0.202) !important;
     border-right: 1px solid transparent !important;
@@ -3303,6 +3314,7 @@ body.sidebarHide {
     display: inline;
     background: red;
 }
+#ShowNotesDisplay
 .NotesLinksBody {
     display: flex;
     text-wrap: wrap;
@@ -3374,7 +3386,7 @@ body.sidebarHide {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
+    padding: 11px;
     border-bottom: 1px solid rgba(246, 246, 246, 0.077);
 }
 .NoteShareMenuHead .NoteShareMenuHeadLeft {
@@ -3532,7 +3544,7 @@ body.sidebarHide {
 .NoteShareMenu {
     opacity: 0;
     transform: scale(0);
-    transition: transform .4s;
+    transition: transform .3s, opacity .2s ease;
 }
 .NoteShareMenu.show {
     opacity: 1;
@@ -3560,9 +3572,88 @@ body.sidebarHide {
     
 }
 
+.note {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 3px 0;
+}
+.note header {
+    padding: 0;
+    margin: 0 ;
+    margin-left: 16px;
+    margin-top: 13px;
+}
+/* .rightNoteBody {
+    width: 100%;
+    margin: 0;
+    background: red;
+} */
+.noteBody {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;;
+}
+.showFullLinkCon {
+    font-size: .9rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin: 0 4px;
+}
+.showFullLink {
+    display: flex;
+    white-space: nowrap;
+    width: 300px;
+    padding: 9px;
+    color: var(--text-color-80);
+    font-size: .7rem;
+    height: 4vh;
+    cursor: pointer
+}
+#QuickOpenBtn {
+    width: 54px;
+    height: 54px;
+    font-size: 1.1rem;
+}
 
-
-
+.btnCon > button {
+    width: 55px !important;
+    height: 55px !important;
+}
+.NoteShareMenuHeadRight {
+    padding: 4px 6px;
+    cursor: pointer;
+}
+.sidebarHead {
+    display: flex;
+    flex-direction: column;
+}
+.sidebarHeadRow1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    padding-top: 3px;
+    margin: 0 6px;
+    border-radius: 10px;
+}
+.sidebarHeadRow1 .ShortLogo {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-color-80)
+}
+.sidebarRightRow1Head #HideSidebarMenu{
+    padding: 5px;
+    border: none;
+    background: transparent;
+    color: var(--text-color-50);
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: color .2s;
+}
+.sidebarRightRow1Head #HideSidebarMenu:hover {
+    color: var(--text-color-70)
+}
 
 
 
@@ -3632,7 +3723,18 @@ body.sidebarHide {
 @media (max-width: 1024px) {
 
 }
-
+@media (min-width: 769px) {
+    .leftSideHeader {
+    transform: scale(0);
+    transition: transform .3s;
+}
+.leftSideHeader.showDis {
+    transform: scale(1);
+}
+.sidebar {
+    background: rgb(19, 19, 19);
+}
+}
 @media (max-width: 768px) {
     body {
     grid-template-areas: 
@@ -3663,6 +3765,11 @@ body.sidebarHide {
     bottom: 0;
 }
 
+.leftSideHeader {
+    width: max-content !important;
+}
+
+
 }
 @media (min-width: 1024px) {
     .LoadDataPage {
@@ -3674,6 +3781,8 @@ body.sidebarHide {
 .MusicMenu {
     width: 380px !important;
 }
+
+
 }
 @media (min-width: 570px) {
     .LoadDataPage {
@@ -3681,6 +3790,7 @@ body.sidebarHide {
     transition: .4s;
 
 }
+
 .MusicMenu {
     width: 365px !important;
 }
@@ -3719,10 +3829,12 @@ body.sidebarHide {
     filter: blur(110px);
     animation: circleStyle2 12s ease-in-out infinite;
 }
+
 }
 @media (max-width: 450px) {
     .sidebar {
     border-right: 1px solid var(--light-transparent-7);
+    background: var(--bg-color);
     }
     .sidebar.openP {
         transform: translateX(-100%);
@@ -3733,5 +3845,13 @@ body.sidebarHide {
     z-index: 99999999;
     width: 230px;
     box-shadow: 3px -40px 40px rgba(0, 0, 0, 0.366);
+}
+.note {
+    background: rgb(29, 29, 29);
+    border-radius: 10px;
+    transition: .3s;
+    height: 12vh;
+    cursor: pointer;
+    transition: background .3s;
 }
 }
