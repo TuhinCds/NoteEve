@@ -93,7 +93,9 @@
         <div class="sidebarHead">
             <div class="sidebarHeadRow1">
                 <div class="sidebarLeftRow1Head">
-                    <span class="ShortLogo">NoteEve</span>
+                    <span class="ShortLogo">
+                        NoteEve
+                    </span>
                 </div>
                 <div class="sidebarRightRow1Head">
                     <button id="HideSidebarMenu">
@@ -322,9 +324,29 @@
                             <div class="searchContainer">
                                 <input type="text" placeholder="Search.." id="SearchNote">
                                 <div class="SearchContainerBtns">
-                                    <button><i class="fa-solid fa-clock-rotate-left"></i></button>
+                                    <div class="SearchConfig1">
+                                        <button id="ShowHistory"><i class="fa-solid fa-clock-rotate-left"></i></button>
+                                        <button id="DeleteInputTexts">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </div>
+                                    <div class="historyShow">
+                                        <div class="historyShowHeader">
+                                            <span>
+                                                <i class="fa-solid fa-clock-rotate-left historyIcon"></i>
+                                                <span class="HistoryTextHeader">History</span>
+                                            </span>
+                                            <button id="closeHistory">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </button>
+                                        </div>
+                                        <div class="historyShowWraper">
+                                            <div class="historyAllSearchShow">
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="top-bottom-border-slim1-bg5"></div>
-                                    <button><i class="fa-solid fa-location-arrow"></i></button>
+                                    <button id="OpenFirstLink"><i class="fa-solid fa-location-arrow"></i></button>
                                     <div class="top-bottom-border-slim1-bg5"></div>
                                     <button><i class="fa-solid fa-chevron-down"></i></button>
                                 </div>

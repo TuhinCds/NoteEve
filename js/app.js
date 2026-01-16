@@ -1,5 +1,5 @@
-import { audiosData, LinksTypeIcons } from  "./data.js"
 
+import { audiosData, LinksTypeIcons } from  "./data.js"
 
 const sidebar = document.getElementById("sidebar");
 const sidebarController = document.getElementById("sidebarController");
@@ -98,8 +98,16 @@ const ConfirmAlert = document.getElementById("ConfirmAlert")
 const AlertContainer  = document.querySelector(".AlertContainer")
 
 
+// Open first link 
+let OpenFirstLink = document.getElementById("OpenFirstLink")
 
 
+// history show
+const historyShow = document.querySelector(".historyShow")
+const ShowHistory = document.getElementById('ShowHistory')
+const closeHistory = document.getElementById('closeHistory')
+const historyAllSearchShow = document.querySelector(".historyAllSearchShow")
+const DeleteInputTexts = document.getElementById("DeleteInputTexts")
 
 
 
@@ -196,8 +204,6 @@ const addMoneyBtnWallet = document.getElementById("addMoneyBtnWallet")
 
 // BlackOverly
 const BlackOverly = document.getElementById("BlackOverly")
-
-
 const showListLength = document.getElementById("showListLength")
 
 function AddWallet() {
@@ -249,7 +255,9 @@ sidebarController.addEventListener("click", () => {
 });
 HideSidebarMenu.addEventListener("click", () => {
     document.body.classList.add("sidebarHide");
-    sidebarControll()
+    sidebar.classList.remove("open");
+    leftSideHeader.classList.add("showDis")
+    overly1Remove();
 })
 function sidebarControll() {
     sidebar.classList.toggle("open");
@@ -739,7 +747,7 @@ function formatTime(timeData) {
     if (minutes < 60) return `${minutes}m ago`
     if (hours < 24) return `${hours}h ago` 
     if (day < 7 ) return `${day}day${day > 1 ? "'s" : ''} ago`
-    if (day > 6 && day < 30) return `${Math.floor(day/7) + " W"} ${day%7 !== 0 ? " ago" : `${Math.floor(day%7) ? Math.floor(day%7) + " day ago" : "ago"}`}`
+    if (day > 6 && day < 30) return `${Math.floor(day/7) + " week"} ${day%7 !== 0 ? " ago" : `${Math.floor(day%7) ? Math.floor(day%7) + " day ago" : "ago"}`}`
     if (month < 12 ) return `${month} month ago`
     if (month > 11 ) return `${month / 12} year ago` 
     return date.toLocaleDateString()
@@ -829,6 +837,7 @@ function Search(StoreListsVals) {
 SearchInput.addEventListener("input", () => {
     Search(SearchVals);
 });
+
 
 // Allow form submission with Enter key
 InputAmmoutIncome.addEventListener("keypress", (e) => {
@@ -1515,7 +1524,6 @@ AddDataChilds.forEach(btn => {
                 createNewBtn.classList.add("active")
             })
         } else {
-
                     AddDataChilds.forEach(btnAll => btnAll.classList.remove("active"))
                     LoadDataPage.classList.add("hide");
                     adddatainnerWraper.classList.add("hide");
@@ -1625,8 +1633,8 @@ function DeleteAllData() {
         applyCurrentFilter();
         FilterAll();
         ShowEmptyPage();
-        NoteLists = []
-        localStorage.setItem("NoteLists", JSON.stringify(NoteLists))
+        DataXD = []
+        localStorage.setItem("NoteLists", JSON.stringify(DataXD))
         RenderNote(NoteLists)
         RenderNoteListLength(NoteLists)
 }
@@ -1721,7 +1729,9 @@ Calculator.addEventListener("keydown", (e) => {
 // Note text save in localStorage 
 let NoteTitle = localStorage.getItem("NoteTitle")
 let NoteBody = localStorage.getItem("NoteBody")
-let NoteLists = JSON.parse(localStorage.getItem("NoteLists")) || []
+let DataXD = JSON.parse(localStorage.getItem("NoteLists")) || []
+let NoteLists = [...DataXD]
+  .sort((a, b) => Date.parse(b.NoteCreateTime) - Date.parse(a.NoteCreateTime))
 let CurrentAllLinksSaved = JSON.parse(localStorage.getItem("CurrentAllLinksSaved")) || []
 
 NoteBodyData.value = NoteBody
@@ -1995,9 +2005,12 @@ function SaveNotedta() {
         NoteAllLinks: [...CurrentAllLinksSaved],
         NoteCreateTime: new Date(),
     }
-    NoteLists.push(NoteListsData)
-    localStorage.setItem("NoteLists", JSON.stringify(NoteLists))
-     RenderNote(NoteLists)
+    DataXD.push(NoteListsData)
+    localStorage.setItem("NoteLists", JSON.stringify(DataXD))
+    let reverseNotes = [...DataXD].sort(
+        (a, b) => Date.parse(b.NoteCreateTime) - Date.parse(a.NoteCreateTime)
+    )
+     RenderNote(reverseNotes)
     let noteBodyVal = ""
     let noteTitleVal = ""
     CurrentAllLinksSaved = []
@@ -2008,7 +2021,7 @@ function SaveNotedta() {
     NoteBodyData.value = ""
     localStorage.setItem("NoteTitle", noteTitleVal)
     noteTitle.value = ""
-    RenderNoteListLength(NoteLists)
+    RenderNoteListLength(DataXD)
 }
 
 function RenderNoteListLength(NoteListsL) {
@@ -2095,12 +2108,13 @@ function RenderNote(noteListsD) {
                                                         <div class="NotesLinksShow">
                                                             <div class="NotesLinksShowWraper">
                                                                 <div class="NotesLinksHead">
-                                                                    <span><i class="fa-solid fa-paperclip"></i>10 links</span>
+                                                                    <span><i class="fa-solid fa-paperclip"></i>${item.NoteAllLinks.length} link${item.NoteAllLinks.length > 1 ? 's' : ""}</span>
                                                                     <button class="NotesLinksShowCloseBtn"><i class="fa-solid fa-xmark"></i></button>
                                                                 </div>
                                                                 <div class=".hr-1px-wbg5"></div>
                                                                 <div class="showFullLinkCon">
                                                                 <div class="showFullLink"></div>
+                                                                <button class="CopyLink"><i class="fa-regular fa-copy"></i></button>
                                                                 </div>
                                                                 <div class="NotesLinksBody">
                                                                     <div class="NotesLinksBodybtns">
@@ -2156,9 +2170,33 @@ function RenderNote(noteListsD) {
                                 </div>
                             </div>`
 
-
-                            
         ShowNotesDisplay.appendChild(createNote)
+
+
+            const CopyLink = createNote.querySelector(".CopyLink")
+            const showFullLinkValue = createNote.querySelector(".showFullLink")
+            CopyLink.addEventListener('click', () => {
+                let CopyText = showFullLinkValue.innerText
+                let textarea = document.createElement("textarea")
+                textarea.value = CopyText
+                textarea.style.position = "fixed"
+                textarea.style.opacity = "0"
+
+                document.body.appendChild(textarea)
+                textarea.focus()
+                textarea.select()
+
+                try {
+                    document.execCommand("copy")
+                    CopyLink.innerHTML = `<i class="fa-solid fa-check"></i>`
+                } catch (err) {
+                    CopyLink.innerHTML = `<i class="fa-regular fa-copy"></i>`
+                }
+                setTimeout(() => {
+                    CopyLink.innerHTML = `<i class="fa-regular fa-copy"></i>`
+                }, 1200)
+                document.body.removeChild(textarea)
+            })
 
             const NoteShareMenu = createNote.querySelector(".NoteShareMenu")
             const shareNoteBtn = createNote.querySelector(".shareNote")
@@ -2480,15 +2518,46 @@ SearchNote.addEventListener("input", () => {
         SearchNotes()
     }, 300)
 })
+
+let searchFirstEleLink = ""
+let searchFirstEletarget = ""
+let searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || []
+
 function SearchNotes() {
     let SearchNoteValue = SearchNote.value.toLowerCase()
+
+    if (SearchNoteValue !== "") {
+        DeleteInputTexts.classList.add("showXmark")
+        ShowHistory.classList.add("hideThis")
+    } else {
+        ShowHistory.classList.remove("hideThis")
+        DeleteInputTexts.classList.remove("showXmark")
+    }
+    hideSearchHistory()
+    if (SearchNoteValue == "") return
     let filtredSearchNotes = NoteLists.filter(note => note.noteTitle.toLowerCase().includes(SearchNoteValue) || note.noteBody.toLowerCase().includes(SearchNoteValue) || note.NoteAllLinks.some(l => l.link.toLowerCase().includes(SearchNoteValue)))
     RenderNote(filtredSearchNotes)
     RenderNoteListLength(filtredSearchNotes)
-    // let c = NoteLists.filter(j => ))
+    if (filtredSearchNotes.length > 0 && filtredSearchNotes[0].NoteAllLinks.length > 0) {
+        searchFirstEleLink = filtredSearchNotes[0].NoteAllLinks[0].link
+        searchFirstEletarget = filtredSearchNotes[0].NoteAllLinks[0].target
+    } else {
+        searchFirstEleLink = ""
+        searchFirstEletarget = ""
     }
+}
 
-// localStorage.removeItem("CurrentAllLinksSaved")
+function FirstLinkOpen() {
+    
+    if (searchFirstEleLink) {
+        window.open(searchFirstEleLink, searchFirstEletarget)
+    }
+    //.NoteAllLinks[0].link
+}
+
+OpenFirstLink.addEventListener("click", () => {
+    FirstLinkOpen()
+})
 
 
 function FormatTime(old) {
@@ -2642,8 +2711,8 @@ function ShareNoteRemove(thisShare) {
 
 
 function DeleteNote(noteId) {
-    NoteLists = NoteLists.filter(item => String(item.id) !== String(noteId))
-    localStorage.setItem("NoteLists", JSON.stringify(NoteLists))
+    DataXD = NoteLists.filter(item => String(item.id) !== String(noteId))
+    localStorage.setItem("NoteLists", JSON.stringify(DataXD))
     RenderNote(NoteLists)
     RenderNoteListLength(NoteLists)
 }
@@ -2654,3 +2723,114 @@ CreateListbtnEmpty.addEventListener("click", () => {
 CreateNewNoteBtn.addEventListener("click", () => {
     getCreateNote()
 })
+
+function ShowSearchHistory() {
+    historyShow.classList.toggle("showHistory")
+}
+function hideSearchHistory() {
+    historyShow.classList.remove("showHistory")
+}
+ShowHistory.addEventListener('click', () => {
+    ShowSearchHistory()
+})
+closeHistory.addEventListener("click", () => {
+    hideSearchHistory()
+})
+
+
+DeleteInputTexts.addEventListener("click", () => {
+    RenderNoteListLength(NoteLists)
+    RenderNote(NoteLists)
+    ShowHistory.classList.remove("hideThis")
+    DeleteInputTexts.classList.remove("showXmark")
+    let SearchNoteValue = SearchNote.value.toLowerCase()
+    searchHistory.push({
+        history: SearchNoteValue,
+        historyTime: new Date(),
+        id: new Date().getTime()
+    })
+    SearchNote.value = ""
+    localStorage.setItem("searchHistory", JSON.stringify(searchHistory))
+    RenderHistory(searchHistory)
+    
+})
+
+let activeHistoriesBtn = null
+
+function RenderHistory(searchHistoryData) {
+    historyAllSearchShow.innerHTML = ""
+    searchHistoryData.forEach(item => {
+        let createHistory = document.createElement("div")
+        createHistory.classList.add("historyLine")
+        createHistory.innerHTML =  `           <button class="history_para">
+                                                 ${item.history ? item.history.length > 20 ? item.history.slice(0, 17) + "..." : item.history : ""}
+                                                <span class="ShowhistoryTime">
+                                                    ${FormatTime(item.historyTime)}
+                                                </span>
+                                                    </button>
+                                                <span class="HistoryConfigBtns">                                  
+                                                <button class="dotBar">
+                                                    <i class="fa-solid fa-ellipsis"></i>
+                                                </button>
+                                             <div class="configHostory">
+                                                <div class="configHostoryWraper">           
+                                                <button class="deletebtn" data-id="${item.id}"><i class="fa-regular fa-trash-can"></i>Delete</button>
+                                             </div>
+                                             </div>
+                                            </span>`
+
+        historyAllSearchShow.appendChild(createHistory)
+
+        createHistory.addEventListener("click", () => {
+            SearchNote.value = item.history
+            SearchNotes()
+        })
+
+        let dotBar = createHistory.querySelector(".dotBar")
+        let configHostory = createHistory.querySelector(".configHostory")
+
+        dotBar.addEventListener('click', (e) => {
+            e.stopPropagation()
+            configHostoryCon(configHostory)
+        })
+    })  
+    if (searchHistoryData.length < 1) {
+        historyAllSearchShow.innerHTML = `<i class="fa-solid fa-magnifying-glass-arrow-right"></i> Empty note`
+        historyAllSearchShow.classList.add("empty")
+    }
+
+
+}
+RenderHistory(searchHistory)
+
+historyAllSearchShow.addEventListener("click", (e) => {
+    if (e.target.closest(".deletebtn")) {
+        e.stopPropagation()
+        let deleteBtn = e.target.closest(".deletebtn")
+        let deleteId = deleteBtn.dataset.id
+        DeleteHostoryItem(deleteId)
+    } 
+})
+
+function configHostoryCon(menu) {
+    if (activeHistoriesBtn && activeHistoriesBtn !== menu) {
+        activeHistoriesBtn.classList.remove("showConfigHis")
+        activeHistoriesBtn = null
+    }
+
+    menu.classList.toggle("showConfigHis")
+
+    if (menu.classList.contains("showConfigHis")) {
+        activeHistoriesBtn = menu
+    } else {
+        activeHistoriesBtn = null
+    }
+}
+
+// localStorage.removeItem("searchHistory")
+
+function DeleteHostoryItem(id) {
+    let deleted = searchHistory.filter(item => item.id !== Number(id))
+    localStorage.setItem("searchHistory", JSON.stringify(deleted))
+    RenderHistory(deleted)
+}
